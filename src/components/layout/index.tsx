@@ -9,8 +9,9 @@ export const Layout = ({children}: {children: ReactNode}) => {
   return (
     <Container flexDirection={'column'} justifyContent={'space-between'}>
       <Head>
-        <title>CodeX</title>
+        <title>CodexField</title>
         <meta property="og:title" content="CodeX" key="title" />
+        <link rel="shortcut icon" href="/favicon.png" />
       </Head>
       <Header />
       <Main>{children}</Main>
@@ -25,8 +26,5 @@ const Container = styled(Flex)`
 `;
 
 const Main = styled.main`
-  /* display: flex;
-  flex: 1 1 0%;
-  justify-content: center; */
   margin-top: 80px;
 `;

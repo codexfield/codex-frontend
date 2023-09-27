@@ -40,7 +40,7 @@ export default function Home() {
             CodexField provides a code upload tool called gitd, fully compatible with Git usage. Use gitd to upload code to BNB Greenfield.
           </Box>
           <NavButton variant='ghost'>
-            <Link target="_blank" href="https://docs.codexfield.com/ ">
+            <Link target="_blank" href="https://docs.codexfield.com/getting-started/manage-code-through-gitd">
               <Box w="110px" h="40px" lineHeight="40px">
                 Try it &gt;
               </Box>
@@ -78,8 +78,8 @@ export default function Home() {
           </Box>
 
           <NavButton variant="ghost">
-            <Link href="/explore">
-              <Box w="150px" h="40px" lineHeight="40px">
+            <Link target="_blank" href="https://docs.codexfield.com/product-guides/code-marketplace">
+              <Box w="160px" h="40px" lineHeight="40px">
                 Learn More &gt;
               </Box>
             </Link>
