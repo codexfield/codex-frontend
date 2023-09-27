@@ -10,7 +10,7 @@ export const Footer = () => {
         <a target="_blank" href="https://twitter.com/CodexField">Twitter</a>
         <a target="_blank" href="https://t.me/CodexField">Telegram</a>
         <a target="_blank" href="https://github.com/codexfield">Github</a>
-        <a target="_blank" href="https://docs.codexfield.com">Doc</a>
+        <a target="_blank" href="https://docs.codexfield.com">Docs</a>
       </Social>
     </Flex>
   </footer>
