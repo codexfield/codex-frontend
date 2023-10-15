@@ -1,0 +1,30 @@
+{
+  "name": "codex",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@bnb-chain/greenfield-js-sdk": "^0.2.6",
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/styled": "^11.11.0",
+    "@rainbow-me/rainbowkit": "^1.0.11",
+    "@totejs/uikit": "^2.52.10",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "wagmi": "^1.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "typescript": "latest"
+  }
+}
