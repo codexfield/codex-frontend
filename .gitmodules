@@ -1,6 +1,6 @@
 [submodule "packages/lightning-fs"]
 	path = packages/lightning-fs
-	url = git@github-rks118.com:codexfield/lightning-fs.git
+	url = git@github.com:codexfield/lightning-fs.git
 [submodule "packages/isomorphic-git"]
 	path = packages/isomorphic-git
-	url = git@github-rks118.com:codexfield/isomorphic-git.git
+	url = git@github.com:codexfield/isomorphic-git.git
