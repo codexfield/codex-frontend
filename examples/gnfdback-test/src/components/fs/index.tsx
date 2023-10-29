@@ -1,18 +1,28 @@
-import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/web/index.js'
-import LightningFS from '@isomorphic-git/lightning-fs'
-import {Client} from '@bnb-chain/greenfield-js-sdk'
+// import git from 'isomorphic-git'
+// import http from 'isomorphic-git/http/web/index.js'
+// import LightningFS from '@isomorphic-git/lightning-fs'
 
-const GnfdClient = Client.create("https://gnfd.qa.bnbchain.world", String(9000))
 
-class GnfdFs {
-  async stat() {
-    console.log('stat')
-  }
-}
+import { getBranch, getObject } from '@/utils/gnfd';
+import { useState } from 'react';
+import {useAccount} from 'wagmi'
 
 export const FsComponent = () => {
+  const { address, connector } = useAccount();
+  const [bucketName, setBucketName] = useState<string>('')
+  const [privateKey, setPrivateKey] = useState('')
+
   return <>
+    bucketName: <input value={bucketName} onChange={(e) => {
+      setBucketName(e.target.value)
+    }} />
+    <br/>
+
+    private key<input value={privateKey} onChange={(e) => {
+      setPrivateKey(e.target.value)
+    }} />
+    <br />
+    
     <button onClick={async () => {
       
       // use custom fs
@@ -21,17 +31,73 @@ export const FsComponent = () => {
       // })
 
       // use default fs
-      const fs = new LightningFS("fs")
+      // const fs = new LightningFS("fs")
 
-      // get obj list
-      const objs = await GnfdClient.object.listObjects({
-        bucketName: 'test-repo',
-        endpoint: 'https://gnfd-testnet-sp1.nodereal.io'
+      // const provider = await connector?.getProvider();
+      // const offChainData = await getOffchainAuthKeys(address, provider);
+      // if (!offChainData) {
+      //   alert('No offchain, please create offchain pairs first');
+      //   return;
+      // }
+
+      // bucketName: 'test-repo'
+      // privateKey: 0x6547492644d0136f76ef65e3bd04a77d079ed38028f747700c6c6063564d7032
+
+      // 1. get branch
+      const ref = await getObject({
+        bucketName,
+        objectName: 'refs/HEAD',
+        privateKey,
       })
-      console.log('objs', objs)
+      const branch = getBranch(ref!)
+      console.log('branch', branch)
+
+      // 2. get commit hash
+      const commitHash = await getObject({
+        bucketName,
+        objectName: `refs/refs/heads/${branch}`,
+        privateKey,
+      })
+
+      console.log('commit hash', commitHash)
+
+      // 3. types (commit | tree | blob)
+      const types = await getObject({
+        bucketName,
+        objectName: `types/${commitHash}`,
+        privateKey,
+      })
+
+      console.log('types', types)
+
+      // 4. from objects commit hash -> content  | readFile('objects/${commit id}')
+
+      const obj = await getObject({
+        bucketName,
+        objectName: `objects/commit/${commitHash}`,
+        privateKey,
+      })
+      console.log('obj', obj)
 
       // const dir = '/doc-site'
-      // git.resolveRef()
+
+      // await git.clone({
+      //   fs,
+      //   http,
+      //   dir: '/folders',
+      //   // url: 'https://github.com/rks118/test-repo',
+      //   url: 'https://github.com/bnb-chain/greenfield-js-sdk',
+      //   corsProxy: "https://cors.isomorphic-git.org"
+      // })
+
+      // debugger
+      // const res = await git.resolveRef({
+      //   fs,
+      //   ref: 'HEAD',
+      //   gitdir: '',
+      //   depth: 1
+      // })
+      // console.log('res', res)
 
       /**
        * input:
@@ -75,7 +141,7 @@ export const FsComponent = () => {
       // })
       
       // console.log('res', res)
-    }}>test readTree</button>
+    }}>test </button>
 
     {/* <button onClick={async () => {
       // const fs = new LightningFS("fs")
@@ -98,28 +164,3 @@ export const FsComponent = () => {
     </button> */}
   </>
 }
-
-      /* 
-      BrowserFS.configure({
-        fs: "IndexedDB",
-        options: {},
-      }, async (err) => {
-        // if (err) return console.log(err);
-        // const fs = BrowserFS.BFSRequire("fs");
-        // const files = await git.listFiles({ fs, dir: '/doc-site' });
-        // console.log(files);
-
-        await git.clone({
-          fs,
-          http,
-          dir,
-          url: 'https://github.com/bnb-chain/greenfield-js-sdk',
-          corsProxy: "https://cors.isomorphic-git.org"
-        })
-
-        const res = await git.readTree({
-          fs,
-          dir,
-          oid: '3475a7467a5d7d3a72db8ca5c8bb60cca2e4e27d',
-        })
-      }); */

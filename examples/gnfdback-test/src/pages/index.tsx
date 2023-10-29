@@ -1,4 +1,5 @@
 import { FsComponent } from '@/components/fs'
+import { Wallet } from '@/components/wallet'
 import Head from 'next/head'
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       </Head>
 
       <main>
+        <Wallet />
         <FsComponent />
       </main>
     </>
