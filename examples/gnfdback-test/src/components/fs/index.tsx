@@ -1,11 +1,13 @@
-// import git from 'isomorphic-git'
-// import http from 'isomorphic-git/http/web/index.js'
-// import LightningFS from '@isomorphic-git/lightning-fs'
+import git from 'isomorphic-git'
+import http from 'isomorphic-git/http/web/index.js'
+import LightningFS from '@isomorphic-git/lightning-fs'
 
 
 import { getBranch, getObject } from '@/utils/gnfd';
 import { useState } from 'react';
 import {useAccount} from 'wagmi'
+import GnfdBackend from '@/utils/gnfdBackend';
+import { GnfdClient } from '@/config/client';
 
 export const FsComponent = () => {
   const { address, connector } = useAccount();
@@ -25,10 +27,26 @@ export const FsComponent = () => {
     
     <button onClick={async () => {
       
+      // const res2 = await GnfdClient.object.headObject('test-repo', '/packed-refs')
+      // console.log('res', res2)
+
+      // return 
+      const backend = new GnfdBackend(bucketName, privateKey)
       // use custom fs
-      // const fs = new LightningFS("fs", {
-      //   backend: new GnfdFs(),
-      // })
+      debugger;
+      const fs = new LightningFS("fs", {
+        // @ts-ignore
+        backend,
+      })
+
+      const res = await git.resolveRef({
+        fs: fs,
+        dir: "",
+        gitdir: '',
+        ref: "HEAD",
+      })
+      console.log("ref", res)
+      return;
 
       // use default fs
       // const fs = new LightningFS("fs")
@@ -42,6 +60,9 @@ export const FsComponent = () => {
 
       // bucketName: 'test-repo'
       // privateKey: 0x6547492644d0136f76ef65e3bd04a77d079ed38028f747700c6c6063564d7032
+
+      // let commitOid = await git.resolveRef({ fs, dir: '/', ref: 'main' })
+      // console.log(commitOid)
 
       // 1. get branch
       const ref = await getObject({
