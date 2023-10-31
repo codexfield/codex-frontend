@@ -13,7 +13,7 @@
     "@isomorphic-git/lightning-fs": "workspace:*",
     "@rainbow-me/rainbowkit": "^1.0.11",
     "browserfs": "2.0.0",
-    "isomorphic-git": "^1.24.5",
+    "isomorphic-git": "workspace:*",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",

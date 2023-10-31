@@ -106,8 +106,8 @@ importers:
         specifier: 2.0.0
         version: 2.0.0
       isomorphic-git:
-        specifier: ^1.24.5
-        version: 1.24.5
+        specifier: workspace:*
+        version: link:../../packages/isomorphic-git
       next:
         specifier: 13.5.4
         version: 13.5.4(react-dom@18.2.0)(react@18.2.0)
@@ -179,6 +179,9 @@ importers:
       '@babel/core':
         specifier: 7.6.0
         version: 7.6.0
+      '@babel/plugin-proposal-object-rest-spread':
+        specifier: ^7.20.7
+        version: 7.20.7(@babel/core@7.6.0)
       '@babel/plugin-transform-async-to-generator':
         specifier: 7.5.0
         version: 7.5.0(@babel/core@7.6.0)
@@ -5224,7 +5227,7 @@ packages:
       '@walletconnect/jsonrpc-provider': 1.0.13
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/modal': 2.6.2(@types/react@18.2.31)(react@18.2.0)
+      '@walletconnect/modal': 2.6.2(@types/react@18.2.33)(react@18.2.0)
       '@walletconnect/sign-client': 2.10.1
       '@walletconnect/types': 2.10.1
       '@walletconnect/universal-provider': 2.10.1
@@ -9751,7 +9754,7 @@ packages:
       eslint: 8.51.0
       eslint-import-resolver-node: 0.3.9
       eslint-module-utils: 2.8.0(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@8.51.0)
-      has: 1.0.3
+      has: 1.0.4
       is-core-module: 2.13.0
       is-glob: 4.0.3
       minimatch: 3.1.2
@@ -12651,24 +12654,6 @@ packages:
     resolution: {integrity: sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==}
     engines: {node: '>=0.10.0'}
     dev: true
-
-  /isomorphic-git@1.24.5:
-    resolution: {integrity: sha512-07M4YscftHZJIuw7xZhgWkdFvVjHSBJBsIwWXkxgFCivhb0l8mGNchM7nO2hU27EKSIf0sT4gJivEgLGohWbzA==}
-    engines: {node: '>=12'}
-    hasBin: true
-    dependencies:
-      async-lock: 1.4.0
-      clean-git-ref: 2.0.1
-      crc-32: 1.2.2
-      diff3: 0.0.3
-      ignore: 5.2.4
-      minimisted: 2.0.1
-      pako: 1.0.11
-      pify: 4.0.1
-      readable-stream: 3.6.2
-      sha.js: 2.4.11
-      simple-get: 4.0.1
-    dev: false
 
   /isomorphic-textencoder@1.0.1:
     resolution: {integrity: sha512-676hESgHullDdHDsj469hr+7t3i/neBKU9J7q1T4RHaWwLAsaQnywC0D1dIUId0YZ+JtVrShzuBk1soo0+GVcQ==}
