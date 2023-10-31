@@ -1,5 +1,5 @@
 import { GnfdClient } from "@/config/client";
-import { Client } from '@bnb-chain/greenfield-js-sdk';
+import { Client, isValidObjectName } from '@bnb-chain/greenfield-js-sdk';
 import { Stat } from 'isomorphic-git';
 
 const GREEN_CHAIN_ID = '5600'
@@ -24,10 +24,33 @@ class GnfdBackend {
       opts: EncodingOpts | string
     ): Promise<string | Uint8Array> {
       console.log('readFile filepath', filepath)
+        let objectName: string;
+        if (filepath.startsWith("/objects/")) {
+            const temp = filepath.slice(1);
+            const str = temp.split("/");
+            const typeObject = `types/${str[1]}${str[2]}`;
 
+            const res = await GnfdClient.object.getObject({
+                bucketName: this.bucketName,
+                objectName: typeObject,
+            }, {
+                type: 'ECDSA',
+                privateKey: this.privateKey
+            })
+            if (!res.body) return ''
+            let resText = await res.body?.text()
+            console.log('read object type', resText.replace('\n', ''))
+            objectName = `objects/` + String(resText.replace('\n', '')) + `/${str[1]}${str[2]}`;
+        } else if (filepath.startsWith("/packed-refs")){
+            return ''
+        } else {
+            objectName = filepath.slice(1)
+        }
+
+        console.log('get object', objectName)
       const res = await GnfdClient.object.getObject({
           bucketName: this.bucketName,
-          objectName: filepath.slice(1),
+          objectName: objectName,
       }, {
           type: 'ECDSA',
           privateKey: this.privateKey

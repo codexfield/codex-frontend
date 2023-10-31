@@ -46,6 +46,14 @@ export const FsComponent = () => {
         ref: "HEAD",
       })
       console.log("ref", res)
+
+      const commit = await git.readCommit({
+        fs: fs,
+        dir: "",
+        gitdir: "",
+        oid: res
+      })
+      console.log("commit", commit)
       return;
 
       // use default fs
