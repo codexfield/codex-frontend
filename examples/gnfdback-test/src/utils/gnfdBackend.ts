@@ -59,7 +59,20 @@ class GnfdBackend {
       if (!res.body) return '';
 
       let resText = await res.body?.text()
-      return resText.replace('\n', '');
+        if (filepath.startsWith("/objects/")) {
+            const encoder = new TextEncoder();
+            if (resText.endsWith('\n')) {
+                return encoder.encode(resText.slice(0, -1));
+            } else {
+                return encoder.encode(resText);
+            }
+        } else {
+            if (resText.endsWith('\n')) {
+                return resText.slice(0, -1)
+            } else {
+                return resText
+            }
+        }
     }
 
     async writeFile(

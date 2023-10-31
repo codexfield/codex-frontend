@@ -30,7 +30,7 @@ export const FsComponent = () => {
       // const res2 = await GnfdClient.object.headObject('test-repo', '/packed-refs')
       // console.log('res', res2)
 
-      // return 
+      // return
       const backend = new GnfdBackend(bucketName, privateKey)
       // use custom fs
       debugger;
@@ -72,41 +72,41 @@ export const FsComponent = () => {
       // let commitOid = await git.resolveRef({ fs, dir: '/', ref: 'main' })
       // console.log(commitOid)
 
-      // 1. get branch
-      const ref = await getObject({
-        bucketName,
-        objectName: 'refs/HEAD',
-        privateKey,
-      })
-      const branch = getBranch(ref!)
-      console.log('branch', branch)
-
-      // 2. get commit hash
-      const commitHash = await getObject({
-        bucketName,
-        objectName: `refs/refs/heads/${branch}`,
-        privateKey,
-      })
-
-      console.log('commit hash', commitHash)
-
-      // 3. types (commit | tree | blob)
-      const types = await getObject({
-        bucketName,
-        objectName: `types/${commitHash}`,
-        privateKey,
-      })
-
-      console.log('types', types)
-
-      // 4. from objects commit hash -> content  | readFile('objects/${commit id}')
-
-      const obj = await getObject({
-        bucketName,
-        objectName: `objects/commit/${commitHash}`,
-        privateKey,
-      })
-      console.log('obj', obj)
+      // // 1. get branch
+      // const ref = await getObject({
+      //   bucketName,
+      //   objectName: 'refs/HEAD',
+      //   privateKey,
+      // })
+      // const branch = getBranch(ref!)
+      // console.log('branch', branch)
+      //
+      // // 2. get commit hash
+      // const commitHash = await getObject({
+      //   bucketName,
+      //   objectName: `refs/refs/heads/${branch}`,
+      //   privateKey,
+      // })
+      //
+      // console.log('commit hash', commitHash)
+      //
+      // // 3. types (commit | tree | blob)
+      // const types = await getObject({
+      //   bucketName,
+      //   objectName: `types/${commitHash}`,
+      //   privateKey,
+      // })
+      //
+      // console.log('types', types)
+      //
+      // // 4. from objects commit hash -> content  | readFile('objects/${commit id}')
+      //
+      // const obj = await getObject({
+      //   bucketName,
+      //   objectName: `objects/commit/${commitHash}`,
+      //   privateKey,
+      // })
+      // console.log('obj', obj)
 
       // const dir = '/doc-site'
 
@@ -118,15 +118,21 @@ export const FsComponent = () => {
       //   url: 'https://github.com/bnb-chain/greenfield-js-sdk',
       //   corsProxy: "https://cors.isomorphic-git.org"
       // })
-
-      // debugger
+      //
+      // // debugger
       // const res = await git.resolveRef({
       //   fs,
+      //   dir: '/folders',
       //   ref: 'HEAD',
-      //   gitdir: '',
-      //   depth: 1
       // })
       // console.log('res', res)
+      //
+      // const commit = await git.readCommit({
+      //   fs,
+      //   dir: '/folders',
+      //   oid: res
+      // })
+      // console.log('res', commit)
 
       /**
        * input:
