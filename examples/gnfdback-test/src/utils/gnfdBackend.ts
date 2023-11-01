@@ -1,6 +1,7 @@
 import { GnfdClient } from "@/config/client";
-import { Client, isValidObjectName } from '@bnb-chain/greenfield-js-sdk';
+import { Client, SpResponse } from '@bnb-chain/greenfield-js-sdk';
 import { Stat } from 'isomorphic-git';
+import localforage from 'localforage';
 
 const GREEN_CHAIN_ID = '5600'
 const GRPC_URL= 'https://gnfd-testnet-fullnode-tendermint-ap.bnbchain.org'
@@ -12,18 +13,47 @@ class GnfdBackend {
     private client: any;
     private bucketName: string;
     private privateKey: string;
+    private forageInstance: LocalForage;
 
     constructor(bucketName : string, privateKey: string) {
         this.client = Client.create(GRPC_URL, GREEN_CHAIN_ID);
         this.bucketName = bucketName
         this.privateKey = privateKey
+
+        this.forageInstance = localforage.createInstance({
+          name: 'codex',
+          storeName: bucketName,
+        })
+    }
+
+    private async readGnfdObject(objectName: string) {
+      let res: SpResponse<Blob>;
+
+      const cacheObjectRes = await this.forageInstance.getItem(objectName) as SpResponse<Blob>;
+
+      if (cacheObjectRes) {
+        res = cacheObjectRes;
+      } else {
+        res = await GnfdClient.object.getObject({
+          bucketName: this.bucketName,
+          objectName,
+        }, {
+            type: 'ECDSA',
+            privateKey: this.privateKey
+        })
+
+        if (res.body) {
+          await this.forageInstance.setItem(objectName, res)
+        }
+      }
+
+      return res;
     }
 
     public async readFile(
       filepath: string,
       opts: EncodingOpts | string
     ): Promise<string | Uint8Array> {
-        console.log('readFile filepath', filepath)
         let objectName: string;
         let type: string = '';
         if (filepath.startsWith("/objects/")) {
@@ -31,38 +61,29 @@ class GnfdBackend {
             const str = temp.split("/");
             const typeObject = `types/${str[1]}${str[2]}`;
 
-            const res = await GnfdClient.object.getObject({
-                bucketName: this.bucketName,
-                objectName: typeObject,
-            }, {
-                type: 'ECDSA',
-                privateKey: this.privateKey
-            })
+            const res = await this.readGnfdObject(typeObject);
             if (!res.body) return ''
             let resText = await res.body?.text()
             type = resText.replace('\n', '')
-            console.log('read object type', type)
+            // console.log('read object type', type)
             objectName = `objects/` + type + `/${str[1]}${str[2]}`;
         } else if (filepath.startsWith("/packed-refs")){
+            // this.forageInstance.setItem(filepath, '')
             return ''
         } else {
             objectName = filepath.slice(1)
         }
 
-        console.log('get object', objectName)
-        const res = await GnfdClient.object.getObject({
-            bucketName: this.bucketName,
-            objectName: objectName,
-        }, {
-            type: 'ECDSA',
-            privateKey: this.privateKey
-        })
+        // console.log('get object', filepath, objectName)
 
+        const res = await this.readGnfdObject(objectName)
+        
         if (!res.body) return '';
         if (filepath.startsWith("/objects/")) {
             let content =  new Uint8Array(await res.body.arrayBuffer())
             let length = content.byteLength
             let ret = new Uint8Array(Buffer.from(`${type} ${length}\x00`))
+            
             return new Uint8Array([...ret, ...content])
         } else {
             let resText = await res.body?.text()

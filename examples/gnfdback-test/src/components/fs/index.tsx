@@ -1,13 +1,12 @@
 import git from 'isomorphic-git'
 import http from 'isomorphic-git/http/web/index.js'
 import LightningFS from '@isomorphic-git/lightning-fs'
-
-
 import { getBranch, getObject } from '@/utils/gnfd';
 import { useState } from 'react';
 import {useAccount} from 'wagmi'
 import GnfdBackend from '@/utils/gnfdBackend';
 import { GnfdClient } from '@/config/client';
+import localforage from 'localforage';
 
 export const FsComponent = () => {
   const { address, connector } = useAccount();
@@ -27,13 +26,21 @@ export const FsComponent = () => {
     
     <button onClick={async () => {
       
+      // const forageInstance = localforage.createInstance({
+      //   name: 'codex',
+      //   storeName: bucketName,
+      // })
+
+      // forageInstance.setItem('x', 'xxx1')
+
+      // return;
       // const res2 = await GnfdClient.object.headObject('test-repo', '/packed-refs')
       // console.log('res', res2)
 
       // return
       const backend = new GnfdBackend(bucketName, privateKey)
       // use custom fs
-      debugger;
+      // debugger;
       const fs = new LightningFS("fs", {
         // @ts-ignore
         backend,
@@ -45,7 +52,7 @@ export const FsComponent = () => {
         gitdir: '',
         ref: "HEAD",
       })
-      console.log("ref", res)
+      console.log("example ref", res)
 
       const commit = await git.readCommit({
         fs: fs,
@@ -53,7 +60,15 @@ export const FsComponent = () => {
         gitdir: "",
         oid: res
       })
-      console.log("commit", commit.commit.tree)
+      console.log("example commit", commit.commit.tree)
+
+      // const tree = await git.readTree({
+      //   fs: fs,
+      //   dir: "",
+      //   gitdir: "",
+      //   oid: 'eeb12140d333f157a4dff3cb286f03a98cbfd5e1'
+      // })
+      
 
       const tree = await git.readTree({
         fs: fs,
@@ -61,16 +76,16 @@ export const FsComponent = () => {
         gitdir: "",
         oid: commit.commit.tree
       })
-      console.log("tree", tree)
+      console.log("example tree", tree)
 
-      const file = await git.readBlob({
-        fs: fs,
-        dir: "",
-        gitdir: "",
-        oid: tree.tree[0].oid
-      })
-      const decoder = new TextDecoder();
-      console.log("file", decoder.decode(file.blob))
+      // const file = await git.readBlob({
+      //   fs: fs,
+      //   dir: "",
+      //   gitdir: "",
+      //   oid: tree.tree[0].oid
+      // })
+      // const decoder = new TextDecoder();
+      // console.log("example file", decoder.decode(file.blob))
       return;
 
       // use default fs
