@@ -62,6 +62,15 @@ export const FsComponent = () => {
         oid: commit.commit.tree
       })
       console.log("tree", tree)
+
+      const file = await git.readBlob({
+        fs: fs,
+        dir: "",
+        gitdir: "",
+        oid: tree.tree[0].oid
+      })
+      const decoder = new TextDecoder();
+      console.log("file", decoder.decode(file.blob))
       return;
 
       // use default fs
