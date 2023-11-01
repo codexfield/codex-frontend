@@ -53,7 +53,15 @@ export const FsComponent = () => {
         gitdir: "",
         oid: res
       })
-      console.log("commit", commit)
+      console.log("commit", commit.commit.tree)
+
+      const tree = await git.readTree({
+        fs: fs,
+        dir: "",
+        gitdir: "",
+        oid: commit.commit.tree
+      })
+      console.log("tree", tree)
       return;
 
       // use default fs

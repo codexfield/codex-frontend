@@ -23,8 +23,9 @@ class GnfdBackend {
       filepath: string,
       opts: EncodingOpts | string
     ): Promise<string | Uint8Array> {
-      console.log('readFile filepath', filepath)
+        console.log('readFile filepath', filepath)
         let objectName: string;
+        let type: string = '';
         if (filepath.startsWith("/objects/")) {
             const temp = filepath.slice(1);
             const str = temp.split("/");
@@ -39,8 +40,9 @@ class GnfdBackend {
             })
             if (!res.body) return ''
             let resText = await res.body?.text()
-            console.log('read object type', resText.replace('\n', ''))
-            objectName = `objects/` + String(resText.replace('\n', '')) + `/${str[1]}${str[2]}`;
+            type = resText.replace('\n', '')
+            console.log('read object type', type)
+            objectName = `objects/` + type + `/${str[1]}${str[2]}`;
         } else if (filepath.startsWith("/packed-refs")){
             return ''
         } else {
@@ -48,25 +50,22 @@ class GnfdBackend {
         }
 
         console.log('get object', objectName)
-      const res = await GnfdClient.object.getObject({
-          bucketName: this.bucketName,
-          objectName: objectName,
-      }, {
-          type: 'ECDSA',
-          privateKey: this.privateKey
-      })
+        const res = await GnfdClient.object.getObject({
+            bucketName: this.bucketName,
+            objectName: objectName,
+        }, {
+            type: 'ECDSA',
+            privateKey: this.privateKey
+        })
 
-      if (!res.body) return '';
-
-      let resText = await res.body?.text()
+        if (!res.body) return '';
         if (filepath.startsWith("/objects/")) {
-            const encoder = new TextEncoder();
-            if (resText.endsWith('\n')) {
-                return encoder.encode(resText.slice(0, -1));
-            } else {
-                return encoder.encode(resText);
-            }
+            let content =  new Uint8Array(await res.body.arrayBuffer())
+            let length = content.byteLength
+            let ret = new Uint8Array(Buffer.from(`${type} ${length}\x00`))
+            return new Uint8Array([...ret, ...content])
         } else {
+            let resText = await res.body?.text()
             if (resText.endsWith('\n')) {
                 return resText.slice(0, -1)
             } else {
