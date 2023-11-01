@@ -42,9 +42,7 @@ class GnfdBackend {
             privateKey: this.privateKey
         })
 
-        if (res.body) {
-          await this.forageInstance.setItem(objectName, res)
-        }
+        await this.forageInstance.setItem(objectName, res)
       }
 
       return res;
@@ -105,7 +103,17 @@ class GnfdBackend {
 
     async stat(filepath: string): Promise<Stat>{
       try {
-        const res = await GnfdClient.object.headObject(this.bucketName, filepath.slice(1))
+
+
+        let res: Awaited<ReturnType<typeof GnfdClient.object.headObject>>;
+
+        const cacheHeadObjRes = await this.forageInstance.getItem(filepath) as Awaited<ReturnType<typeof GnfdClient.object.headObject>>
+
+        if (cacheHeadObjRes) {
+          res = cacheHeadObjRes
+        } else {
+          res = await GnfdClient.object.headObject(this.bucketName, filepath.slice(1))
+        }
       
         if (res) {
           return {
