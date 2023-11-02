@@ -1,46 +1,49 @@
 import { GnfdClient } from "@/config/client";
-import { Client, SpResponse } from '@bnb-chain/greenfield-js-sdk';
+import { SpResponse } from '@bnb-chain/greenfield-js-sdk';
 import { Stat } from 'isomorphic-git';
 import localforage from 'localforage';
-
-const GREEN_CHAIN_ID = '5600'
-const GRPC_URL= 'https://gnfd-testnet-fullnode-tendermint-ap.bnbchain.org'
 
 type EncodingOpts = {
     encoding?: "utf8";
 };
-class GnfdBackend {
-    private client: any;
-    private bucketName: string;
+
+export default class GnfdBackend {
+    private repoName: string;
     private privateKey: string;
+    private endpoint: string;
     private forageInstance: LocalForage;
 
-    constructor(bucketName : string, privateKey: string) {
-        this.client = Client.create(GRPC_URL, GREEN_CHAIN_ID);
-        this.bucketName = bucketName
+    constructor(repoName : string, privateKey: string, endpoint: string) {
+        this.repoName = repoName
         this.privateKey = privateKey
+        this.endpoint = endpoint
 
         this.forageInstance = localforage.createInstance({
           name: 'codex',
-          storeName: bucketName,
+          storeName: repoName,
         })
     }
 
     private async readGnfdObject(objectName: string) {
+      console.log('onGnfdObject', objectName)
       let res: SpResponse<Blob>;
 
       const cacheObjectRes = await this.forageInstance.getItem(objectName) as SpResponse<Blob>;
+
+      console.log('cacheObjectRes', cacheObjectRes)
 
       if (cacheObjectRes) {
         res = cacheObjectRes;
       } else {
         res = await GnfdClient.object.getObject({
-          bucketName: this.bucketName,
+          bucketName: this.repoName,
           objectName,
+          endpoint: this.endpoint,
         }, {
             type: 'ECDSA',
             privateKey: this.privateKey
         })
+        console.log('repo', this.repoName, objectName, res)
 
         await this.forageInstance.setItem(objectName, res)
       }
@@ -103,8 +106,6 @@ class GnfdBackend {
 
     async stat(filepath: string): Promise<Stat>{
       try {
-
-
         let res: Awaited<ReturnType<typeof GnfdClient.object.headObject>>;
 
         const cacheHeadObjRes = await this.forageInstance.getItem(filepath) as Awaited<ReturnType<typeof GnfdClient.object.headObject>>
@@ -112,7 +113,7 @@ class GnfdBackend {
         if (cacheHeadObjRes) {
           res = cacheHeadObjRes
         } else {
-          res = await GnfdClient.object.headObject(this.bucketName, filepath.slice(1))
+          res = await GnfdClient.object.headObject(this.repoName, filepath.slice(1))
         }
       
         if (res) {
@@ -133,4 +134,3 @@ class GnfdBackend {
       }
     }
 }
-export default GnfdBackend;

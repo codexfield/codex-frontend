@@ -1,46 +1,46 @@
-import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/web/index.js'
-import LightningFS from '@isomorphic-git/lightning-fs'
-import { getBranch, getObject } from '@/utils/gnfd';
-import { useState } from 'react';
-import {useAccount} from 'wagmi'
+import LightningFS from '@isomorphic-git/lightning-fs';
+import { useFs } from '@/hooks/useFs';
+import { useAppStore } from '@/store';
+// import { getFs } from '@/utils/getFs';
 import GnfdBackend from '@/utils/gnfdBackend';
+import git from 'isomorphic-git';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { GnfdClient } from '@/config/client';
-import localforage from 'localforage';
 
-export const FsComponent = () => {
-  const { address, connector } = useAccount();
-  const [bucketName, setBucketName] = useState<string>('')
+export const Header = () => {
+  // const {endpoint, setEndpoint } = useAppStore()
+  const router = useRouter();
+
+  const [repoName, setRepoName] = useState('');
   const [privateKey, setPrivateKey] = useState('')
 
+  // const fs = useFs(repoName, privateKey)
+  
   return <>
-    bucketName: <input value={bucketName} onChange={(e) => {
-      setBucketName(e.target.value)
+    repoName: <input value={repoName} onChange={(e) => {
+      setRepoName(e.target.value)
     }} />
     <br/>
 
-    private key<input value={privateKey} onChange={(e) => {
+    private key: <input value={privateKey} onChange={(e) => {
       setPrivateKey(e.target.value)
     }} />
     <br />
-    
+
     <button onClick={async () => {
+    
+      const endpoint = await GnfdClient.sp.getSPUrlByBucket(repoName)
+
+      router.push(`/repo/${repoName}?endpoint=${endpoint}&privateKey=${privateKey}`)
+
+      return;
+      // console.log('repoName, privateKey', repoName, privateKey)
+
       
-      // const forageInstance = localforage.createInstance({
-      //   name: 'codex',
-      //   storeName: bucketName,
-      // })
-
-      // forageInstance.setItem('x', 'xxx1')
-
-      // return;
-      // const res2 = await GnfdClient.object.headObject('test-repo', '/packed-refs')
-      // console.log('res', res2)
-
-      // return
-      const backend = new GnfdBackend(bucketName, privateKey)
+      if (!fs) return;
+      const backend = new GnfdBackend(repoName, privateKey, endpoint)
       // use custom fs
-      // debugger;
       const fs = new LightningFS("fs", {
         // @ts-ignore
         backend,
@@ -53,6 +53,8 @@ export const FsComponent = () => {
         ref: "HEAD",
       })
       console.log("example ref", res)
+
+      return;
 
       const commit = await git.readCommit({
         fs: fs,
@@ -77,15 +79,18 @@ export const FsComponent = () => {
         oid: commit.commit.tree
       })
       console.log("example tree", tree)
+      // setRootTree(tree)
+      
 
-      // const file = await git.readBlob({
-      //   fs: fs,
-      //   dir: "",
-      //   gitdir: "",
-      //   oid: tree.tree[0].oid
-      // })
-      // const decoder = new TextDecoder();
-      // console.log("example file", decoder.decode(file.blob))
+      const file = await git.readBlob({
+        fs: fs,
+        dir: "",
+        gitdir: "",
+        oid: tree.tree[0].oid
+      })
+      const decoder = new TextDecoder();
+      console.log('fs', fs)
+      console.log("example file", tree.tree[0].oid, decoder.decode(file.blob))
       return;
 
       // use default fs
@@ -208,26 +213,6 @@ export const FsComponent = () => {
       // })
       
       // console.log('res', res)
-    }}>test </button>
-
-    {/* <button onClick={async () => {
-      // const fs = new LightningFS("fs")
-      // await git.clone({
-      //   fs,
-      //   http,
-      //   dir,
-      //   url: 'https://github.com/bnb-chain/greenfield-js-sdk',
-      //   corsProxy: "https://cors.isomorphic-git.org"
-      // })
-      // const res = await git.readTree({
-      //   fs,
-      //   dir,
-      //   oid: '3475a7467a5d7d3a72db8ca5c8bb60cca2e4e27d',
-      // })
-      
-      // console.log('res', res)
-    }}>
-      test readFile
-    </button> */}
+    }}> test </button>
   </>
 }
