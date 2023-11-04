@@ -1,12 +1,12 @@
-import { Theme } from '@totejs/uikit';
+import { extendTheme } from '@chakra-ui/react'
 
 import { colors } from './colors';
 
-export const theme: Theme = {
+const myTheme = {
   config: {
     useSystemColorMode: false,
     initialColorMode: 'dark',
-    storageKey: 'marketplace-color-mode',
+    // storageKey: 'marketplace-color-mode',
   },
 
   ...colors,
@@ -40,3 +40,5 @@ export const theme: Theme = {
     black: 900,
   },
 };
+
+export const theme = extendTheme(myTheme)

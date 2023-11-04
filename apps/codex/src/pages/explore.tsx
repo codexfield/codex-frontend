@@ -1,4 +1,4 @@
-import {Text} from '@totejs/uikit'
+import {Text} from '@chakra-ui/react'
 
 export default function Explore() {
   return <div>
