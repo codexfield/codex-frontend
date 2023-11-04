@@ -1,33 +1,16 @@
 import styled from "@emotion/styled"
-import { Box, Button, Flex } from "@totejs/uikit"
-// import {Tabs, TabList, TabPanels, Tab, TabPanel} from '@chakra-ui/react';
 import Image from 'next/image'
 import Link from "next/link"
 import { useState } from "react"
 import gitd from '../../public/gitd.png'
 import iphone from '../../public/iphone.png'
+import { Box, Button, Flex } from "@chakra-ui/react"
 
 export default function Home() {
   const [tabIndex, setTabIndex] = useState(0);
   return (
     <Box>
-
-      <Box position="relative">
-        <video src="/bg_small_ver.mp4" autoPlay loop width="100%" muted />
-        <Box
-          position="absolute"
-          bottom="80px"
-          left='50%'
-          transform="translateX(-50%)"
-        >
-          <NavButton variant='ghost' w="380px" h="60px">
-            <Link
-              href="/explore"
-              color="#FFF"
-            >Explore</Link>
-          </NavButton>
-        </Box>
-      </Box>
+      
 
       <Box maxW="1200px" ml="auto" mr="auto" position="relative" pt="120px" pb="300px">
       

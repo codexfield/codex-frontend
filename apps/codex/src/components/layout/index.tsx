@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Header from "./header"
-import { Flex } from '@totejs/uikit';
+import { Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Footer } from './footer';
 import Head from 'next/head';

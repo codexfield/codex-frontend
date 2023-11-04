@@ -1,4 +1,4 @@
-import { Box, Flex } from "@totejs/uikit"
+import { Box, Flex } from "@chakra-ui/react"
 import styled from '@emotion/styled'
 
 export const Footer = () => {

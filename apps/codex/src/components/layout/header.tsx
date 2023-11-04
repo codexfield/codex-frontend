@@ -1,4 +1,4 @@
-import {Box, Flex, Text} from '@totejs/uikit'
+import {Box, Flex, Text} from '@chakra-ui/react'
 import styled from '@emotion/styled';
 // import { useWalletModal } from '../../hooks/useWalletModal';
 import Logo from '../../images/logo.png';

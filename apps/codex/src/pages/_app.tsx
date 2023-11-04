@@ -1,6 +1,6 @@
 // import { chains, publicClient, webSocketPublicClient } from '@/config';
 import { config } from '../config/wagmi';
-import { ThemeProvider } from '@totejs/uikit';
+import { ChakraProvider } from '@chakra-ui/react'
 
 import './globals.css';
 // import {
@@ -43,11 +43,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={config}>
       {/* <RainbowKitProvider modalSize="compact" chains={chains}> */}
-      <ThemeProvider theme={theme}>
+      <ChakraProvider theme={theme}>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-      </ThemeProvider>
+      </ChakraProvider>
       {/* </RainbowKitProvider> */}
     </WagmiConfig>
   );
