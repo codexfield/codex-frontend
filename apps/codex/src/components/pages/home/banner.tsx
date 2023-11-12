@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export const Banner = () => {
   return <Container>
-    <Box position="relative" h="100vh" overflow="hidden">
+    <Box position="relative" h='1000px' overflow="hidden">
       <Box position="absolute" left="0" right="0" bottom="0" top="0">
         <video style={{ objectFit: 'cover', width: '100%', height: '100%'}} src="/banner_01.mp4"  autoPlay loop muted />
       </Box>
