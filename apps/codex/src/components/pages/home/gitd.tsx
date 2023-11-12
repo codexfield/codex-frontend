@@ -1,24 +1,25 @@
-import styled from '@emotion/styled'
-import { Box, Flex } from "@chakra-ui/react"
-import { Desc } from './banner'
 import { BaseButton } from '@/components/ui/button'
-import { DownloadIcon } from '@chakra-ui/icons'
-import Link from 'next/link'
 import GitdImage from '@/images/gitd.png'
+import { Box, Flex } from "@chakra-ui/react"
+import styled from '@emotion/styled'
+import Link from 'next/link'
+import { Desc } from './banner'
 
 export const Gitd = () => {
   return <Container p="60px">
     <Box>
       <Title>
-        <Box as="span">Git for CodexField</Box>
-        <br />
         <Box as="span">Manage Code</Box>
         <br />
-        <Box as="span">Through <Box as="span" color="#7A3CFF">Gitd</Box></Box>
+        <Box as="span">
+          Through <Box as="span" color="#7A3CFF">Gitd</Box>
+        </Box>
+        <br />
+        <Box as="span">Git for Greenfield</Box>
       </Title>
 
-      <Desc maxW="800px" mb="70px">
-      The <Box as="span" color="#FFC700">Gitd tool</Box> is fully compatible with Git&#39;s functionality and usage, enabling developers to use Gitd for version control and code submission. Here is the guide on how to use Gitd to manage your code.
+      <Desc maxW="800px" mt="55px" mb="70px">
+      CodexField provides a code management tool called  <Box as="span" color="#7A3CFF">gitd</Box>, fully compatible with Git usage. Use gitd to manage and upload code to <Box as="span" color="#FFC700">BNB Greenfield</Box>.
       </Desc>
 
       <BaseButton p="15px 40px">

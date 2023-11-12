@@ -57,6 +57,6 @@ const Social = styled(Flex)`
     margin-top: 5px;
     color: #898989;
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 300;
   }
 `

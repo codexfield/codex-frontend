@@ -5,13 +5,15 @@ export const RoadMap = () => {
   return <Box p="0 60px">
     <Title>RoadMap</Title>
 
-    <Box color="#EFF0F3" fontSize="24px" lineHeight={1.4} as="p">
-      So far, our progress has been very smooth. We have won the <Box as="span" color="7A3CFF">1st place in the infra track</Box> in the hackathon hosted by <Box as="span" color="#FFC700">@BNBCHAIN</Box>, and have already realized the core functions of the protocol. 
-      <br/>
-      Next, we are dedicated to optimizing the product experience.
+    <Box color="#EFF0F3" fontSize="24px" lineHeight={1.4} as="p" maxW="800px" mb="140px">
+      Our progress has been smooth. We won <Box as="span" color="#7A3CFF">first place in the infra track</Box> at the hackathon hosted by <Box as="span" color="#FFC700">@BNBCHAIN</Box> and have implemented the core functions of the protocol. Now, our focus is on optimizing the product experience.
     </Box>
 
-    <Flex mt="140px" wrap="wrap" gap="90px" justifyContent='space-between'>
+    <Row
+      wrap="wrap"
+      gap="90px" 
+      justifyContent='space-between'
+    >
       <Card>
         <CardTitle>
           <Box as="span">Q2</Box>
@@ -19,7 +21,10 @@ export const RoadMap = () => {
           <Box as="span">2023</Box>
         </CardTitle>
         <CardDesc>
-          Completed the development of the Gitd tool.
+        Learn <Box as="span" color="#FFC700">BNB Greenfield</Box> whitepaper and related documents.
+
+        <Space />
+        Coming up with an initial idea for decentralized code storage.
         </CardDesc>
       </Card>
       <Card>
@@ -29,9 +34,9 @@ export const RoadMap = () => {
           <Box as="span">2023</Box>
         </CardTitle>
         <CardDesc>
-        Completed the function of storing code on BNBGreenfield via Gitd.
-        <br />
-        Implemented the <Box as="span" color="#048118">code trading</Box>function.
+        CodexField Proof of Concept on Greenfield Testnet: Decentralized Code Storage and Code Marketplace
+        <Space />
+        <Box as="span" color="#FFC700">BNBChain Hackvolution</Box>: <Box as="span" color="#7A3CFF">First place in the Infura track</Box>
         </CardDesc>
       </Card>
       <Card>
@@ -41,9 +46,11 @@ export const RoadMap = () => {
           <Box as="span">2023</Box>
         </CardTitle>
         <CardDesc>
-        Participated in the <Box as="span" color="#FFC700">BNBCHAIN Hackathon</Box> and won <Box as="span" color="#7A3CFF">1st place in the infra track</Box>.
-        <br/>
-        Optimized CodexField product interaction logic & UI.
+          Optimize CodexField: Enhance interaction logic and user interface.
+
+          <Space />
+
+          Decentralized Code Storage: Enhance <Box as="span" color="#7A3CFF"> &quot;gitd&quot;</Box> and display code repository on the frontend.
         </CardDesc>
       </Card>
       <Card>
@@ -53,11 +60,17 @@ export const RoadMap = () => {
           <Box as="span">2024</Box>
         </CardTitle>
         <CardDesc>
-        Launch the code storage function with optimized interaction logic.
-        <br />
-        Launch the <Box as="span" color="#7A3CFF">Dashboard page</Box> and the shared code list page.
+        Massive Adoption: Solving the transaction fee and storage fee issues for CodexField users.
+        <Space />
+        Sync with GitHub: Users can seamlessly <Box as="span" color="#7A3CFF">migrate their code from GitHub to </Box><Box as="span" color="#FFC700">Greenfield.</Box>
         </CardDesc>
       </Card>
+    </Row>
+    <Row
+      wrap="wrap"
+      gap="90px"
+      justifyContent='space-between'
+    >
       <Card>
         <CardTitle>
           <Box as="span">Q2</Box>
@@ -65,7 +78,10 @@ export const RoadMap = () => {
           <Box as="span">2024</Box>
         </CardTitle>
         <CardDesc>
-          Completed the development of the Gitd tool.
+          Promote with Partners: Attract a large number of developers to use decentralized code storage.
+
+          <Space />
+          Mainnet Launch: Deploy CodexField to <Box as="span" color="#FFC700">Greenfield Mainnet</Box>.
         </CardDesc>
       </Card>
       <Card>
@@ -75,9 +91,9 @@ export const RoadMap = () => {
           <Box as="span">2024</Box>
         </CardTitle>
         <CardDesc>
-        Completed the function of storing code on BNBGreenfield via Gitd.
-        <br />
-        Implemented the <Box as="span" color="#048118">code trading</Box>function.
+        Code Marketplace: Enabling <Box as="span" color="#7A3CFF">Code Trading</Box> Functionality.
+        <Space />
+        Reputation System: Achieve a good reputation through high-quality output.
         </CardDesc>
       </Card>
       <Card>
@@ -87,9 +103,7 @@ export const RoadMap = () => {
           <Box as="span">2024</Box>
         </CardTitle>
         <CardDesc>
-        Participated in the <Box as="span" color="#FFC700">BNBCHAIN Hackathon</Box> and won <Box as="span" color="#7A3CFF">1st place in the infra track</Box>.
-        <br/>
-        Optimized CodexField product interaction logic & UI.
+        <Box as="span" color="#7A3CFF">Tech Blog</Box>: A Decentralized Technology Sharing Column Designed for Developers
         </CardDesc>
       </Card>
       <Card>
@@ -99,12 +113,12 @@ export const RoadMap = () => {
           <Box as="span">2025</Box>
         </CardTitle>
         <CardDesc>
-        Launch the code storage function with optimized interaction logic.
-        <br />
-        Launch the <Box as="span" color="#7A3CFF">Dashboard page</Box> and the shared code list page.
+        Lauch Token: Incentivizing High-Quality Creations through Token Economics.
+        <Space />
+        Tech Courses: Creating a <Box as="span" color="#7A3CFF">Knowledge-Paid Course Platform</Box> for Developers
         </CardDesc>
       </Card>
-    </Flex>
+    </Row>
   </Box>
 }
 
@@ -114,11 +128,19 @@ const Title = styled(Box)`
   font-weight: 700;
 `
 
-const Card = styled(Box)`
+const Row = styled(Flex)`
+  align-items: stretch;
+`
+
+const Card = styled(Flex)`
+  flex-direction: column;
+  justify-content: space-between;
   color: #FFF;
   width: calc(25% - 80px);
-  margin-bottom: 100px;
+  flex: 1;
+  font-weight: 500;
   border-top: 1px solid #EFF0F3;
+  margin-bottom: 100px;
 `
 
 const CardTitle = styled(Box)`
@@ -130,9 +152,13 @@ const CardTitle = styled(Box)`
   }
 `
 const CardDesc = styled(Box)`
-  margin-top: 120px;
+  margin-top: 80px;
   font-size: 24px;
   font-weight: 500;
   line-height: 1.4;
   color: #EFF0F3;
+`
+
+const Space = styled(Box)`
+  height: 40px;
 `

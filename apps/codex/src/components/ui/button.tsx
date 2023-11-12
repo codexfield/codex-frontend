@@ -7,7 +7,7 @@ export const BaseButton = (props: ButtonProps) => {
     bg="#EFF0F3"
     color="#000000"
     fontSize="20px"
-    fontWeight="700"
+    fontWeight="500"
     _hover={{
       bg: "#aeb0b4"
     }}

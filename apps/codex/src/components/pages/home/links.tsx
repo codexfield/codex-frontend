@@ -121,7 +121,10 @@ const Date = styled(Box)`
 `
 
 const AdLink = styled(Flex)`
-  border: 1px solid #FFFFFF;
+  &:nth-child(1) {
+    border-top: 1px solid #FFFFFF;  
+  }
+  border-bottom: 1px solid #FFFFFF;
   color: #FFFFFF;
   padding: 50px;
 

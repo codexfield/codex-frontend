@@ -2,17 +2,21 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
 import Logo from '../../images/logo.svg';
+import { useScroll } from '@/hooks/useScroll';
 
 const Header = () => {
+  const y = useScroll()
+
   return (
     <Container
       justifyContent={'space-between'}
       alignItems={'center'}
       padding={'10px 25px'}
-      height="80px"
-      left="0"
-      right="0"
+      style={{
+        backdropFilter: y > 50 ? 'blur(10px)': 'blur(0px)',
+      }}
     >
       <Flex gap={42} alignItems={'center'}>
         <Box>
@@ -65,7 +69,10 @@ const Container = styled(Flex)`
   position: fixed;
   z-index: 100;
   font-size: 15px;
-  background-color: rgba(0,0,0,0.25);
+  background-color: rgba(0,0,0,0.5);
+  height: 80px;
+  left: 0;
+  right: 0;
   /* border-bottom: 1px #2f3034 solid; */
 `;
 
