@@ -40,6 +40,7 @@ const Container = styled(Flex)`
 `
 
 const Title = styled(Box)`
+  font-weight: 700;
   font-size: 96px;
   line-height: 1.4;
 `
