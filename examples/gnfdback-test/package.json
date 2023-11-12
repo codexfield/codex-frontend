@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@bnb-chain/greenfield-js-sdk": "^0.2.6",
-    "@isomorphic-git/lightning-fs": "workspace:*",
+    "@isomorphic-git/lightning-fs": "^3.3.0",
     "@rainbow-me/rainbowkit": "^1.0.11",
     "browserfs": "2.0.0",
     "isomorphic-git": "workspace:*",

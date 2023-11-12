@@ -14,7 +14,9 @@ export const Layout = ({children}: {children: ReactNode}) => {
         <link rel="shortcut icon" href="/favicon.png" />
         <link rel="icon" color="#000000" href="/favicon.png" />
       </Head>
+
       <Header />
+
       <Main>{children}</Main>
       <Footer />
     </Container>

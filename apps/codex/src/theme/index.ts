@@ -23,9 +23,9 @@ const myTheme = {
   },
 
   fonts: {
-    body: "Source Code Pro",
-    heading: "Source Code Pro",
-    mono: "Source Code Pro, monospace",
+    body: "Commissioner",
+    heading: "Commissioner",
+    mono: "Commissioner, Source Code Pro, monospace",
   },
 
   fontWeights: {

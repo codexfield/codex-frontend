@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@bnb-chain/greenfield-js-sdk": "^0.2.6",
+    "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -21,6 +22,7 @@
     "wagmi": "^1.4.2"
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "^11.11.0",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",

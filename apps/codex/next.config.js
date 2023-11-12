@@ -30,6 +30,22 @@ const nextConfig = {
       tls: false,
     };
 
+    // config.module.rules.push({
+    //   test: /\.(tsx|ts)$/,
+    //   use: [
+    //     {
+    //       loader: 'babel-loader',
+    //       options" {
+    //         plugins: [
+    //           [
+
+    //           ]
+    //         ]
+    //       }
+    //     }
+    //   ],
+    // });
+
     return config;
   },
 };
