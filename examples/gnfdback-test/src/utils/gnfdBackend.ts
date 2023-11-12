@@ -60,14 +60,7 @@ export default class GnfdBackend {
         if (filepath.startsWith("/objects/")) {
             const temp = filepath.slice(1);
             const str = temp.split("/");
-            const typeObject = `types/${str[1]}${str[2]}`;
-
-            const res = await this.readGnfdObject(typeObject);
-            if (!res.body) return ''
-            let resText = await res.body?.text()
-            type = resText.replace('\n', '')
-            // console.log('read object type', type)
-            objectName = `objects/` + type + `/${str[1]}${str[2]}`;
+            objectName = `objects/${str[1]}${str[2]}`;
         } else if (filepath.startsWith("/packed-refs")){
             // this.forageInstance.setItem(filepath, '')
             return ''
@@ -81,11 +74,7 @@ export default class GnfdBackend {
         
         if (!res.body) return '';
         if (filepath.startsWith("/objects/")) {
-            let content =  new Uint8Array(await res.body.arrayBuffer())
-            let length = content.byteLength
-            let ret = new Uint8Array(Buffer.from(`${type} ${length}\x00`))
-            
-            return new Uint8Array([...ret, ...content])
+            return new Uint8Array(await res.body.arrayBuffer())
         } else {
             let resText = await res.body?.text()
             if (resText.endsWith('\n')) {
