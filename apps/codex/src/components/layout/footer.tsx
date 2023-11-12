@@ -5,14 +5,13 @@ import Logo from '../../images/logo.svg';
 export const Footer = () => {
   return <Container>
     <Flex w="1920px" m="0 auto" fontWeight="400" justifyContent="space-between">
-      {/* <Box as="p" fontWeight="600" fontSize="14px">© 2023 CodexField Labs</Box> */}
 
       <Box>
         <Box>
           <img src={Logo.src} />
         </Box>
         <Box color="#898989" fontSize="24px" w="600px" mt="10px">
-        In the future, we also plan to launch blog and course functions, and we will allow developers to generate income from knowledge through knowledge assetization.
+        © 2023 CodexField Labs
         </Box>
       </Box>
 
