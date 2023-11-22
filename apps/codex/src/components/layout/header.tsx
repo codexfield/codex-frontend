@@ -1,10 +1,9 @@
+import { useScroll } from '@/hooks/useScroll';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
 import Logo from '../../images/logo.svg';
-import { useScroll } from '@/hooks/useScroll';
 
 const Header = () => {
   const y = useScroll()
@@ -34,23 +33,23 @@ const Header = () => {
 
       <Flex alignItems={'center'} justifyContent={'center'} gap={18}>
         <>
-          <Link target='_blank' href="https://docs.codexfield.com/">
+          <NavText target='_blank' href="https://docs.codexfield.com/">
             <Text fontWeight="900" fontSize="16" mr="45">
               Docs
             </Text>
-          </Link>
+          </NavText>
 
-          <Link target='_blank' href="https://github.com/codexfield">
+          <NavText target='_blank' href="https://github.com/codexfield">
             <Text fontWeight="900" fontSize="16" mr="35">
               Github
             </Text>
-          </Link>
+          </NavText>
 
-          <Link target='_blank' href="https://twitter.com/CodexField">
+          <NavText target='_blank' href="https://twitter.com/CodexField">
             <Text fontWeight="900" fontSize="16" mr="35">
               Twitter
             </Text>
-          </Link>
+          </NavText>
 
           <NavText target='_blank' href="https://t.me/CodexField">
             <Text fontWeight="900" fontSize="16" mr="35">
@@ -76,7 +75,7 @@ const Container = styled(Flex)`
   /* border-bottom: 1px #2f3034 solid; */
 `;
 
-const NavText = styled(Box)`
+const NavText = styled(Link)`
   color: #FFF;
   text-align: center;
   font-size: 24px;

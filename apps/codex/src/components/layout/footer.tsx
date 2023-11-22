@@ -17,7 +17,7 @@ export const Footer = () => {
 
       <Social>
         <Box ml="110px">
-          <Box fontSize="24px" fontWeight={600}>LEARN</Box>
+          <Title>LEARN</Title>
           <Flex mt="15px" direction="column" justifyContent="space-between" alignItems='flex-start'>
             <a target="_blank" href="https://docs.codexfield.com">Blog</a>
             <a target="_blank" href="https://docs.codexfield.com">FAQS</a>
@@ -26,7 +26,7 @@ export const Footer = () => {
         </Box>
 
         <Box ml="110px">
-          <Box fontSize="24px" fontWeight={600}>CONNECT</Box>
+          <Title>CONNECT</Title>
           <Flex mt="15px" direction="column" justifyContent="space-between" alignItems='flex-start'>
             <a target="_blank" href="https://docs.codexfield.com">Blog</a>
             <a target="_blank" href="https://docs.codexfield.com">FAQS</a>
@@ -35,7 +35,7 @@ export const Footer = () => {
         </Box>
 
         <Box ml="110px">
-          <Box fontSize="24px" fontWeight={600}>LINK</Box>
+          <Title>LINK</Title>
           <Flex mt="15px" direction="column" justifyContent="space-between" alignItems='flex-start'>
             <a target="_blank" href="https://twitter.com/CodexField">Twitter</a>
             <a target="_blank" href="https://t.me/CodexField">Telegram</a>
@@ -48,8 +48,8 @@ export const Footer = () => {
 }
 
 const Container = styled.footer`
-  margin: 100px
-`
+  margin: 100px;
+`;
 
 const Social = styled(Flex)`
   a {
@@ -58,4 +58,10 @@ const Social = styled(Flex)`
     font-size: 24px;
     font-weight: 300;
   }
+`;
+
+const Title = styled(Box)`
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
 `
