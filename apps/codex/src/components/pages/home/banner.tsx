@@ -6,9 +6,9 @@ import Link from "next/link"
 
 export const Banner = () => {
   return <Container>
-    <Box position="relative" h='1000px' overflow="hidden">
-      <Box position="absolute" left="0" right="0" bottom="0" top="0">
-        <video style={{ objectFit: 'cover', width: '100%', height: '100%'}} src="/banner_01.mp4"  autoPlay loop muted />
+    <Box position="relative">
+      <Box>
+        <Video src="/banner_01.mp4"  autoPlay loop muted />
       </Box>
 
       <VStack
@@ -48,6 +48,13 @@ const Title = styled(Box)`
   color: #7A3CFF;
   font-size: 64px;
   font-weight: 700;
+`
+
+const Video = styled.video`
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: right;
 `
 
 export const Desc = styled(Box)`
