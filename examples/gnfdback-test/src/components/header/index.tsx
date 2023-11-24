@@ -32,13 +32,13 @@ export const Header = () => {
     
       const endpoint = await GnfdClient.sp.getSPUrlByBucket(repoName)
 
-      router.push(`/repo/${repoName}?endpoint=${endpoint}&privateKey=${privateKey}`)
+      // router.push(`/repo/${repoName}?endpoint=${endpoint}&privateKey=${privateKey}`)
 
-      return;
+      // return;
       // console.log('repoName, privateKey', repoName, privateKey)
 
       
-      if (!fs) return;
+     // if (!fs) return;
       const backend = new GnfdBackend(repoName, privateKey, endpoint)
       // use custom fs
       const fs = new LightningFS("fs", {
@@ -46,13 +46,21 @@ export const Header = () => {
         backend,
       })
 
-      const res = await git.resolveRef({
+      // const res = await git.resolveRef({
+      //   fs: fs,
+      //   dir: "",
+      //   gitdir: '',
+      //   ref: "HEAD",
+      // })
+      // console.log("example ref", res)
+      debugger;
+      const res2 = await git.init({
         fs: fs,
         dir: "",
-        gitdir: '',
-        ref: "HEAD",
+        gitdir: "",
+        defaultBranch: "main",
       })
-      console.log("example ref", res)
+      console.log("git init", res2)
 
       return;
 

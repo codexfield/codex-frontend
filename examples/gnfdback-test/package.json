@@ -19,6 +19,7 @@
     "react": "^18",
     "react-dom": "^18",
     "wagmi": "^1.4.2",
+    "@bnb-chain/greenfiled-file-handle" :"^1.0.0",
     "zustand": "^4.4.5"
   },
   "devDependencies": {

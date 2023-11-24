@@ -1,3 +1,5 @@
+import { nexilix } from "wagmi/chains";
+
 const DefaultBackend = require("./DefaultBackend.js");
 const Stat = require("./Stat.js");
 
@@ -62,6 +64,8 @@ module.exports = class PromisifiedFS {
     this._activationPromise = null
 
     this._operations = new Set()
+    this.saveSuperblock = null
+    this.loadSuperblock = null
 
     if (name) {
       this.init(name, options)
@@ -180,8 +184,12 @@ module.exports = class PromisifiedFS {
     return null;
   }
   async stat(filepath, opts) {
-    const data = await this._backend.stat(filepath, opts);
-    return new Stat(data);
+    try {
+      const data = await this._backend.stat(filepath, opts);
+      return new Stat(data);
+    } catch (error: any) {
+      throw error
+    }
   }
   async lstat(filepath, opts) {
     const data = await this._backend.lstat(filepath, opts);
