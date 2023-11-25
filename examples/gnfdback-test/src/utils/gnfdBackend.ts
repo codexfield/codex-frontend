@@ -110,9 +110,18 @@ export default class GnfdBackend {
   }
   private async writeGnfdObject(objectName: string, data: Uint8Array | string) {
     console.log('onWriteObject', objectName)
-    const hashResult = await getCheckSums(
-      await this.convertToUint8Array(data)
-    );
+    let hashResult = {} as any
+
+    try {
+      hashResult = await (window as any).FileHandle.getCheckSums(
+        await this.convertToUint8Array(data)
+      );
+    } catch (e) {
+      console.error(e)
+    }
+
+    console.log('hashResult', hashResult)
+
     const { contentLength, expectCheckSums } = hashResult;
     const createObjectTx = await GnfdClient.object.createObject(
       {
