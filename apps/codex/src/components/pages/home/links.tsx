@@ -115,6 +115,7 @@ const Info = styled(Flex)`
 
 const InfoTitle = styled(Box)`
   font-weight: 600;
+  text-align: right;
 `
 const Date = styled(Box)`
   font-weight: 400;

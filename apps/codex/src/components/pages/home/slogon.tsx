@@ -1,8 +1,8 @@
-import styled from "@emotion/styled"
-import SlogonImage from '@/images/slogon.png'
-import { Box, BoxProps, css } from "@chakra-ui/react"
 import { useScroll } from "@/hooks/useScroll"
-import { useCallback, useEffect, useReducer, useRef, useState } from "react"
+import SlogonImage from '@/images/slogon.svg'
+import { Box } from "@chakra-ui/react"
+import styled from "@emotion/styled"
+import { useEffect, useRef, useState } from "react"
 
 const IMAGE_H = 190;
 

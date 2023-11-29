@@ -14,7 +14,7 @@ export const RoadMap = () => {
       gap="90px" 
       justifyContent='space-between'
     >
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q2</Box>
           <br/>
@@ -27,7 +27,7 @@ export const RoadMap = () => {
         Coming up with an initial idea for decentralized code storage.
         </CardDesc>
       </Card>
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q3</Box>
           <br/>
@@ -39,7 +39,7 @@ export const RoadMap = () => {
         <Box as="span" color="#FFC700">BNBChain Hackvolution</Box>: <Box as="span" color="#7A3CFF">First place in the Infura track</Box>
         </CardDesc>
       </Card>
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q4</Box>
           <br/>
@@ -53,7 +53,7 @@ export const RoadMap = () => {
           Decentralized Code Storage: Enhance <Box as="span" color="#7A3CFF"> &quot;gitd&quot;</Box> and display code repository on the frontend.
         </CardDesc>
       </Card>
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q1</Box>
           <br/>
@@ -71,7 +71,7 @@ export const RoadMap = () => {
       gap="90px"
       justifyContent='space-between'
     >
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q2</Box>
           <br/>
@@ -84,7 +84,7 @@ export const RoadMap = () => {
           Mainnet Launch: Deploy CodexField to <Box as="span" color="#FFC700">Greenfield Mainnet</Box>.
         </CardDesc>
       </Card>
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q3</Box>
           <br/>
@@ -96,7 +96,7 @@ export const RoadMap = () => {
         Reputation System: Achieve a good reputation through high-quality output.
         </CardDesc>
       </Card>
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q4</Box>
           <br/>
@@ -106,7 +106,7 @@ export const RoadMap = () => {
         <Box as="span" color="#7A3CFF">Tech Blog</Box>: A Decentralized Technology Sharing Column Designed for Developers
         </CardDesc>
       </Card>
-      <Card>
+      <Card className="card">
         <CardTitle>
           <Box as="span">Q1</Box>
           <br/>
@@ -132,6 +132,30 @@ const Row = styled(Flex)`
   align-items: stretch;
 `
 
+const CardTitle = styled(Box)`
+  font-size: 48px;
+  line-height: 1.4;
+  
+  & > span:nth-child(1) {
+    font-weight: 700;
+  }
+`
+
+const CardDesc = (props: any) => {
+  return <Box marginTop="80px"
+    fontSize="24px"
+    fontWeight={500}
+    lineHeight={1.4}
+    color="#EFF0F3"
+    sx={{
+      '.card:hover &': {
+        color: '#1E1E1E'
+      }
+    }}
+    {...props}
+  />
+}
+
 const Card = styled(Flex)`
   flex-direction: column;
   justify-content: space-between;
@@ -141,22 +165,11 @@ const Card = styled(Flex)`
   font-weight: 500;
   border-top: 1px solid #EFF0F3;
   margin-bottom: 100px;
-`
 
-const CardTitle = styled(Box)`
-  font-size: 48px;
-  line-height: 1.4;
-  
-  & > span:nth-child(1) {
-    font-weight: 700;
+  &:hover {
+    background: #FFFFFF;
+    color: #1E1E1E;
   }
-`
-const CardDesc = styled(Box)`
-  margin-top: 80px;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 1.4;
-  color: #EFF0F3;
 `
 
 const Space = styled(Box)`

@@ -4,19 +4,19 @@ import Logo from '../../images/logo.svg';
 
 export const Footer = () => {
   return <Container>
-    <Flex w="1920px" m="0 auto" fontWeight="400" justifyContent="space-between">
+    <Flex maxW="1920px" m="0 auto" fontWeight="400" justifyContent="space-between">
 
       <Box>
         <Box>
           <img src={Logo.src} />
         </Box>
-        <Box color="#898989" fontSize="24px" w="600px" mt="10px">
+        <Box color="#898989" fontSize="24px"  mt="10px">
         © 2023 CodexField Labs
         </Box>
       </Box>
 
       <Social>
-        <Box ml="110px">
+        <Box>
           <Title>LEARN</Title>
           <Flex mt="15px" direction="column" justifyContent="space-between" alignItems='flex-start'>
             <a target="_blank" href="https://docs.codexfield.com">Blog</a>
@@ -25,7 +25,7 @@ export const Footer = () => {
           </Flex>
         </Box>
 
-        <Box ml="110px">
+        <Box>
           <Title>CONNECT</Title>
           <Flex mt="15px" direction="column" justifyContent="space-between" alignItems='flex-start'>
             <a target="_blank" href="https://docs.codexfield.com">Blog</a>
@@ -34,7 +34,7 @@ export const Footer = () => {
           </Flex>
         </Box>
 
-        <Box ml="110px">
+        <Box>
           <Title>LINK</Title>
           <Flex mt="15px" direction="column" justifyContent="space-between" alignItems='flex-start'>
             <a target="_blank" href="https://twitter.com/CodexField">Twitter</a>
@@ -58,6 +58,7 @@ const Social = styled(Flex)`
     font-size: 24px;
     font-weight: 300;
   }
+  gap: 5em;
 `;
 
 const Title = styled(Box)`

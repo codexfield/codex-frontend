@@ -4,12 +4,10 @@ import { Desc } from "./banner"
 
 export const SideBanner = () => {
   return (
-    <Box position="relative" h="840px">
-      <Box position="absolute">
-        <video src="/banner_02.mp4" autoPlay loop width="100%" muted />
-      </Box>
+    <Box position="relative">
+      <Video src="/banner_02.mp4" autoPlay loop muted />
 
-      <Flex direction="column" w="800px" position="absolute" right="40px" bottom="50px">
+      <TextContainer direction="column">
         <Title>
           <Box as="span">Decentralized</Box>
           <br/>
@@ -25,7 +23,7 @@ export const SideBanner = () => {
             </Link>
           </Box>
         </Desc>
-      </Flex>
+      </TextContainer>
 
     </Box>
   )
@@ -35,4 +33,22 @@ const Title = styled(Box)`
   color: #EFF0F3;
   font-size: 96px;
   font-weight: 700;
+`
+
+const Video = styled.video`
+  object-fit: cover;
+`
+
+const TextContainer = styled(Flex)`
+  background: linear-gradient(270deg, #000 0%, rgba(0, 0, 0, 0.00) 100%);
+  width: 50%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 40px;
+  box-sizing: content-box;
+  /* right: 40px; */
+  /* top: 50%;
+  transform: translateY(-50%); */
 `

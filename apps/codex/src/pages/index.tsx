@@ -14,7 +14,7 @@ export default function Home() {
 
       <Slogon />
 
-      <Box w="1920px" ml="auto" mr="auto">
+      <Box maxW="1920px" ml="auto" mr="auto">
         <Hr mb="60px" />
 
         <SideBanner />
