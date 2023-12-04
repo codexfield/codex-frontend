@@ -1,3 +1,16 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "no-console": 2,
+    "react/react-in-jsx-scope": ["off"],
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@next/next/no-html-link-for-pages": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/alt-text": "off"
+  },
+  "plugins": ["@typescript-eslint"]
 }

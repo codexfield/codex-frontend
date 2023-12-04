@@ -30,11 +30,11 @@ export const Banner = () => {
         Creates a mutually beneficial ecosystem that fosters the growth of high-quality code.
         </Desc>
         <Box mt="40px">
-          <BaseButton p="15px 70px">
-            <Link href="/">
+          <Link href="/profile">
+            <BaseButton p="15px 70px">
               <Box as="span" mr="5px">Start Dapp</Box> <ArrowForwardIcon />
-            </Link>
-          </BaseButton>
+            </BaseButton>
+          </Link>
         </Box>
       </VStack>
     </Box>

@@ -1,6 +1,6 @@
 // import { chains, publicClient, webSocketPublicClient } from '@/config';
+import { ChakraProvider } from '@chakra-ui/react';
 import { config } from '../config/wagmi';
-import { ChakraProvider } from '@chakra-ui/react'
 
 import './globals.css';
 // import {
@@ -8,10 +8,11 @@ import './globals.css';
 //   getDefaultWallets,
 //   RainbowKitProvider,
 // } from '@rainbow-me/rainbowkit';
+import { AppLayout } from '@/components/layout/app-layout';
 import '@rainbow-me/rainbowkit/styles.css';
-import type { AppProps } from 'next/app';
-import { createConfig, WagmiConfig } from 'wagmi';
-import { Layout } from '../components/layout';
+import { AppProps } from 'next/app';
+import { WagmiConfig } from 'wagmi';
+import { HomepageLayout } from '../components/layout/homepage-layout';
 import { theme } from '../theme';
 
 // const projectId = '9bf3510aab08be54d5181a126967ee71';
@@ -40,13 +41,15 @@ import { theme } from '../theme';
 // });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const Layout = Component.name === 'Home' ? HomepageLayout : AppLayout;
+
   return (
     <WagmiConfig config={config}>
       {/* <RainbowKitProvider modalSize="compact" chains={chains}> */}
       <ChakraProvider theme={theme}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ChakraProvider>
       {/* </RainbowKitProvider> */}
     </WagmiConfig>

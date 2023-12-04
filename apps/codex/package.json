@@ -27,8 +27,13 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-prettier": "^3.4.1",
+    "prettier": "2.8.8",
     "typescript": "latest"
   }
 }
