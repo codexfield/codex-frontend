@@ -30,7 +30,7 @@ const Header = (props: IProps) => {
         </Box>
       </Flex>
 
-      <Flex alignItems={'center'} justifyContent={'center'} gap={18}>
+      <Flex alignItems={'center'} justifyContent='space-between' gap={18} flex={1}>
         {content}
       </Flex>
     </Container>

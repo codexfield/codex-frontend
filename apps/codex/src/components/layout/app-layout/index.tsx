@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Link } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { DocumentHead } from '../common/head';
 import Header from '../common/header';
