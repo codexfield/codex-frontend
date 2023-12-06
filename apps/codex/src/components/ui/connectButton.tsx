@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { HConnectButton } from './button';
-import { CustomAvatar } from './Avatars';
+import { CustomAvatar } from './avatars';
 
 export const CustomConnectButton = () => {
   return (
