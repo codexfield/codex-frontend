@@ -1,57 +1,35 @@
-// import { chains, publicClient, webSocketPublicClient } from '@/config';
-import { ChakraProvider } from '@chakra-ui/react';
-import { config } from '../config/wagmi';
-
-import './globals.css';
-// import {
-//   connectorsForWallets,
-//   getDefaultWallets,
-//   RainbowKitProvider,
-// } from '@rainbow-me/rainbowkit';
 import { AppLayout } from '@/components/layout/app-layout';
+import { chains, wagmiConfig } from '@/config/wallet';
+import { ChakraProvider } from '@chakra-ui/react';
+import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 import { AppProps } from 'next/app';
 import { WagmiConfig } from 'wagmi';
 import { HomepageLayout } from '../components/layout/homepage-layout';
 import { theme } from '../theme';
-
-// const projectId = '9bf3510aab08be54d5181a126967ee71';
-// const { wallets } = getDefaultWallets({
-//   projectId,
-//   appName: 'greenfield js sdk demo',
-//   chains,
-// });
-
-// const connectors = connectorsForWallets([
-//   ...wallets,
-//   // {
-//   //   groupName: 'Recommended',
-//   //   wallets: [
-//   //     trustWallet({ projectId, chains, shimDisconnect: true }),
-//   //     // RainbowTrustWalletConnector({ projectId, chains }),
-//   //   ],
-//   // },
-// ]);
-
-// const wagmiConfig = createConfig({
-//   autoConnect: true,
-//   connectors,
-//   webSocketPublicClient,
-//   publicClient,
-// });
+import './globals.css';
+import { CustomAvatar } from '@/components/ui/Avatars';
 
 export default function App({ Component, pageProps }: AppProps) {
   const Layout = Component.name === 'Home' ? HomepageLayout : AppLayout;
 
   return (
-    <WagmiConfig config={config}>
-      {/* <RainbowKitProvider modalSize="compact" chains={chains}> */}
-      <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ChakraProvider>
-      {/* </RainbowKitProvider> */}
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider
+        modalSize='compact'
+        chains={chains}
+        avatar={CustomAvatar}
+        theme={darkTheme({
+          accentColor: '#1E1E1E',
+          borderRadius: 'large',
+        })}
+      >
+        <ChakraProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 }

@@ -1,16 +1,17 @@
 import styled from '@emotion/styled';
-import Header from './header';
 import { Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { Footer } from './footer';
-import { DocumentHead } from '../head';
+import { DocumentHead } from '../common/head';
+import Header from '../common/header';
+import HeaderContent from './headerContent';
 
 export const HomepageLayout = ({ children }: { children: ReactNode }) => {
   return (
     <Container flexDirection={'column'} justifyContent={'space-between'}>
       <DocumentHead />
 
-      <Header />
+      <Header content={HeaderContent()} />
 
       <Main>{children}</Main>
       <Footer />

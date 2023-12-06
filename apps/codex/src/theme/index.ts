@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme } from '@chakra-ui/react';
 
 import { colors } from './colors';
 
@@ -14,8 +14,8 @@ const myTheme = {
   styles: {
     global: {
       body: {
-        bg: 'bg.bottom',
-        color: 'readable.normal',
+        bg: '#000',
+        color: '#FFF',
         lineHeight: 'normal',
         WebkitTapHighlightColor: 'transparent',
       },
@@ -23,9 +23,9 @@ const myTheme = {
   },
 
   fonts: {
-    body: "Commissioner",
-    heading: "Commissioner",
-    mono: "Commissioner, Source Code Pro, monospace",
+    body: 'Commissioner',
+    heading: 'Commissioner',
+    mono: 'Commissioner, Source Code Pro, monospace',
   },
 
   fontWeights: {
@@ -41,4 +41,4 @@ const myTheme = {
   },
 };
 
-export const theme = extendTheme(myTheme)
+export const theme = extendTheme(myTheme);
