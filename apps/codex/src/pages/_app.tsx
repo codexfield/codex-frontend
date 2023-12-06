@@ -8,7 +8,7 @@ import { WagmiConfig } from 'wagmi';
 import { HomepageLayout } from '../components/layout/homepage-layout';
 import { theme } from '../theme';
 import './globals.css';
-import { CustomAvatar } from '@/components/ui/Avatars';
+import { CustomAvatar } from '@/components/ui/avatars';
 
 export default function App({ Component, pageProps }: AppProps) {
   const Layout = Component.name === 'Home' ? HomepageLayout : AppLayout;
