@@ -1,14 +1,16 @@
 import { AppLayout } from '@/components/layout/app-layout';
+import { CustomAvatar } from '@/components/ui/avatars';
 import { chains, wagmiConfig } from '@/config/wallet';
 import { ChakraProvider } from '@chakra-ui/react';
+import NiceModal from '@ebay/nice-modal-react';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
+import { Provider as JotaiProvider } from 'jotai';
 import { AppProps } from 'next/app';
 import { WagmiConfig } from 'wagmi';
 import { HomepageLayout } from '../components/layout/homepage-layout';
 import { theme } from '../theme';
 import './globals.css';
-import { CustomAvatar } from '@/components/ui/avatars';
 
 export default function App({ Component, pageProps }: AppProps) {
   const Layout = Component.name === 'Home' ? HomepageLayout : AppLayout;
@@ -16,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
-        modalSize='compact'
+        modalSize="compact"
         chains={chains}
         avatar={CustomAvatar}
         theme={darkTheme({
@@ -25,9 +27,13 @@ export default function App({ Component, pageProps }: AppProps) {
         })}
       >
         <ChakraProvider theme={theme}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <JotaiProvider>
+            <NiceModal.Provider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </NiceModal.Provider>
+          </JotaiProvider>
         </ChakraProvider>
       </RainbowKitProvider>
     </WagmiConfig>

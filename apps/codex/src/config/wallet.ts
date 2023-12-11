@@ -1,15 +1,15 @@
+import { BSC_CHAIN, GNFD_CHAINID, GNFD_RPC, GNFD_SCAN_URL, WALLET_CONNECT_PROJECT_ID } from '@/env';
 import { Chain, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig } from 'wagmi';
-import { bscTestnet } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
 const bscChain: Chain = {
-  ...bscTestnet,
+  ...BSC_CHAIN,
   name: 'BSC',
 };
 
 const gnfdChain: Chain = {
-  id: 9000,
+  id: GNFD_CHAINID,
   name: 'Greenfield',
   network: 'Greenfield',
   iconBackground: '#ebac0e',
@@ -21,20 +21,20 @@ const gnfdChain: Chain = {
   },
   rpcUrls: {
     default: {
-      http: ['https://gnfd.qa.bnbchain.world'],
+      http: [GNFD_RPC],
     },
     public: {
-      http: ['https://gnfd.qa.bnbchain.world'],
+      http: [GNFD_RPC],
     },
   },
   blockExplorers: {
     etherscan: {
-      name: `Greenfield Testnet Scan`,
-      url: 'https://testnet.greenfieldscan.com/',
+      name: `Greenfield Scan`,
+      url: GNFD_SCAN_URL,
     },
     default: {
-      name: `Greenfield Testnet Scan`,
-      url: 'https://testnet.greenfieldscan.com/',
+      name: `Greenfield Scan`,
+      url: GNFD_SCAN_URL,
     },
   },
   testnet: true,
@@ -48,10 +48,9 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   ],
 );
 
-const projectId = 'edc80e81d845099ccfb3511b5ca24cd0';
 const { connectors } = getDefaultWallets({
   appName: 'CodeXField',
-  projectId,
+  projectId: WALLET_CONNECT_PROJECT_ID,
   chains,
 });
 

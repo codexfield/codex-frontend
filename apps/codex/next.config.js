@@ -45,6 +45,9 @@ const nextConfig = {
 
     return config;
   },
+  experimental: {
+    swcPlugins: [['@swc-jotai/react-refresh', {}]],
+  }
 };
 
 module.exports = nextConfig;

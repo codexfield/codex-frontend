@@ -24,13 +24,13 @@ const Header = (props: IProps) => {
     >
       <Flex gap={42} alignItems={'center'}>
         <Box>
-          <Link href='/'>
-            <Image priority width={240} height={60} src={Logo.src} alt='codex logo' />
+          <Link href="/">
+            <Image priority width={240} height={60} src={Logo.src} alt="codex logo" />
           </Link>
         </Box>
       </Flex>
 
-      <Flex alignItems={'center'} justifyContent='space-between' gap={18} flex={1}>
+      <Flex alignItems={'center'} justifyContent="space-between" gap={18} flex={1}>
         {content}
       </Flex>
     </Container>
@@ -41,7 +41,7 @@ export default Header;
 
 const Container = styled(Flex)`
   position: fixed;
-  z-index: 10000;
+  /* z-index: 10000; */
   font-size: 15px;
   background-color: rgba(0, 0, 0, 0.8);
   height: 80px;
