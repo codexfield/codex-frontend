@@ -19,13 +19,6 @@ export const useRegister = (
   const { chain } = useNetwork();
   const { name, avatar, bio, company, location, website, socialAccounts } = debounceValues;
 
-  // if chain is not BSC, switch to BSC check register status
-  // useEffect(() => {
-  //   if (chain?.id !== BSC_CHAIN.id) {
-  //     switchNetwork?.(BSC_CHAIN.id);
-  //   }
-  // }, [chain?.id, switchNetwork]);
-
   const isRightChain = chain?.id === BSC_CHAIN.id;
 
   const {
