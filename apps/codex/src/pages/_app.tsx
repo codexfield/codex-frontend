@@ -17,7 +17,7 @@ import './globals.css';
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
-  const Layout = Component.name === 'Home' ? HomepageLayout : AppLayout;
+  const Layout = Component.displayName === 'Home' ? HomepageLayout : AppLayout;
 
   return (
     <WagmiConfig config={wagmiConfig}>
