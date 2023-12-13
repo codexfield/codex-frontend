@@ -152,17 +152,25 @@ export default class GnfdBackend {
       gasPrice: simulateInfo?.gasPrice || '5000000000',
       payer: this.address,
       granter: '',
+      privateKey: this.privateKey,
     });
 
     if (res.code === 0) {
       console.log('createObject tx success')
+    } else {
+      console.log('create object failed.', res)
     }
 
+    await this.delay(5000)
+  
+    console.log("data:", data)
+    var blob = new Blob([data], { type: 'text/plain' });
+    var file = new File([blob], "foo.txt", {type: "text/plain"});
     const uploadRes = await GnfdClient.object.uploadObject(
       {
         bucketName: this.repoName,
         objectName: objectName,
-        body: data,
+        body: file,
         txnHash: res.transactionHash,
       },
       {
@@ -173,6 +181,14 @@ export default class GnfdBackend {
     console.log('uploadRes', uploadRes);
 
     return res;
+  }
+
+  async delay(time :number) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(0);
+      }, time);
+    });
   }
 
   async writeFile(
