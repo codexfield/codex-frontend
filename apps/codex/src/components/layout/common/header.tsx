@@ -41,7 +41,7 @@ export default Header;
 
 const Container = styled(Flex)`
   position: fixed;
-  /* z-index: 10000; */
+  z-index: 10;
   font-size: 15px;
   background-color: rgba(0, 0, 0, 0.8);
   height: 80px;

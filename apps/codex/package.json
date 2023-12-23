@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@bnb-chain/greenfield-js-sdk": "^1.0.6",
+    "@bnb-chain/greenfield-js-sdk": "^1.1.2",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.1",
     "@ebay/nice-modal-react": "^1.2.13",
@@ -20,7 +20,6 @@
     "@tanstack/react-query-devtools": "^5.13.5",
     "@tanstack/react-table": "^8.10.7",
     "@uidotdev/usehooks": "^2.4.1",
-    "add": "^2.0.6",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
     "jotai": "^2.6.0",

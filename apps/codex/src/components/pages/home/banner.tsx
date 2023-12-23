@@ -7,34 +7,34 @@ import Link from 'next/link';
 export const Banner = () => {
   return (
     <Container>
-      <Box position='relative'>
+      <Box position="relative">
         <Box>
-          <Video src='/banner_01.mp4' autoPlay loop muted />
+          <Video src="/banner_01.mp4" autoPlay loop muted />
         </Box>
 
         <VStack
-          w='50vw'
-          maxW='900px'
-          justify='space-between'
-          align='flex-start'
-          position='absolute'
-          bottom='80px'
-          zIndex={100}
-          ml='auto'
-          mr='auto'
-          p='5rem'
+          w="50vw"
+          maxW="900px"
+          justify="space-between"
+          align="flex-start"
+          position="absolute"
+          bottom="80px"
+          zIndex={9}
+          ml="auto"
+          mr="auto"
+          p="5rem"
         >
-          <Title as='h1'>CodexField</Title>
-          <Desc as='p'>
+          <Title as="h1">CodexField</Title>
+          <Desc as="p">
             Empowers developers by providing them with true ownership and control over their code
             assets.
             <br />
             Creates a mutually beneficial ecosystem that fosters the growth of high-quality code.
           </Desc>
-          <Box mt='40px'>
-            <Link href='/explore'>
-              <BaseButton p='15px 70px'>
-                <Box as='span' mr='5px'>
+          <Box mt="40px">
+            <Link href="/explore">
+              <BaseButton p="15px 70px">
+                <Box as="span" mr="5px">
                   Start Dapp
                 </Box>{' '}
                 <ArrowForwardIcon />
