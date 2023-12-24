@@ -49,10 +49,3 @@ const Container = styled(Flex)`
   right: 0;
   /* border-bottom: 1px #2f3034 solid; */
 `;
-
-const NavText = styled(Link)`
-  color: #fff;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 600;
-`;

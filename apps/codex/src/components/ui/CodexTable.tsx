@@ -11,6 +11,7 @@ import {
   Box,
   Spinner,
   Center,
+  Link,
 } from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
@@ -27,12 +28,14 @@ export type DataTableProps<Data extends object> = {
   data?: Data[];
   columns: ColumnDef<Data, any>[];
   loading: boolean;
+  clickTr?: (data: Data) => void;
 };
 
 export const CodexTable = <Data extends object>({
   data = [],
   columns,
   loading,
+  clickTr,
 }: DataTableProps<Data>) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
@@ -100,19 +103,27 @@ export const CodexTable = <Data extends object>({
           ))}
         </Thead>
         <Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
-              {row.getVisibleCells().map((cell) => {
-                // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
-                const meta: any = cell.column.columnDef.meta;
-                return (
-                  <Td key={cell.id} isNumeric={meta?.isNumeric}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
-                );
-              })}
-            </Tr>
-          ))}
+          {table.getRowModel().rows.map((row) => {
+            return (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  const meta: any = cell.column.columnDef.meta;
+                  return (
+                    <Td
+                      cursor="pointer"
+                      key={cell.id}
+                      isNumeric={meta?.isNumeric}
+                      onClick={() => clickTr && clickTr(row.original)}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </Td>
+                  );
+                })}
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </TableContainer>

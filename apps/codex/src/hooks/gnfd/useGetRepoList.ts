@@ -23,6 +23,6 @@ export const useGetRepoList = () => {
         return bucket.BucketInfo.BucketName.startsWith('codex-');
       });
     },
-    staleTime: 10000,
+    staleTime: 60000,
   });
 };

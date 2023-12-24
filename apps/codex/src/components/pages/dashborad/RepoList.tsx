@@ -1,8 +1,11 @@
 import { CodexTable } from '@/components/ui/CodexTable';
 import { GreenfieldClient } from '@/config/client';
 import { useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
-import { Box, Center, Spinner } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
+import { useRouter } from 'next/router';
+import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
+import { useCallback } from 'react';
 
 type Repo = NonNullable<Awaited<ReturnType<typeof GreenfieldClient.bucket.listBuckets>>['body']>[0];
 
@@ -19,7 +22,24 @@ const columns = [
 ];
 
 export const RepoList = () => {
+  const router = useRouter();
   const { data: repoList, isLoading } = useGetRepoList();
 
-  return <CodexTable loading={isLoading} columns={columns} data={repoList} />;
+  const handleClickTr = useCallback(
+    (originalData?: BucketMetaWithVGF) => {
+      console.log(originalData);
+      router.push({
+        pathname: `/repo/${originalData?.BucketInfo?.BucketName}`,
+        // pathname: `/repo/abc`,
+        query: {
+          privateKey: '0x6547492644d0136f76ef65e3bd04a77d079ed38028f747700c6c6063564d7032',
+        },
+      });
+    },
+    [router],
+  );
+
+  return (
+    <CodexTable loading={isLoading} columns={columns} data={repoList} clickTr={handleClickTr} />
+  );
 };
