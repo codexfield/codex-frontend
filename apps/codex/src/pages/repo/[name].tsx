@@ -19,7 +19,7 @@ export default function Repo() {
   });
   const latestCommit = useInitRepo(fs);
 
-  console.log('router.query', router.query);
+  // console.log('router.query', router.query);
 
   return (
     <>

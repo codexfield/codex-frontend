@@ -25,17 +25,17 @@ export const RepoTree = (props: Props) => {
 
   const myOid = props.oid || (router.query.oid as string);
 
-  console.log('myOid', myOid);
+  // console.log('myOid', myOid);
   const tree = useReadTree(fs, myOid);
-  console.log('tree', tree);
+  // console.log('tree', tree);
 
   return (
     <>
       {tree &&
         tree?.tree.map((item) => {
-          console.log('item', item);
+          // console.log('item', item);
           return (
-            <li key={item.oid}>
+            <li key={item.path + item.oid}>
               <Link
                 style={{ color: '#f00' }}
                 href={`/${item.type}/${name}?oid=${item.oid}&privateKey=${privateKey}`}

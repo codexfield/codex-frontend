@@ -14,6 +14,7 @@ export default function Blob() {
     repoName: name as string,
   });
   const content = useReadBlob(fs, oid as string);
+  // console.log('content', oid, content);
 
   return (
     <div>
