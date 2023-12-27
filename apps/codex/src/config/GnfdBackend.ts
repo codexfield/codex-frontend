@@ -9,14 +9,17 @@ type EncodingOpts = {
 
 export default class GnfdBackend {
   private repoName: string;
-  private privateKey: string;
   private endpoint: string;
+  private seed: string;
+  private address: string;
   private forageInstance: LocalForage;
+  private cache = false;
 
-  constructor(repoName: string, privateKey: string, endpoint: string) {
+  constructor(repoName: string, seed: string, endpoint: string, address: string) {
     this.repoName = repoName;
-    this.privateKey = privateKey;
     this.endpoint = endpoint;
+    this.seed = seed;
+    this.address = address;
 
     this.forageInstance = localforage.createInstance({
       name: 'codex',
@@ -32,9 +35,10 @@ export default class GnfdBackend {
 
     // console.log('cacheObjectRes', cacheObjectRes);
 
-    if (cacheObjectRes) {
+    if (cacheObjectRes && this.cache) {
       res = cacheObjectRes;
     } else {
+      console.log('xxx', this.seed, this.address, this.repoName, objectName, this.endpoint);
       res = await GreenfieldClient.object.getObject(
         {
           bucketName: this.repoName,
@@ -42,13 +46,17 @@ export default class GnfdBackend {
           endpoint: this.endpoint,
         },
         {
-          type: 'ECDSA',
-          privateKey: this.privateKey,
+          type: 'EDDSA',
+          domain: window.location.origin,
+          seed: this.seed,
+          address: this.address,
         },
       );
       console.log('repo', this.repoName, objectName, res);
 
-      await this.forageInstance.setItem(objectName, res);
+      if (this.cache) {
+        await this.forageInstance.setItem(objectName, res);
+      }
     }
 
     return res;

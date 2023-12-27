@@ -1,16 +1,17 @@
+import { useGetSpUrlByBucket } from '@/hooks/gnfd/useGetSpUrlByBucket';
 import { useFs } from '@/hooks/useFs';
+import { useGetOffchainAuth } from '@/hooks/useGetOffchainAuth';
 import { useReadBlob } from '@/hooks/useReadBlob';
 import { useRouter } from 'next/router';
-import { useAccount } from 'wagmi';
 
 export default function Blob() {
-  const { address } = useAccount();
   const router = useRouter();
-  const { name, privateKey, endpoint, oid } = router.query;
+  const { name, oid } = router.query;
+  // useGetOffchainAuth();
+
+  const endpoint = useGetSpUrlByBucket(name as string | undefined);
   const fs = useFs({
-    address,
     endpoint: endpoint as string,
-    privateKey: privateKey as string,
     repoName: name as string,
   });
   const content = useReadBlob(fs, oid as string);

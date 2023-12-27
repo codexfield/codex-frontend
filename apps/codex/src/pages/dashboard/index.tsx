@@ -5,6 +5,7 @@ import { GreenfieldClient } from '@/config/client';
 import { BSC_CHAIN, GNFD_CHAINID } from '@/env';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
+import { useGetOffchainAuth } from '@/hooks/useGetOffchainAuth';
 import { Box, Table } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -33,6 +34,9 @@ export default function Dashboard() {
       NiceModal.hide(RegisterModal);
     }
   }, [address, chain?.id, data, isError, isLoading, openConnectModal]);
+
+  // apply offchain auth data
+  // useGetOffchainAuth();
 
   // useEffect(() => {
   //   // if chain is not BSC, switch to BSC check register status
