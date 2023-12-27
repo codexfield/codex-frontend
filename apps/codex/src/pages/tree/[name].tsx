@@ -7,7 +7,7 @@ export default function Tree() {
 
   return (
     <div>
-      {name}:
+      {name}: {privateKey} {endpoint}
       <RepoTree />
     </div>
   );

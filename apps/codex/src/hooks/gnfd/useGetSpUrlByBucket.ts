@@ -8,7 +8,7 @@ export const useGetSpUrlByBucket = (repoName?: string) => {
   const [endpoint, setEndpoint] = useState('');
 
   useEffect(() => {
-    console.log('useGetSpUrlByBucket', repoName);
+    // console.log('useGetSpUrlByBucket', repoName);
     const getEndpoint = async () => {
       if (!repoName) {
         return;

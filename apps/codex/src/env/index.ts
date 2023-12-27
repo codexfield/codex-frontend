@@ -2,8 +2,9 @@ import { bscTestnet, bsc } from 'wagmi/chains';
 
 export const ENV = process.env.NEXT_PUBLIC_ENV as 'TESTNET' | 'MAINNET';
 
-export const GNFD_CHAINID = parseInt(process.env.NEXT_PUBLIC_GNFD_CHAINID || '9000');
-export const GNFD_RPC = process.env.NEXT_PUBLIC_GNFD_RPC || '';
+export const GNFD_CHAINID = parseInt(process.env.NEXT_PUBLIC_GNFD_CHAINID || '5600');
+export const GNFD_RPC =
+  process.env.NEXT_PUBLIC_GNFD_RPC || 'https://gnfd-testnet-fullnode-tendermint-ap.bnbchain.org';
 export const GNFD_SCAN_URL = process.env.NEXT_PUBLIC_GNFD_SCAN_URL || '';
 
 export const BSC_CHAIN = ENV === 'TESTNET' ? bscTestnet : bsc;

@@ -9,6 +9,7 @@ export const useReadTree = (fs: FS | null, oid: string) => {
     if (!fs || !oid) return;
 
     const readTree = async () => {
+      console.log('useReadTree', oid);
       const tree = await git.readTree({
         fs: fs,
         dir: '',
@@ -16,7 +17,7 @@ export const useReadTree = (fs: FS | null, oid: string) => {
         oid,
       });
 
-      // console.log('tree', tree)
+      console.log('tree', tree);
 
       setTree(tree);
     };
