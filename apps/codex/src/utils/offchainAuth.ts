@@ -8,8 +8,9 @@ import { IReturnOffChainAuthKeyPairAndUpload } from '@bnb-chain/greenfield-js-sd
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getOffchainAuthKeys = async (
   address: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   provider: any,
-): Promise<IReturnOffChainAuthKeyPairAndUpload> => {
+): Promise<IReturnOffChainAuthKeyPairAndUpload | undefined> => {
   const storageResStr = localStorage.getItem(address);
 
   if (storageResStr) {

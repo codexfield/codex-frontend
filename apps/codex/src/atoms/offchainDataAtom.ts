@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai';
 
 export type OffChainDataType = {
-  seed: string;
+  seed?: string;
   address: string;
 };
 

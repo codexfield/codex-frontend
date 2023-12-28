@@ -21,7 +21,7 @@ export const useGetOffchainAuth = () => {
 
       setOffchainData({
         address: address,
-        seed: offChainData.seedString,
+        seed: offChainData?.seedString,
       });
     };
 
