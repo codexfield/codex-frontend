@@ -1,0 +1,12 @@
+[build]
+  command = "git submodule update --init --recursive && pnpm install && pnpm run build"
+
+[build.environment]
+  NODE_VERSION = "16.20.2"
+
+[[build]]
+  command = "npm run build"
+  publish = "apps/codex/.next"
+  
+  [build.environment]
+    NODE_VERSION = "18.17.1"
