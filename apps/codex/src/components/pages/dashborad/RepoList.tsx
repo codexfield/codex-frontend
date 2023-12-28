@@ -30,6 +30,9 @@ export const RepoList = () => {
       // console.log(originalData)
       router.push({
         pathname: `/repo/${originalData?.BucketInfo?.BucketName}`,
+        query: {
+          type: 'tree',
+        },
       });
     },
     [router],

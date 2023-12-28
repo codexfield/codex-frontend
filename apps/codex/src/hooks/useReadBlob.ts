@@ -1,14 +1,14 @@
-import git from 'isomorphic-git';
 import FS from '@isomorphic-git/lightning-fs';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import git from 'isomorphic-git';
+import { OidType } from './useReadRepoByOid';
 
-export const useReadBlob = (fs: FS | null, oid: string) => {
-  const [content, setContent] = useState<string>('');
-  useEffect(() => {
-    // console.log('oid', fs, oid);
-    if (!fs || !oid) return;
-
-    const readBlob = async () => {
+export const useReadBlob = (fs: FS | null, oid: string, type: OidType) => {
+  return useQuery({
+    enabled: type === 'blob',
+    queryKey: ['GET_REPO_BLOB', oid],
+    queryFn: async () => {
+      if (!fs || !oid) return null;
       const file = await git.readBlob({
         fs: fs,
         dir: '',
@@ -16,16 +16,10 @@ export const useReadBlob = (fs: FS | null, oid: string) => {
         oid,
       });
 
-      // console.log('file', file);
-
       const decoder = new TextDecoder();
       const res = decoder.decode(file.blob);
-
-      setContent(res);
-    };
-
-    readBlob();
-  }, [fs, oid]);
-
-  return content;
+      return res;
+    },
+    staleTime: Infinity,
+  });
 };

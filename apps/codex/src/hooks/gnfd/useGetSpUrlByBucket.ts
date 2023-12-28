@@ -1,25 +1,20 @@
 import { GreenfieldClient } from '@/config/client';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 /**
  * get endpoint by repo name
  */
 export const useGetSpUrlByBucket = (repoName?: string) => {
-  const [endpoint, setEndpoint] = useState('');
-
-  useEffect(() => {
-    // console.log('useGetSpUrlByBucket', repoName);
-    const getEndpoint = async () => {
+  return useQuery({
+    enabled: !!repoName,
+    queryKey: ['GET_SP_URL_BY_BUCKET_NAME', repoName],
+    queryFn: async () => {
       if (!repoName) {
         return;
       }
-      const res = await GreenfieldClient.sp.getSPUrlByBucket(repoName);
-      console.log('res', res);
-      setEndpoint(res);
-    };
+      const endpoint = await GreenfieldClient.sp.getSPUrlByBucket(repoName);
 
-    getEndpoint();
-  }, [repoName]);
-
-  return endpoint;
+      return endpoint;
+    },
+  });
 };

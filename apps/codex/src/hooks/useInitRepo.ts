@@ -1,35 +1,29 @@
 import FS from '@isomorphic-git/lightning-fs';
+import { useQuery } from '@tanstack/react-query';
 import git from 'isomorphic-git';
-import { useEffect, useState } from 'react';
 
-export const useInitRepo = (fs: FS | null) => {
-  const [latestCommit, setLatestCommit] = useState('');
-  useEffect(() => {
-    if (!fs) return;
+export const useInitRepo = (fs: FS | null, repoName: string) => {
+  return useQuery({
+    enabled: !!fs && !!repoName,
+    queryKey: ['INIT_REPO', repoName],
+    queryFn: async () => {
+      if (!fs) return;
 
-    const init = async () => {
-      console.log('resolveRef', fs);
       const res = await git.resolveRef({
         fs: fs,
         dir: '',
         gitdir: '',
         ref: 'HEAD',
       });
-      console.log('example ref', res);
-
       const commit = await git.readCommit({
         fs: fs,
         dir: '',
         gitdir: '',
         oid: res,
       });
-      console.log('example commit', commit.commit.tree);
 
-      setLatestCommit(commit.commit.tree);
-    };
-
-    init();
-  }, [fs]);
-
-  return latestCommit;
+      return commit.commit.tree;
+    },
+    staleTime: Infinity,
+  });
 };

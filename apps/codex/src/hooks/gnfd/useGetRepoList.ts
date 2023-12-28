@@ -9,7 +9,7 @@ export const useGetRepoList = () => {
   const { data: spInfo } = useSelectSp();
 
   return useQuery({
-    enabled: !!address && !!spInfo,
+    enabled: address !== undefined && !!spInfo,
     queryKey: ['GET_BUCKET_REPO_LIST', address],
     queryFn: async () => {
       if (!address || !spInfo) return;
@@ -23,6 +23,6 @@ export const useGetRepoList = () => {
         return bucket.BucketInfo.BucketName.startsWith('codex-');
       });
     },
-    staleTime: 60000,
+    staleTime: Infinity,
   });
 };

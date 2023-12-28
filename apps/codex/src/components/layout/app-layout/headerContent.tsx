@@ -3,16 +3,20 @@ import { Flex, Link } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useGetOffchainAuth } from '@/hooks/useGetOffchainAuth';
 
 const HeaderContent = () => {
   const router = useRouter();
 
+  // apply offchain auth data
+  useGetOffchainAuth();
+
   return (
     <>
-      <Flex gap='45px' ml='45px'>
+      <Flex gap="45px" ml="45px">
         <NavLink
           as={NextLink}
-          href='/explore'
+          href="/explore"
           sx={{
             color: router.pathname == '/explore' ? '#A276FF' : '',
           }}
@@ -22,7 +26,7 @@ const HeaderContent = () => {
 
         <NavLink
           as={NextLink}
-          href='/dashboard'
+          href="/dashboard"
           sx={{
             color: router.pathname == '/dashboard' ? '#A276FF' : '',
           }}

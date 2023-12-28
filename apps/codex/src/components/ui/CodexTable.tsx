@@ -1,28 +1,27 @@
-import * as React from 'react';
-import {
-  TableContainer,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Box,
-  Spinner,
-  Center,
-  Link,
-} from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
-  useReactTable,
-  flexRender,
-  getCoreRowModel,
+  Box,
+  Center,
+  Spinner,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  chakra,
+} from '@chakra-ui/react';
+import styled from '@emotion/styled';
+import {
   ColumnDef,
   SortingState,
+  flexRender,
+  getCoreRowModel,
   getSortedRowModel,
+  useReactTable,
 } from '@tanstack/react-table';
-import styled from '@emotion/styled';
+import * as React from 'react';
 
 export type DataTableProps<Data extends object> = {
   data?: Data[];

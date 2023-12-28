@@ -1,29 +1,22 @@
-import git, { ReadTreeResult } from 'isomorphic-git';
 import FS from '@isomorphic-git/lightning-fs';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import git from 'isomorphic-git';
+import { OidType } from './useReadRepoByOid';
 
-export const useReadTree = (fs: FS | null, oid: string) => {
-  const [tree, setTree] = useState<ReadTreeResult | null>(null);
-
-  useEffect(() => {
-    if (!fs || !oid) return;
-
-    const readTree = async () => {
-      console.log('useReadTree', oid);
+export const useReadTree = (fs: FS | null, oid: string, type: OidType) => {
+  return useQuery({
+    enabled: type === 'tree',
+    queryKey: ['GET_REPO_TREE', oid],
+    queryFn: async () => {
+      if (!fs || !oid) return null;
       const tree = await git.readTree({
         fs: fs,
         dir: '',
         gitdir: '',
         oid,
       });
-
-      console.log('tree', tree);
-
-      setTree(tree);
-    };
-
-    readTree();
-  }, [fs, oid]);
-
-  return tree;
+      return tree;
+    },
+    staleTime: Infinity,
+  });
 };

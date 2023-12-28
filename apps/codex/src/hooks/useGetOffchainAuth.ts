@@ -1,7 +1,6 @@
 import { offchainDataAtom } from '@/atoms/offchainDataAtom';
-import { GreenfieldClient } from '@/config/client';
 import { getOffchainAuthKeys } from '@/utils/offchainAuth';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
