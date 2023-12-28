@@ -1,6 +1,6 @@
 import { GreenfieldClient } from '@/config/client';
 import { SpResponse } from '@bnb-chain/greenfield-js-sdk';
-import { Stat } from 'isomorphic-git';
+import { Stat } from '@codexfield/isomorphic-git';
 import localforage from 'localforage';
 
 type EncodingOpts = {

@@ -1,5 +1,6 @@
-import git, { ReadTreeResult } from 'isomorphic-git';
-import FS from "@isomorphic-git/lightning-fs"
+import git, { ReadTreeResult } from '@codexfield/isomorphic-git';
+// @ts-ignore
+import FS from "@codexfield/lightning-fs"
 import { useEffect, useState } from "react"
 
 export const useReadTree = (fs: FS | null, oid: string) => {

@@ -1,6 +1,7 @@
 import { offchainDataAtom } from '@/atoms/offchainDataAtom';
 import GnfdBackend from '@/config/GnfdBackend';
-import LightningFS from '@isomorphic-git/lightning-fs';
+// @ts-ignore
+import LightningFS from '@codexfield/lightning-fs';
 import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 

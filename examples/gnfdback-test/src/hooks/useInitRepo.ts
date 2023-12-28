@@ -1,5 +1,6 @@
-import FS from '@isomorphic-git/lightning-fs';
-import git from 'isomorphic-git';
+// @ts-ignore
+import FS from '@codexfield/lightning-fs';
+import git from '@codexfield/isomorphic-git';
 import { useEffect, useState } from 'react';
 
 export const useInitRepo = (fs: FS | null) => {

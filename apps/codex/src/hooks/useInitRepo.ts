@@ -1,6 +1,7 @@
-import FS from '@isomorphic-git/lightning-fs';
+// @ts-ignore
+import FS from '@codexfield/lightning-fs';
 import { useQuery } from '@tanstack/react-query';
-import git from 'isomorphic-git';
+import git from '@codexfield/isomorphic-git';
 
 export const useInitRepo = (fs: FS | null, repoName: string) => {
   return useQuery({

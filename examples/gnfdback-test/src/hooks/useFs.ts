@@ -1,5 +1,5 @@
 import GnfdBackend from "@/utils/gnfdBackend";
-import LightningFS from "@isomorphic-git/lightning-fs";
+import LightningFS from "@codexfield/lightning-fs";
 import { useEffect, useRef, useState } from "react";
 
 export const useFs = (repoName: string, privateKey: string, endpoint: string) => {

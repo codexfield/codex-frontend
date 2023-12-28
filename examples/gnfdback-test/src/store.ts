@@ -1,4 +1,4 @@
-import { ReadTreeResult } from "isomorphic-git";
+import { ReadTreeResult } from "@codexfield/isomorphic-git";
 import { create } from "zustand";
 
 interface Store {

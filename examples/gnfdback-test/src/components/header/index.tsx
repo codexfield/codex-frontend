@@ -1,9 +1,9 @@
-import LightningFS from '@isomorphic-git/lightning-fs';
+import LightningFS from '@codexfield/lightning-fs';
 import { useFs } from '@/hooks/useFs';
 import { useAppStore } from '@/store';
 // import { getFs } from '@/utils/getFs';
 import GnfdBackend from '@/utils/gnfdBackend';
-import git from 'isomorphic-git';
+import git from '@codexfield/isomorphic-git';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { GnfdClient } from '@/config/client';

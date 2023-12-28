@@ -1,4 +1,5 @@
-import FS from '@isomorphic-git/lightning-fs';
+// @ts-ignore
+import FS from '@codexfield/lightning-fs';
 import { useRouter } from 'next/router';
 import { useReadBlob } from './useReadBlob';
 import { useReadTree } from './useReadTree';
