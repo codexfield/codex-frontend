@@ -1,3 +1,4 @@
+import { Side } from '@/components/pages/dashborad/Side';
 import { useGetSpUrlByBucket } from '@/hooks/gnfd/useGetSpUrlByBucket';
 import { useFs } from '@/hooks/useFs';
 import { useInitRepo } from '@/hooks/useInitRepo';
@@ -78,9 +79,8 @@ export default function Repo() {
 
         {type === 'blob' && <BlobContainer>{blob}</BlobContainer>}
       </RepoContainer>
-      <Side>
-        <UserInfo>username</UserInfo>
-      </Side>
+
+      <Side />
     </Flex>
   );
 }
@@ -111,15 +111,9 @@ const RepeContentItem = styled(Box)`
   &:hover {
     background: #282829;
   }
-  &:nth-last-child {
+  &:nth-last-of-type {
     border-bottom: none;
   }
-`;
-const Side = styled(Box)`
-  flex: 1;
-`;
-const UserInfo = styled(Box)`
-  background: #1c1c1e;
 `;
 
 const BlobContainer = styled(Box)``;
