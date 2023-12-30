@@ -12,7 +12,7 @@ export const RepoList = () => {
     <Flex gap="20px" w="1360px" ml="auto" mr="auto">
       <Box w="960px">
         {isLoading ? (
-          <Center minH="200px">
+          <Center>
             <Spinner />
           </Center>
         ) : (

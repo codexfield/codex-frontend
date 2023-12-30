@@ -10,5 +10,6 @@ export const useGetAccountDetails = (addr?: `0x${string}`) => {
     args: [addr as `0x${string}`],
     chainId: BSC_CHAIN.id,
     enabled: addr !== undefined,
+    staleTime: 60000,
   });
 };
