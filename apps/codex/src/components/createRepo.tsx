@@ -6,12 +6,12 @@ import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { StyledButton, StyledInput } from './modals/register/forms';
-// @ts-ignore
 import { createBucket } from '@/apis/createBucket';
 import GnfdBackend from '@/config/GnfdBackend';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { getBucketName } from '@/utils';
 import git from '@codexfield/isomorphic-git';
+// @ts-ignore
 import LightningFS from '@codexfield/lightning-fs';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
