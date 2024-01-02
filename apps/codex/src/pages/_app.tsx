@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Provider as JotaiProvider } from 'jotai';
 import { AppProps } from 'next/app';
@@ -13,8 +13,7 @@ import { WagmiConfig } from 'wagmi';
 import { HomepageLayout } from '../components/layout/homepage-layout';
 import { theme } from '../theme';
 import './globals.css';
-
-const queryClient = new QueryClient();
+import { queryClient } from '@/config/ReactQuery';
 
 export default function App({ Component, pageProps }: AppProps) {
   const Layout = Component.displayName === 'Home' ? HomepageLayout : AppLayout;

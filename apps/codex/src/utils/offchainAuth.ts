@@ -1,4 +1,4 @@
-import { GreenfieldClient, getAllSps } from '@/config/client';
+import { GreenfieldClient, getAllSps } from '@/config/GnfsClient';
 import { GNFD_CHAINID } from '@/env';
 import { IReturnOffChainAuthKeyPairAndUpload } from '@bnb-chain/greenfield-js-sdk';
 

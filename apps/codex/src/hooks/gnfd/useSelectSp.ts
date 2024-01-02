@@ -1,4 +1,4 @@
-import { selectSp } from '@/config/client';
+import { selectSp } from '@/config/GnfsClient';
 import { useQuery } from '@tanstack/react-query';
 
 export const useSelectSp = () => {

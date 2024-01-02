@@ -1,4 +1,4 @@
-import { GreenfieldClient } from '@/config/client';
+import { GreenfieldClient } from '@/config/GnfsClient';
 import { useQuery } from '@tanstack/react-query';
 
 /**

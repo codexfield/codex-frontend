@@ -1,4 +1,4 @@
-import { atom, useAtom } from 'jotai';
+import { atom } from 'jotai';
 
 export type OffChainDataType = {
   seed?: string;

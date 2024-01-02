@@ -28,6 +28,9 @@ export const Side = () => {
                 {/* <Box>Owner</Box> */}
               </UserDesc>
             </Flex>
+            <Box color="#5F5F5F" fontSize="20px">
+              ID: {String(data[0])}
+            </Box>
 
             <Box>
               <Bio>{data[3]}</Bio>
