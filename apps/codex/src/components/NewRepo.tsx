@@ -8,6 +8,7 @@ export const NewRepo = () => {
 
   return (
     <NewRepoButton
+      color="#FFF"
       _hover={{
         bg: 'rgba(122, 60, 255, 0.8)',
       }}

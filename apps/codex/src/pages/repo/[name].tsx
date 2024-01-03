@@ -11,6 +11,8 @@ import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
+import Markdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
 
 export default function Repo() {
   const router = useRouter();
@@ -77,7 +79,12 @@ export default function Repo() {
             })}
         </RepoConentList>
 
-        {type === 'blob' && <BlobContainer>{blob}</BlobContainer>}
+        {type === 'blob' && (
+          <BlobContainer>
+            <Markdown rehypePlugins={[rehypeHighlight]}>{blob}</Markdown>
+            {/* {blob} */}
+          </BlobContainer>
+        )}
       </RepoContainer>
 
       <Side />
@@ -116,4 +123,22 @@ const RepeContentItem = styled(Box)`
   }
 `;
 
-const BlobContainer = styled(Box)``;
+const BlobContainer = styled(Box)`
+  background-color: #1c1c1e;
+  padding: 20px;
+
+  h1,
+  h2 {
+    font-weight: 500;
+    font-size: 28px;
+  }
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 26px;
+  }
+  p {
+    font-size: 22px;
+  }
+`;

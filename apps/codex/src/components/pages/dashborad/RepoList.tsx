@@ -1,9 +1,11 @@
 import { deleteBucket } from '@/apis/deleteBucket';
 import { NewRepo } from '@/components/NewRepo';
 import { queryClient } from '@/config/ReactQuery';
+import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { GET_REPO_LIST_QUERY_KEY, useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
 import { MoreActionIcon } from '@/icons/MoreActionIcon';
 import { RepoIcon } from '@/icons/RepoIcon';
+import { getRepoName } from '@/utils';
 import {
   Box,
   Center,
@@ -25,17 +27,18 @@ import { useAccount } from 'wagmi';
 export const RepoList = () => {
   const { data: repoList, isLoading } = useGetRepoList();
   const { address } = useAccount();
-  const handleDeleteRepo = async (bucketName: string) => {
-    if (!address) return;
+  const { data: userInfo } = useGetAccountDetails(address);
+  // const handleDeleteRepo = async (bucketName: string) => {
+  //   if (!address) return;
 
-    // console.log('handleDeleteRepo', bucketName);
-    const res = await deleteBucket(bucketName, address);
-    // console.log(res);
-    const x = await queryClient.invalidateQueries({
-      queryKey: [GET_REPO_LIST_QUERY_KEY, address],
-    });
-    // console.log('x', x);
-  };
+  //   // console.log('handleDeleteRepo', bucketName);
+  //   const res = await deleteBucket(bucketName, address);
+  //   // console.log(res);
+  //   const x = await queryClient.invalidateQueries({
+  //     queryKey: [GET_REPO_LIST_QUERY_KEY, address],
+  //   });
+  //   // console.log('x', x);
+  // };
 
   return (
     <Box>
@@ -56,6 +59,7 @@ export const RepoList = () => {
             </Center>
           )}
           {repoList &&
+            userInfo &&
             repoList?.map((repo) => {
               return (
                 <Box
@@ -77,7 +81,7 @@ export const RepoList = () => {
                       }}
                     >
                       <RepoIcon mr="8px" />
-                      {repo.BucketInfo.BucketName}
+                      {getRepoName(repo.BucketInfo.BucketName, userInfo[0])}
                     </Link>
                     {/* <Menu>
                       <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />

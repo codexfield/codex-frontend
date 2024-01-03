@@ -4,28 +4,28 @@ import Link from 'next/link';
 
 const HeaderContent = () => {
   return (
-    <Flex alignItems={'center'} justifyContent={'center'} gap={18}>
+    <Flex alignItems={'center'} justifyContent={'end'} gap={18} flex="1">
       <>
-        <NavText target='_blank' href='https://docs.codexfield.com/'>
-          <Text fontWeight='900' fontSize='16' mr='45'>
+        <NavText target="_blank" href="https://docs.codexfield.com/">
+          <Text fontWeight="900" fontSize="16" mr="45">
             Docs
           </Text>
         </NavText>
 
-        <NavText target='_blank' href='https://github.com/codexfield'>
-          <Text fontWeight='900' fontSize='16' mr='35'>
+        <NavText target="_blank" href="https://github.com/codexfield">
+          <Text fontWeight="900" fontSize="16" mr="35">
             Github
           </Text>
         </NavText>
 
-        <NavText target='_blank' href='https://twitter.com/CodexField'>
-          <Text fontWeight='900' fontSize='16' mr='35'>
+        <NavText target="_blank" href="https://twitter.com/CodexField">
+          <Text fontWeight="900" fontSize="16" mr="35">
             Twitter
           </Text>
         </NavText>
 
-        <NavText target='_blank' href='https://t.me/CodexField'>
-          <Text fontWeight='900' fontSize='16' mr='35'>
+        <NavText target="_blank" href="https://t.me/CodexField">
+          <Text fontWeight="900" fontSize="16" mr="35">
             Community
           </Text>
         </NavText>

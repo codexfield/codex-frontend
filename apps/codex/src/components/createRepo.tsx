@@ -143,7 +143,8 @@ export const CreateRepoForm = () => {
           <StyledButton
             h="50px"
             p="14px 68px"
-            color="#5F5F5F"
+            bg="#1d1d1d"
+            color="#9f9f9f"
             _hover={{
               color: '#9f9f9f',
             }}
