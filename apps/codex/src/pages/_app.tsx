@@ -1,54 +1,47 @@
-// import { chains, publicClient, webSocketPublicClient } from '@/config';
-import { config } from '../config/wagmi';
-import { ThemeProvider } from '@totejs/uikit';
-
-import './globals.css';
-// import {
-//   connectorsForWallets,
-//   getDefaultWallets,
-//   RainbowKitProvider,
-// } from '@rainbow-me/rainbowkit';
+import { AppLayout } from '@/components/layout/app-layout';
+import { CustomAvatar } from '@/components/ui/avatars';
+import { chains, wagmiConfig } from '@/config/wallet';
+import { ChakraProvider } from '@chakra-ui/react';
+import NiceModal from '@ebay/nice-modal-react';
+import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
-import type { AppProps } from 'next/app';
-import { createConfig, WagmiConfig } from 'wagmi';
-import { Layout } from '../components/layout';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Provider as JotaiProvider } from 'jotai';
+import { AppProps } from 'next/app';
+import { WagmiConfig } from 'wagmi';
+import { HomepageLayout } from '../components/layout/homepage-layout';
 import { theme } from '../theme';
-
-// const projectId = '9bf3510aab08be54d5181a126967ee71';
-// const { wallets } = getDefaultWallets({
-//   projectId,
-//   appName: 'greenfield js sdk demo',
-//   chains,
-// });
-
-// const connectors = connectorsForWallets([
-//   ...wallets,
-//   // {
-//   //   groupName: 'Recommended',
-//   //   wallets: [
-//   //     trustWallet({ projectId, chains, shimDisconnect: true }),
-//   //     // RainbowTrustWalletConnector({ projectId, chains }),
-//   //   ],
-//   // },
-// ]);
-
-// const wagmiConfig = createConfig({
-//   autoConnect: true,
-//   connectors,
-//   webSocketPublicClient,
-//   publicClient,
-// });
+import './globals.css';
+import { queryClient } from '@/config/ReactQuery';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const Layout = Component.displayName === 'Home' ? HomepageLayout : AppLayout;
+
   return (
-    <WagmiConfig config={config}>
-      {/* <RainbowKitProvider modalSize="compact" chains={chains}> */}
-      <ThemeProvider theme={theme}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-      </ThemeProvider>
-      {/* </RainbowKitProvider> */}
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider
+        modalSize="compact"
+        chains={chains}
+        avatar={CustomAvatar}
+        theme={darkTheme({
+          accentColor: '#1E1E1E',
+          borderRadius: 'large',
+        })}
+      >
+        <QueryClientProvider client={queryClient}>
+          <ChakraProvider theme={theme}>
+            <JotaiProvider>
+              <NiceModal.Provider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </NiceModal.Provider>
+            </JotaiProvider>
+          </ChakraProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 }

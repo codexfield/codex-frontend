@@ -1,0 +1,64 @@
+import { BSC_CHAIN, GNFD_CHAINID, GNFD_RPC, GNFD_SCAN_URL, WALLET_CONNECT_PROJECT_ID } from '@/env';
+import { Chain, getDefaultWallets } from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig } from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
+
+const bscChain: Chain = {
+  ...BSC_CHAIN,
+  name: 'BSC',
+};
+
+const gnfdChain: Chain = {
+  id: GNFD_CHAINID,
+  name: 'Greenfield',
+  network: 'Greenfield',
+  iconBackground: '#ebac0e',
+  iconUrl: async () => (await import('./icons/bsc.svg')).default.src,
+  nativeCurrency: {
+    name: 'BNB',
+    symbol: 'tBNB',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: [GNFD_RPC],
+    },
+    public: {
+      http: [GNFD_RPC],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: `Greenfield Scan`,
+      url: GNFD_SCAN_URL,
+    },
+    default: {
+      name: `Greenfield Scan`,
+      url: GNFD_SCAN_URL,
+    },
+  },
+  testnet: true,
+};
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [bscChain, gnfdChain],
+  [
+    // alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+    publicProvider(),
+  ],
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'CodeXField',
+  projectId: WALLET_CONNECT_PROJECT_ID,
+  chains,
+});
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  webSocketPublicClient,
+  publicClient,
+});
+
+export { chains, wagmiConfig };

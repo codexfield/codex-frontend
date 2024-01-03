@@ -1,9 +1,0 @@
-import {Text} from '@totejs/uikit'
-
-export default function Dashboard() {
-  return <div>
-    <Text fontSize="40" fontWeight="800" mt="80px" textAlign="center">
-      After the hackathon, we are currently refactoring our product to launch on the Greenfield Mainnet. This feature is temporarily unavailable. Please stay tuned…
-    </Text>
-  </div>
-}

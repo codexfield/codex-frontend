@@ -1,5 +1,3 @@
-import { rgba } from '@totejs/uikit';
-
 export const dark = {
   colors: {
     readable: {
@@ -27,27 +25,27 @@ export const dark = {
       primary: {
         normal: '#E1A325',
         active: '#f39d53',
-        opacity: rgba('#B845FF', 0.1),
-        semiOpacity: rgba('#E1A325', 0.15),
+        // opacity: rgba('#B845FF', 0.1),
+        // semiOpacity: rgba('#E1A325', 0.15),
       },
 
       success: {
         normal: '#02C076',
         active: '#48FFB8',
-        opacity: rgba('#2ED191', 0.1),
+        // opacity: rgba('#2ED191', 0.1),
         progressBar: '#02C076',
       },
 
       danger: {
         normal: '#D9304E',
         active: '#FF898F',
-        opacity: rgba('#FC6E75', 0.1),
+        // opacity: rgba('#FC6E75', 0.1),
       },
 
       warning: {
         normal: '#EB9E09',
         active: '#FFCE58',
-        opacity: rgba('#F5B631', 0.1),
+        // opacity: rgba('#F5B631', 0.1),
       },
     },
   },

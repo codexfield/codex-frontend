@@ -1,12 +1,12 @@
-import { Theme } from '@totejs/uikit';
+import { extendTheme } from '@chakra-ui/react';
 
 import { colors } from './colors';
 
-export const theme: Theme = {
+const myTheme = {
   config: {
     useSystemColorMode: false,
     initialColorMode: 'dark',
-    storageKey: 'marketplace-color-mode',
+    // storageKey: 'marketplace-color-mode',
   },
 
   ...colors,
@@ -14,8 +14,8 @@ export const theme: Theme = {
   styles: {
     global: {
       body: {
-        bg: 'bg.bottom',
-        color: 'readable.normal',
+        bg: '#000',
+        color: '#FFF',
         lineHeight: 'normal',
         WebkitTapHighlightColor: 'transparent',
       },
@@ -23,9 +23,9 @@ export const theme: Theme = {
   },
 
   fonts: {
-    body: "Source Code Pro",
-    heading: "Source Code Pro",
-    mono: "Source Code Pro, monospace",
+    body: 'Commissioner',
+    heading: 'Commissioner',
+    mono: 'Commissioner, Source Code Pro, monospace',
   },
 
   fontWeights: {
@@ -40,3 +40,5 @@ export const theme: Theme = {
     black: 900,
   },
 };
+
+export const theme = extendTheme(myTheme);
