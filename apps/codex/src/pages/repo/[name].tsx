@@ -1,4 +1,5 @@
 import { Side } from '@/components/pages/dashborad/Side';
+import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { useGetSpUrlByBucket } from '@/hooks/gnfd/useGetSpUrlByBucket';
 import { useFs } from '@/hooks/useFs';
 import { useInitRepo } from '@/hooks/useInitRepo';
@@ -6,6 +7,7 @@ import { OidType, useReadRepoByOid } from '@/hooks/useReadRepoByOid';
 import { FileIcon } from '@/icons/FileIcon';
 import { FolderIcon } from '@/icons/FolderIcon';
 import { RepoIcon } from '@/icons/RepoIcon';
+import { getBucketName, getRepoName } from '@/utils';
 import { Box, Flex, Spinner, Link, Center } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
@@ -13,6 +15,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
+import { useAccount } from 'wagmi';
 
 export default function Repo() {
   const router = useRouter();
@@ -22,6 +25,8 @@ export default function Repo() {
   const { data: endpoint, isLoading: getSpUrlLoading } = useGetSpUrlByBucket(
     name as string | undefined,
   );
+  const { address } = useAccount();
+  const { data: userInfo } = useGetAccountDetails(address);
   const fs = useFs({
     endpoint,
     repoName: name as string,
@@ -43,7 +48,7 @@ export default function Repo() {
         <RepoTitleContainer>
           <RepoName>
             <RepoIcon mr="8px" />
-            {name}
+            {name && userInfo && getRepoName(name as string, userInfo[0])}
           </RepoName>
         </RepoTitleContainer>
         <RepoConentList>
