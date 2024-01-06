@@ -23,7 +23,6 @@ interface FormValues {
 }
 
 export const CreateRepoForm = () => {
-  const router = useRouter();
   const [creating, setCreating] = useState(false);
   const offchainData = useAtomValue(offchainDataAtom);
   const { address } = useAccount();
@@ -36,7 +35,7 @@ export const CreateRepoForm = () => {
     validate: (values: FormValues) => {
       const errors: FormikErrors<FormValues> = {};
       if (!values.repoName) {
-        errors.repoName = 'repo bane is required';
+        errors.repoName = 'repo name is required';
       }
       return errors;
     },
@@ -84,6 +83,7 @@ export const CreateRepoForm = () => {
         setShowCreateRepo({
           clickedButton: false,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         // ...
         setErrors({

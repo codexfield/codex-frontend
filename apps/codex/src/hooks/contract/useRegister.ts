@@ -32,12 +32,12 @@ export const useRegister = (
     args: [address, name, avatar, bio, company, location, website, socialAccounts],
     chainId: BSC_CHAIN.id,
     enabled: name !== '' && address !== undefined && isRightChain,
-    onSuccess(data) {
-      // console.log('Success', data);
-    },
-    onError(err) {
-      // console.log('Error', err);
-    },
+    // onSuccess(data) {
+    //   // console.log('Success', data);
+    // },
+    // onError(err) {
+    //   // console.log('Error', err);
+    // },
   });
 
   const { data, error, isError, write } = useContractWrite(config);

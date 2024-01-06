@@ -16,12 +16,14 @@ import { useAccount, useSwitchNetwork } from 'wagmi';
 import { StyledButton, StyledInput } from './forms';
 import { fullFormRegistModal } from './fullForm';
 import { BSC_CHAIN } from '@/env';
+import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 
 export const RegisterModal = NiceModal.create(() => {
   const toast = useToast();
   const modal = useModal();
   const { address } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
+  const { refetch: refetchAccountDetails } = useGetAccountDetails(address);
 
   const registerFormik: FormikProps<IRegister> = useFormik<IRegister>({
     initialValues: {
@@ -41,7 +43,8 @@ export const RegisterModal = NiceModal.create(() => {
 
   const onSuccess = useCallback(() => {
     modal.hide();
-  }, [modal]);
+    refetchAccountDetails();
+  }, [modal, refetchAccountDetails]);
 
   const onError = useCallback(
     (error: Error | null) => {
