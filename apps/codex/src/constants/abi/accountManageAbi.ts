@@ -1,4 +1,4 @@
-export const ABI = [
+export const ACCOUNT_MANAGE_ABI = [
   {
     inputs: [
       {

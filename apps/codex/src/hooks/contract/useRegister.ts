@@ -1,4 +1,4 @@
-import { ABI } from '@/constants/abi';
+import { ACCOUNT_MANAGE_ABI } from '@/constants/abi/accountManageAbi';
 import { BSC_CHAIN, CONTRACT_ADDRESS } from '@/env';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
@@ -27,7 +27,7 @@ export const useRegister = (
     isLoading: prepareIsLoading,
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
-    abi: ABI,
+    abi: ACCOUNT_MANAGE_ABI,
     functionName: 'register',
     args: [address, name, avatar, bio, company, location, website, socialAccounts],
     chainId: BSC_CHAIN.id,
