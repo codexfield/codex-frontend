@@ -18,6 +18,7 @@ const HeaderContent = () => {
   const { data, isError, isLoading } = useGetAccountDetails(address);
   const { openConnectModal } = useConnectModal();
   // const { switchNetwork } = useSwitchNetwork();
+  const userIsRegister = data !== undefined && data[0] !== BigInt(0);
 
   useEffect(() => {
     // if don't connect wallet, show rainbow wallets modal
@@ -42,7 +43,7 @@ const HeaderContent = () => {
   // }, [chain?.id, switchNetwork]);
 
   // apply offchain auth data
-  useGetOffchainAuth();
+  useGetOffchainAuth(userIsRegister);
 
   return (
     <>
