@@ -1,7 +1,7 @@
 import { newRepoAtom } from '@/atoms/newRepoAtom';
 import { offchainDataAtom } from '@/atoms/offchainDataAtom';
 import { selectSp } from '@/config/GnfsClient';
-import { Box, Flex, FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
+import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Link } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -121,6 +121,21 @@ export const CreateRepoForm = () => {
         A repository contains all project files, including the revision history. Already have a
         project repository elsewhere?
       </SubTitle>
+
+      <Link
+        aria-disabled
+        href="#"
+        color="#0094FF"
+        fontSize="20px"
+        _hover={{
+          textDecoration: 'none',
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >
+        Import a repository (Coming Soon)
+      </Link>
 
       <Box as="form" onSubmit={createRepoFormik.handleSubmit}>
         <FormControl mt="16px" isRequired isInvalid={!!createRepoFormik.errors.repoName}>
