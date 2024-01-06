@@ -51,7 +51,7 @@ export const CreateRepoForm = () => {
 
       switchNetwork?.(GNFD_CHAINID);
 
-      const { repoName, description } = values;
+      const { repoName } = values;
       const { seed } = offchainData;
 
       setCreating(true);
@@ -151,7 +151,7 @@ export const CreateRepoForm = () => {
             <FormErrorMessage>{createRepoFormik.errors.repoName}</FormErrorMessage>
           )}
         </FormControl>
-        <FormControl mt="16px">
+        {/* <FormControl mt="16px">
           <SubTitle as="h3">
             Great repository names are short and memorable.Need inspiration? How about potential
             -dollop ?
@@ -163,7 +163,7 @@ export const CreateRepoForm = () => {
             placeholder=""
             onChange={createRepoFormik.handleChange}
           />
-        </FormControl>
+        </FormControl> */}
 
         <Flex mt="32px" gap="12px" justifyContent="end">
           <StyledButton
