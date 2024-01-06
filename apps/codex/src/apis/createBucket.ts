@@ -34,7 +34,7 @@ export const createBucket = async ({
     denom: 'BNB',
   });
 
-  console.log('simulateInfo', simulateInfo);
+  // console.log('simulateInfo', simulateInfo);
 
   const res = await tx.broadcast({
     denom: 'BNB',

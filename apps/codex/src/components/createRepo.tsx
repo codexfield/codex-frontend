@@ -15,7 +15,9 @@ import git from '@codexfield/isomorphic-git';
 import LightningFS from '@codexfield/lightning-fs';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
+import { useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
+import { GNFD_CHAINID } from '@/env';
 
 interface FormValues {
   repoName: string;
@@ -27,6 +29,11 @@ export const CreateRepoForm = () => {
   const offchainData = useAtomValue(offchainDataAtom);
   const { address } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
+  const { refetch: refetchRepoList } = useGetRepoList();
+  const { switchNetwork } = useSwitchNetwork();
+  const { chain } = useNetwork();
+  const isGnfdChain = chain?.id === GNFD_CHAINID;
+
   const createRepoFormik = useFormik({
     initialValues: {
       repoName: '',
@@ -41,6 +48,8 @@ export const CreateRepoForm = () => {
     },
     onSubmit: async (values, { setErrors }) => {
       if (!offchainData || !address || !offchainData.seed || !userInfo) return;
+
+      switchNetwork?.(GNFD_CHAINID);
 
       const { repoName, description } = values;
       const { seed } = offchainData;
@@ -83,6 +92,8 @@ export const CreateRepoForm = () => {
         setShowCreateRepo({
           clickedButton: false,
         });
+
+        await refetchRepoList();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         // ...
@@ -167,7 +178,7 @@ export const CreateRepoForm = () => {
             disabled={creating}
             isLoading={creating}
           >
-            Creat repository
+            {isGnfdChain ? 'Creat repository' : 'Switch Network'}
           </StyledButton>
         </Flex>
       </Box>
