@@ -42,7 +42,7 @@ export default function Repo() {
   const { tree, blob, isLoading: readRepoLoading } = useReadRepoByOid(fs, latestCommitOid);
 
   const isLoading = getSpUrlLoading || initRepoLoading || readRepoLoading;
-  const repoName = userInfo && name && getRepoName(name as string, userInfo[0]);
+  const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
 
   return (
     <Flex gap="20px" w="1360px" ml="auto" mr="auto">

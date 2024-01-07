@@ -11,5 +11,35 @@ export const useGetAccountDetails = (addr?: `0x${string}`) => {
     chainId: BSC_CHAIN.id,
     enabled: addr !== undefined,
     staleTime: 60000,
+    select(data) {
+      const [
+        id,
+        name,
+        avatar,
+        bio,
+        company,
+        location,
+        website,
+        socialAccounts,
+        followingNumber,
+        followerNumber,
+      ] = data;
+
+      return {
+        id,
+        name,
+        avatar,
+        bio,
+        company,
+        location,
+        website,
+        socialAccounts,
+        // socialAccounts: {
+
+        // },
+        followingNumber,
+        followerNumber,
+      };
+    },
   });
 };

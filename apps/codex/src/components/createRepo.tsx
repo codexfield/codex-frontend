@@ -61,7 +61,7 @@ export const CreateRepoForm = () => {
         // eslint-disable-next-line no-console
         console.log('spInfo', spInfo);
 
-        const bucketName = getBucketName(repoName, userInfo[0]);
+        const bucketName = getBucketName(repoName, userInfo.id);
 
         const createBucketRes = await createBucket({
           bucketName,

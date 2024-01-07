@@ -8,13 +8,13 @@ import { useAccount } from 'wagmi';
 export const Side = () => {
   const { address } = useAccount();
   const isMounted = useIsMounted();
-  const { data, isError, isLoading } = useGetAccountDetails(address);
+  const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
 
   if (!isMounted) return null;
 
   return (
     <Container>
-      {!isLoading && data && (
+      {!isLoading && userInfo && (
         <>
           <UserInfo>
             <Flex gap="16px">
@@ -24,16 +24,16 @@ export const Side = () => {
                 </Box>
               )}
               <UserDesc as="div">
-                <Box>{data[1]}</Box>
+                <Box>{userInfo.name}</Box>
                 {/* <Box>Owner</Box> */}
               </UserDesc>
             </Flex>
             <Box color="#5F5F5F" fontSize="20px">
-              ID: {String(data[0])}
+              ID: {String(userInfo.id)}
             </Box>
 
             <Box>
-              <Bio>{data[3]}</Bio>
+              <Bio>{userInfo.bio}</Bio>
             </Box>
           </UserInfo>
         </>
