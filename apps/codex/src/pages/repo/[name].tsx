@@ -1,5 +1,7 @@
 import { ClonePopver } from '@/components/ClonePopover';
+import { EmptyRepo } from '@/components/emptyRepo';
 import { Side } from '@/components/pages/dashborad/Side';
+import { VisibilityBadge } from '@/components/ui/VisibilityBadge';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { useGetBucketInfo } from '@/hooks/gnfd/useGetBucketInfo';
 import { useGetSpUrlByBucket } from '@/hooks/gnfd/useGetSpUrlByBucket';
@@ -9,9 +11,9 @@ import { OidType, useReadRepoByOid } from '@/hooks/useReadRepoByOid';
 import { FileIcon } from '@/icons/FileIcon';
 import { FolderIcon } from '@/icons/FolderIcon';
 import { RepoIcon } from '@/icons/RepoIcon';
-import { getCloneUrl, getRepoName, getVisibility } from '@/utils';
+import { getRepoName, getVisibility } from '@/utils';
 
-import { Badge, Box, Center, Flex, Link, Spinner, useClipboard } from '@chakra-ui/react';
+import { Badge, Box, Center, Flex, Link, Spinner } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -55,20 +57,7 @@ export default function Repo() {
             <RepoName>
               <RepoIcon />
               <Box color="#a276ff">{repoName}</Box>
-              <Badge
-                mt="3px"
-                padding="3px 10px 2px 11px"
-                fontSize="12px"
-                variant="outline"
-                textTransform="none"
-                sx={{
-                  borderRadius: '10px',
-                  color: '#13E735',
-                  border: '1px solid #13E735',
-                }}
-              >
-                {getVisibility(bucketInfo?.visibility || -1)}
-              </Badge>
+              <VisibilityBadge visibility={bucketInfo?.visibility || -1} />
             </RepoName>
             <ClonePopver buckname={name as string} />
           </Flex>
@@ -79,6 +68,7 @@ export default function Repo() {
               <Spinner />
             </Center>
           )}
+          {type === 'tree' && !tree && !isLoading && <EmptyRepo name={name as string} />}
           {type === 'tree' &&
             tree &&
             tree?.tree.map((item) => {
@@ -104,33 +94,6 @@ export default function Repo() {
                 </RepeContentItem>
               );
             })}
-          {type === 'tree' && !tree && !isLoading && (
-            <Box p="30px">
-              <Box as="h3" fontSize="24px" fontWeight="800">
-                Push to Greenfield Repo
-              </Box>
-              <Box
-                bg="#232323"
-                color="#efefef"
-                fontSize="16px"
-                p="10px"
-                borderRadius="8px"
-                mt="10px"
-              >
-                <Box as="p" lineHeight="1.5">
-                  {`gitd remote add origin gnfd://gnfd-testnet-fullnode-tendermint-us.bnbchain.org:443/${repoName}`}
-                </Box>
-                <Box as="p" lineHeight="1.5">{`echo "Hello CodexField" >> README.md`}</Box>
-                <Box as="p" lineHeight="1.5">
-                  gitd add README.md
-                </Box>
-                <Box as="p" lineHeight="1.5">{`gitd commit -m "add README.md"`}</Box>
-                <Box as="p" lineHeight="1.5">
-                  {`gitd push origin main -f  // when push firstly, please use force push. will fix later.`}
-                </Box>
-              </Box>
-            </Box>
-          )}
         </RepoConentList>
 
         {type === 'blob' && (

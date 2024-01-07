@@ -24,6 +24,7 @@
     "@tanstack/react-query-devtools": "^5.13.5",
     "@tanstack/react-table": "^8.10.7",
     "@uidotdev/usehooks": "^2.4.1",
+    "dayjs": "^1.11.10",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
     "jotai": "^2.6.0",

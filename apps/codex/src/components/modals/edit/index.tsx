@@ -9,6 +9,7 @@ import {
   InputGroup,
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   Stack,
@@ -74,7 +75,14 @@ export const EditAccountModal = NiceModal.create(() => {
   );
 
   return (
-    <Modal isCentered isOpen={modal.visible} onClose={() => {}} size="2xl">
+    <Modal
+      isCentered
+      isOpen={modal.visible}
+      onClose={() => {
+        modal.hide();
+      }}
+      size="2xl"
+    >
       <ModalOverlay backdropFilter="blur(7px)" boxShadow="0px 14px 40px 0px #000" />
       <ModalContent
         bg="#1C1C1E"
@@ -83,6 +91,7 @@ export const EditAccountModal = NiceModal.create(() => {
         pt="40px"
         pb="40px"
       >
+        <ModalCloseButton />
         <ModalBody pl="70px" pr="70px">
           <Stack>
             <Box as="form" onSubmit={editFormik.handleSubmit}>
