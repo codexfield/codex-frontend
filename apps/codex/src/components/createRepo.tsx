@@ -120,22 +120,21 @@ export const CreateRepoForm = () => {
       <SubTitle as="h3">
         A repository contains all project files, including the revision history. Already have a
         project repository elsewhere?
+        <Link
+          aria-disabled
+          href="#"
+          color="#0094FF"
+          fontSize="20px"
+          _hover={{
+            textDecoration: 'none',
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          Import a repository (Coming Soon)
+        </Link>
       </SubTitle>
-
-      <Link
-        aria-disabled
-        href="#"
-        color="#0094FF"
-        fontSize="20px"
-        _hover={{
-          textDecoration: 'none',
-        }}
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-      >
-        Import a repository (Coming Soon)
-      </Link>
 
       <Box as="form" onSubmit={createRepoFormik.handleSubmit}>
         <FormControl mt="16px" isRequired isInvalid={!!createRepoFormik.errors.repoName}>

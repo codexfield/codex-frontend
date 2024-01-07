@@ -1,4 +1,4 @@
-import { getCloneUrl } from '@/utils';
+import { getCloneUrlByBucketName } from '@/utils';
 import { ChevronDownIcon, CopyIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -24,7 +24,7 @@ interface IProps {
 
 export const ClonePopver = (props: IProps) => {
   const { buckname } = props;
-  const cloneUrl = getCloneUrl(buckname);
+  const cloneUrl = getCloneUrlByBucketName(buckname);
   const { onCopy, value, hasCopied } = useClipboard(cloneUrl);
   const toast = useToast();
 
@@ -93,7 +93,7 @@ export const ClonePopver = (props: IProps) => {
               {/* {hasCopied ? 'Copied!' : 'Copy'} */}
             </Flex>
             <Box as="p" color="#5F5F5F" fontSize="14px">
-              Use Gitd or checkout with SVN using the web URL.
+              Use gitd to work with this web URL
             </Box>
             {/* <Box
           borderTop="1px solid #282829"

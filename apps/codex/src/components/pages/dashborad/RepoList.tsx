@@ -1,11 +1,13 @@
 import { deleteBucket } from '@/apis/deleteBucket';
 import { NewRepo } from '@/components/NewRepo';
+import { VisibilityBadge } from '@/components/ui/VisibilityBadge';
 import { queryClient } from '@/config/ReactQuery';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { GET_REPO_LIST_QUERY_KEY, useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
+import { CanlanderIcon } from '@/icons/CanlanderIcon';
 import { MoreActionIcon } from '@/icons/MoreActionIcon';
 import { RepoIcon } from '@/icons/RepoIcon';
-import { getRepoName } from '@/utils';
+import { DYMTimeAsObject, getRepoName } from '@/utils';
 import {
   Box,
   Center,
@@ -23,11 +25,14 @@ import {
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { useAccount } from 'wagmi';
+import dayjs from 'dayjs';
 
 export const RepoList = () => {
   const { data: repoList, isLoading } = useGetRepoList();
   const { address } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
+
+  console.log('repoList', repoList);
   // const handleDeleteRepo = async (bucketName: string) => {
   //   if (!address) return;
 
@@ -47,7 +52,7 @@ export const RepoList = () => {
           <Spinner />
         </Center>
       ) : (
-        <RepoListContainer>
+        <RepoListContainer background="linear-gradient(to right, transparent 14px, #5f5f5f 15px, transparent 1px);">
           {repoList?.length === 0 && (
             <Center p="40px">
               <VStack gap="20px">
@@ -61,29 +66,44 @@ export const RepoList = () => {
           {repoList &&
             userInfo &&
             repoList?.map((repo) => {
+              const createdAt = DYMTimeAsObject(repo.BucketInfo.CreateAt);
               return (
-                <Box
-                  key={repo.BucketInfo.BucketName}
-                  bg="#1c1c1e"
-                  _hover={{
-                    bg: '#282829',
-                  }}
-                >
-                  <RepoItem>
-                    <Link
-                      as={NextLink}
-                      href={`/repo/${repo?.BucketInfo?.BucketName}?type=tree`}
-                      display="block"
-                      padding="18px"
-                      flex={1}
+                <Box key={repo.BucketInfo.BucketName} mb="20px">
+                  <RepoDate>
+                    <Box as="span" color="#FFF" mr="6px">
+                      {createdAt.m} {createdAt.d}
+                    </Box>
+                    <Box as="span" color="#5F5F5F">
+                      {createdAt.y}
+                    </Box>
+                  </RepoDate>
+                  <Flex alignItems="center" gap="16px">
+                    <Box>
+                      <CanlanderIcon />
+                    </Box>
+                    <RepoItem
+                      flex="1"
                       _hover={{
-                        textDecoration: 'none',
+                        bg: '#282829',
                       }}
                     >
-                      <RepoIcon mr="8px" />
-                      {getRepoName(repo.BucketInfo.BucketName, userInfo.id)}
-                    </Link>
-                    {/* <Menu>
+                      <Link
+                        as={NextLink}
+                        href={`/repo/${repo?.BucketInfo?.BucketName}?type=tree`}
+                        display="flex"
+                        padding="18px"
+                        alignItems="center"
+                        gap="6px"
+                        flex={1}
+                        _hover={{
+                          textDecoration: 'none',
+                        }}
+                      >
+                        <RepoIcon mr="8px" />
+                        {getRepoName(repo.BucketInfo.BucketName, userInfo.id)}
+                        <VisibilityBadge visibility={repo.BucketInfo?.Visibility || -1} />
+                      </Link>
+                      {/* <Menu>
                       <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />
                       <MenuList bg="#1C1C1E">
                         <MenuItem
@@ -98,7 +118,8 @@ export const RepoList = () => {
                         </MenuItem>
                       </MenuList>
                     </Menu> */}
-                  </RepoItem>
+                    </RepoItem>
+                  </Flex>
                 </Box>
               );
             })}
@@ -113,16 +134,22 @@ const RepoListContainer = styled(Box)`
   overflow: hidden;
 `;
 
+const RepoDate = styled(Box)`
+  background-color: #000;
+  font-size: 24px;
+  font-weight: 600;
+`;
+
 const RepoItem = styled(Flex)`
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #1c1c1e;
   color: #a276ff;
   font-size: 16px;
   font-weight: 800;
-  border-bottom: 1px solid #282829;
+  border: 1px solid #282829;
   align-items: center;
   justify-content: space-between;
   padding-right: 24px;
-
-  &:nth-last-of-type {
-    border-bottom: none;
-  }
+  border-radius: 8px;
 `;
