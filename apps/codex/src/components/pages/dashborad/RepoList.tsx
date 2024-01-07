@@ -81,7 +81,7 @@ export const RepoList = () => {
                       }}
                     >
                       <RepoIcon mr="8px" />
-                      {getRepoName(repo.BucketInfo.BucketName, userInfo[0])}
+                      {getRepoName(repo.BucketInfo.BucketName, userInfo.id)}
                     </Link>
                     {/* <Menu>
                       <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />

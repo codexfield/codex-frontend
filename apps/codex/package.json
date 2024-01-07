@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@bnb-chain/greenfield-cosmos-types": "0.4.0-alpha.25",
+    "@bnb-chain/greenfield-cosmos-types": "0.4.0-alpha.30",
     "@bnb-chain/greenfield-js-sdk": "^1.1.2",
     "@bnb-chain/reed-solomon": "^1.1.2",
     "@chakra-ui/icons": "^2.1.1",

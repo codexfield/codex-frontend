@@ -1,7 +1,8 @@
+import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { Box, Flex } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { HConnectButton } from './button';
 import { CustomAvatar } from './avatars';
+import { HConnectButton } from './button';
 
 export const CustomConnectButton = () => {
   return (
@@ -26,7 +27,7 @@ export const CustomConnectButton = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <HConnectButton onClick={openConnectModal} type='button'>
+                  <HConnectButton onClick={openConnectModal} type="button">
                     Connect Wallet
                   </HConnectButton>
                 );
@@ -34,7 +35,7 @@ export const CustomConnectButton = () => {
 
               if (chain.unsupported) {
                 return (
-                  <HConnectButton onClick={openChainModal} type='button'>
+                  <HConnectButton onClick={openChainModal} type="button">
                     Wrong network
                   </HConnectButton>
                 );
@@ -44,8 +45,8 @@ export const CustomConnectButton = () => {
                 <div style={{ display: 'flex', gap: 12 }}>
                   <Flex>
                     <HConnectButton
-                      pl='0'
-                      borderRadius='23px'
+                      pl="0"
+                      borderRadius="23px"
                       onClick={openChainModal}
                       style={{ display: 'flex', alignItems: 'center' }}
                     >
@@ -70,16 +71,16 @@ export const CustomConnectButton = () => {
                         </Box>
                       )}
 
-                      <Box ml='11px'>{chain.name}</Box>
+                      <Box ml="11px">{chain.name}</Box>
                     </HConnectButton>
                   </Flex>
 
                   <HConnectButton
-                    borderRadius='12px'
-                    pl='35px'
-                    pr='35px'
+                    borderRadius="12px"
+                    pl="35px"
+                    pr="35px"
                     onClick={openAccountModal}
-                    type='button'
+                    type="button"
                   >
                     {account.displayName}
                     {/* {account.displayBalance ? ` (${account.displayBalance})` : ''} */}

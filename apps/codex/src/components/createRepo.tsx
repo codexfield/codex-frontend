@@ -1,11 +1,11 @@
 import { newRepoAtom } from '@/atoms/newRepoAtom';
 import { offchainDataAtom } from '@/atoms/offchainDataAtom';
 import { selectSp } from '@/config/GnfsClient';
-import { Box, Flex, FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
+import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Link } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { StyledButton, StyledInput } from './modals/register/forms';
+import { StyledButton, StyledInput } from './modals/forms';
 import { createBucket } from '@/apis/createBucket';
 import GnfdBackend from '@/config/GnfdBackend';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
@@ -15,7 +15,9 @@ import git from '@codexfield/isomorphic-git';
 import LightningFS from '@codexfield/lightning-fs';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
+import { useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
+import { GNFD_CHAINID } from '@/env';
 
 interface FormValues {
   repoName: string;
@@ -23,11 +25,15 @@ interface FormValues {
 }
 
 export const CreateRepoForm = () => {
-  const router = useRouter();
   const [creating, setCreating] = useState(false);
   const offchainData = useAtomValue(offchainDataAtom);
   const { address } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
+  const { refetch: refetchRepoList } = useGetRepoList();
+  const { switchNetwork } = useSwitchNetwork();
+  const { chain } = useNetwork();
+  const isGnfdChain = chain?.id === GNFD_CHAINID;
+
   const createRepoFormik = useFormik({
     initialValues: {
       repoName: '',
@@ -36,14 +42,16 @@ export const CreateRepoForm = () => {
     validate: (values: FormValues) => {
       const errors: FormikErrors<FormValues> = {};
       if (!values.repoName) {
-        errors.repoName = 'repo bane is required';
+        errors.repoName = 'repo name is required';
       }
       return errors;
     },
     onSubmit: async (values, { setErrors }) => {
       if (!offchainData || !address || !offchainData.seed || !userInfo) return;
 
-      const { repoName, description } = values;
+      switchNetwork?.(GNFD_CHAINID);
+
+      const { repoName } = values;
       const { seed } = offchainData;
 
       setCreating(true);
@@ -53,7 +61,7 @@ export const CreateRepoForm = () => {
         // eslint-disable-next-line no-console
         console.log('spInfo', spInfo);
 
-        const bucketName = getBucketName(repoName, userInfo[0]);
+        const bucketName = getBucketName(repoName, userInfo.id);
 
         const createBucketRes = await createBucket({
           bucketName,
@@ -84,6 +92,9 @@ export const CreateRepoForm = () => {
         setShowCreateRepo({
           clickedButton: false,
         });
+
+        await refetchRepoList();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         // ...
         setErrors({
@@ -111,6 +122,21 @@ export const CreateRepoForm = () => {
         project repository elsewhere?
       </SubTitle>
 
+      <Link
+        aria-disabled
+        href="#"
+        color="#0094FF"
+        fontSize="20px"
+        _hover={{
+          textDecoration: 'none',
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+        }}
+      >
+        Import a repository (Coming Soon)
+      </Link>
+
       <Box as="form" onSubmit={createRepoFormik.handleSubmit}>
         <FormControl mt="16px" isRequired isInvalid={!!createRepoFormik.errors.repoName}>
           <StyledFormLabel>Repository name</StyledFormLabel>
@@ -125,7 +151,7 @@ export const CreateRepoForm = () => {
             <FormErrorMessage>{createRepoFormik.errors.repoName}</FormErrorMessage>
           )}
         </FormControl>
-        <FormControl mt="16px">
+        {/* <FormControl mt="16px">
           <SubTitle as="h3">
             Great repository names are short and memorable.Need inspiration? How about potential
             -dollop ?
@@ -137,7 +163,7 @@ export const CreateRepoForm = () => {
             placeholder=""
             onChange={createRepoFormik.handleChange}
           />
-        </FormControl>
+        </FormControl> */}
 
         <Flex mt="32px" gap="12px" justifyContent="end">
           <StyledButton
@@ -167,7 +193,7 @@ export const CreateRepoForm = () => {
             disabled={creating}
             isLoading={creating}
           >
-            Creat repository
+            {isGnfdChain ? 'Creat repository' : 'Switch Network'}
           </StyledButton>
         </Flex>
       </Box>

@@ -15,7 +15,7 @@ export const createBucket = async ({
     {
       bucketName,
       creator: address,
-      visibility: 'VISIBILITY_TYPE_PUBLIC_READ',
+      visibility: 'VISIBILITY_TYPE_PRIVATE',
       chargedReadQuota: '0',
       spInfo: {
         primarySpAddress,
@@ -34,7 +34,7 @@ export const createBucket = async ({
     denom: 'BNB',
   });
 
-  console.log('simulateInfo', simulateInfo);
+  // console.log('simulateInfo', simulateInfo);
 
   const res = await tx.broadcast({
     denom: 'BNB',

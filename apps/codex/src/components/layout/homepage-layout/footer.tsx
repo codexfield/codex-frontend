@@ -5,13 +5,13 @@ import Logo from '@/images/logo.svg';
 export const Footer = () => {
   return (
     <Container>
-      <Flex maxW='1920px' m='0 auto' fontWeight='400' justifyContent='space-between'>
+      <Flex maxW="1920px" m="0 auto" fontWeight="400" justifyContent="space-between">
         <Box>
           <Box>
             <img src={Logo.src} />
           </Box>
-          <Box color='#898989' fontSize='24px' mt='10px'>
-            © 2023 CodexField Labs
+          <Box color="#898989" fontSize="24px" mt="10px">
+            © 2024 CodexField Labs
           </Box>
         </Box>
 
@@ -19,19 +19,22 @@ export const Footer = () => {
           <Box>
             <Title>LEARN</Title>
             <Flex
-              mt='15px'
-              direction='column'
-              justifyContent='space-between'
-              alignItems='flex-start'
+              mt="15px"
+              direction="column"
+              justifyContent="space-between"
+              alignItems="flex-start"
             >
-              <a target='_blank' href='https://docs.codexfield.com'>
+              <a
+                target="_blank"
+                href="https://www.bnbchain.org/en/blog/greenfield-dapp-exploration-series-codex-field"
+              >
                 Blog
               </a>
-              <a target='_blank' href='https://docs.codexfield.com'>
-                FAQS
+              <a target="_blank" href="https://docs.codexfield.com/other/whitepaper">
+                Whitepaper
               </a>
-              <a target='_blank' href='https://docs.codexfield.com'>
-                Documentation
+              <a target="_blank" href="https://docs.codexfield.com">
+                Documents
               </a>
             </Flex>
           </Box>
@@ -39,19 +42,19 @@ export const Footer = () => {
           <Box>
             <Title>CONNECT</Title>
             <Flex
-              mt='15px'
-              direction='column'
-              justifyContent='space-between'
-              alignItems='flex-start'
+              mt="15px"
+              direction="column"
+              justifyContent="space-between"
+              alignItems="flex-start"
             >
-              <a target='_blank' href='https://docs.codexfield.com'>
-                Blog
+              <a target="_blank" href="https://linktr.ee/codexfield">
+                Linktree
               </a>
-              <a target='_blank' href='https://docs.codexfield.com'>
-                FAQS
+              <a target="_blank" href="mailto:support@codexfield.com">
+                Support
               </a>
-              <a target='_blank' href='https://docs.codexfield.com'>
-                Documentation
+              <a target="_blank" href="mailto:contact@codexfield.com">
+                Contact
               </a>
             </Flex>
           </Box>
@@ -59,18 +62,18 @@ export const Footer = () => {
           <Box>
             <Title>LINK</Title>
             <Flex
-              mt='15px'
-              direction='column'
-              justifyContent='space-between'
-              alignItems='flex-start'
+              mt="15px"
+              direction="column"
+              justifyContent="space-between"
+              alignItems="flex-start"
             >
-              <a target='_blank' href='https://twitter.com/CodexField'>
+              <a target="_blank" href="https://twitter.com/CodexField">
                 Twitter
               </a>
-              <a target='_blank' href='https://t.me/CodexField'>
+              <a target="_blank" href="https://t.me/CodexField">
                 Telegram
               </a>
-              <a target='_blank' href='https://github.com/codexfield'>
+              <a target="_blank" href="https://github.com/codexfield">
                 Github
               </a>
             </Flex>
