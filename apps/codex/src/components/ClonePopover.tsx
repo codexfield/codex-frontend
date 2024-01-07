@@ -1,22 +1,21 @@
-import styled from '@emotion/styled';
-import { CopyIcon } from '@chakra-ui/icons';
+import { getCloneUrl } from '@/utils';
+import { ChevronDownIcon, CopyIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Button,
+  Flex,
   Input,
   InputGroup,
   InputRightElement,
   Popover,
-  PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Flex,
   useClipboard,
-  Box,
   useToast,
 } from '@chakra-ui/react';
-import { getCloneUrl } from '@/utils';
+import styled from '@emotion/styled';
 import { useEffect } from 'react';
 
 interface IProps {
@@ -45,7 +44,20 @@ export const ClonePopver = (props: IProps) => {
     <CloneContainer>
       <Popover placement="bottom-end">
         <PopoverTrigger>
-          <Button>Clone</Button>
+          <Button
+            rightIcon={<ChevronDownIcon />}
+            fontSize="14px"
+            color="#FFF"
+            height="28px"
+            p="5px 15px"
+            bg="rgba(122, 60, 255, 1)"
+            boxShadow="0px 4px 6px 0px rgba(0, 0, 0, 0.25);"
+            _hover={{
+              bg: 'rgba(122, 60, 255, 0.8)',
+            }}
+          >
+            Clone
+          </Button>
         </PopoverTrigger>
         <PopoverContent
           w="480px"
