@@ -3,6 +3,7 @@ import FS from '@codexfield/lightning-fs';
 import { useQuery } from '@tanstack/react-query';
 import git from '@codexfield/isomorphic-git';
 import { OidType } from './useReadRepoByOid';
+import orderBy from 'lodash.orderby';
 
 export const useReadTree = (fs: FS | null, oid: string, type: OidType) => {
   return useQuery({
@@ -19,5 +20,12 @@ export const useReadTree = (fs: FS | null, oid: string, type: OidType) => {
       return tree;
     },
     staleTime: Infinity,
+    select(data) {
+      const res = data;
+      if (res) {
+        res.tree = orderBy(data.tree, ['type'], ['desc']);
+      }
+      return res;
+    },
   });
 };
