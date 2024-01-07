@@ -1,9 +1,23 @@
-import { AvatarComponent } from '@rainbow-me/rainbowkit';
+import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
+import { Box } from '@chakra-ui/react';
 import { MetaMaskAvatar } from 'react-metamask-avatar';
 
-export const CustomAvatar: AvatarComponent = ({ address, size }) => {
-  // const color = generateColorFromAddress(address);
+interface IProps {
+  address: string;
+  size: number;
+}
 
-  // const color = '#1e1e1e';
+export const CustomAvatar = (props: IProps) => {
+  const { address, size } = props;
+  const { data: userInfo } = useGetAccountDetails(address as `0x${string}`);
+
+  if (userInfo?.avatar) {
+    return (
+      <Box overflow="hidden" borderRadius="100%" w={size} h={size}>
+        <img alt={address} src={userInfo?.avatar} />
+      </Box>
+    );
+  }
+
   return <MetaMaskAvatar address={address} size={size} />;
 };
