@@ -1,5 +1,7 @@
+import { ClonePopver } from '@/components/ClonePopover';
 import { Side } from '@/components/pages/dashborad/Side';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
+import { useGetBucketInfo } from '@/hooks/gnfd/useGetBucketInfo';
 import { useGetSpUrlByBucket } from '@/hooks/gnfd/useGetSpUrlByBucket';
 import { useFs } from '@/hooks/useFs';
 import { useInitRepo } from '@/hooks/useInitRepo';
@@ -7,8 +9,9 @@ import { OidType, useReadRepoByOid } from '@/hooks/useReadRepoByOid';
 import { FileIcon } from '@/icons/FileIcon';
 import { FolderIcon } from '@/icons/FolderIcon';
 import { RepoIcon } from '@/icons/RepoIcon';
-import { getBucketName, getRepoName } from '@/utils';
-import { Box, Flex, Spinner, Link, Center } from '@chakra-ui/react';
+import { getCloneUrl, getRepoName, getVisibility } from '@/utils';
+
+import { Badge, Box, Center, Flex, Link, Spinner, useClipboard } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -26,6 +29,7 @@ export default function Repo() {
     name as string | undefined,
   );
   const { address } = useAccount();
+  const { data: bucketInfo } = useGetBucketInfo(name as string);
   const { data: userInfo } = useGetAccountDetails(address);
   const fs = useFs({
     endpoint,
@@ -38,6 +42,7 @@ export default function Repo() {
   const { tree, blob, isLoading: readRepoLoading } = useReadRepoByOid(fs, latestCommitOid);
 
   const isLoading = getSpUrlLoading || initRepoLoading || readRepoLoading;
+  const repoName = userInfo && name && getRepoName(name as string, userInfo[0]);
 
   return (
     <Flex gap="20px" w="1360px" ml="auto" mr="auto">
@@ -46,10 +51,27 @@ export default function Repo() {
 
       <RepoContainer w="960px">
         <RepoTitleContainer>
-          <RepoName>
-            <RepoIcon mr="8px" />
-            {name && userInfo && getRepoName(name as string, userInfo[0])}
-          </RepoName>
+          <Flex justifyContent="space-between" alignItems="center">
+            <RepoName>
+              <RepoIcon />
+              <Box color="#a276ff">{repoName}</Box>
+              <Badge
+                mt="3px"
+                padding="3px 10px 2px 11px"
+                fontSize="12px"
+                variant="outline"
+                textTransform="none"
+                sx={{
+                  borderRadius: '10px',
+                  color: '#13E735',
+                  border: '1px solid #13E735',
+                }}
+              >
+                {getVisibility(bucketInfo?.visibility || -1)}
+              </Badge>
+            </RepoName>
+            <ClonePopver buckname={name as string} />
+          </Flex>
         </RepoTitleContainer>
         <RepoConentList>
           {isLoading && (
@@ -82,6 +104,33 @@ export default function Repo() {
                 </RepeContentItem>
               );
             })}
+          {type === 'tree' && !tree && !isLoading && (
+            <Box p="30px">
+              <Box as="h3" fontSize="24px" fontWeight="800">
+                Push to Greenfield Repo
+              </Box>
+              <Box
+                bg="#232323"
+                color="#efefef"
+                fontSize="16px"
+                p="10px"
+                borderRadius="8px"
+                mt="10px"
+              >
+                <Box as="p" lineHeight="1.5">
+                  {`gitd remote add origin gnfd://gnfd-testnet-fullnode-tendermint-us.bnbchain.org:443/${repoName}`}
+                </Box>
+                <Box as="p" lineHeight="1.5">{`echo "Hello CodexField" >> README.md`}</Box>
+                <Box as="p" lineHeight="1.5">
+                  gitd add README.md
+                </Box>
+                <Box as="p" lineHeight="1.5">{`gitd commit -m "add README.md"`}</Box>
+                <Box as="p" lineHeight="1.5">
+                  {`gitd push origin main -f  // when push firstly, please use force push. will fix later.`}
+                </Box>
+              </Box>
+            </Box>
+          )}
         </RepoConentList>
 
         {type === 'blob' && (
@@ -104,15 +153,18 @@ const RepoContainer = styled(Box)`
 const RepoTitleContainer = styled(Box)`
   background: #282829;
   box-shadow: 0px 10px 10px 0px rgba(18, 18, 20, 0.25);
-  height: 70px;
-  line-height: 70px;
+  /* height: 70px;
+  line-height: 70px; */
   padding: 0 15px;
 `;
-const RepoName = styled(Box)`
+const RepoName = styled(Flex)`
+  gap: 8px;
+  height: 70px;
   font-size: 20px;
-  color: #a276ff;
   font-weight: 800;
+  align-items: center;
 `;
+
 const RepoConentList = styled(Box)`
   border: 1px solid #282829;
   background: #1c1c1e;
