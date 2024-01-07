@@ -5,5 +5,5 @@ interface IRegister {
   company: string;
   location: string;
   website: string;
-  socialAccounts: string[];
+  socialAccounts: readonly string[];
 }

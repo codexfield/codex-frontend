@@ -1,3 +1,4 @@
+import { EditAccountModal } from '@/components/modals/edit';
 import { CustomAvatar } from '@/components/ui/avatars';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { useIsMounted } from '@/hooks/useIsMounted';
@@ -5,6 +6,7 @@ import { CompanyIcon } from '@/icons/CompanyIcon';
 import { LocationIcon } from '@/icons/LocationIcon';
 import { LinkIcon } from '@chakra-ui/icons';
 import { Box, Button, Center, Flex, Link, Spinner, VStack } from '@chakra-ui/react';
+import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useAccount } from 'wagmi';
 
@@ -12,6 +14,10 @@ export const Side = () => {
   const { address } = useAccount();
   const isMounted = useIsMounted();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
+
+  const showEditAccountModal = () => {
+    NiceModal.show(EditAccountModal);
+  };
 
   if (!isMounted) return null;
 
@@ -46,6 +52,7 @@ export const Side = () => {
                 _hover={{
                   bg: 'rgba(30, 30, 30, 0.8)',
                 }}
+                onClick={showEditAccountModal}
               >
                 Edit Profile
               </Button>

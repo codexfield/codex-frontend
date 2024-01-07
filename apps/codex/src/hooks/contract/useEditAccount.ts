@@ -9,8 +9,8 @@ import {
   useWaitForTransaction,
 } from 'wagmi';
 
-export const useRegister = (
-  address: `0x{string}`,
+export const useEditAccount = (
+  address: `0x${string}`,
   values: IRegister,
   onSuccess: () => void,
   onError: (e: Error | null) => void,
@@ -28,8 +28,8 @@ export const useRegister = (
   } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
     abi: ACCOUNT_MANAGE_ABI,
-    functionName: 'register',
-    args: [address, name, avatar, bio, company, location, website, socialAccounts],
+    functionName: 'editAccount',
+    args: [name, avatar, bio, company, location, website, socialAccounts],
     chainId: BSC_CHAIN.id,
     enabled: name !== '' && address !== undefined && isRightChain,
   });

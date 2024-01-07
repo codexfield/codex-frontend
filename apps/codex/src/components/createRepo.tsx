@@ -5,7 +5,7 @@ import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Link } from '@chak
 import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { StyledButton, StyledInput } from './modals/register/forms';
+import { StyledButton, StyledInput } from './modals/forms';
 import { createBucket } from '@/apis/createBucket';
 import GnfdBackend from '@/config/GnfdBackend';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';

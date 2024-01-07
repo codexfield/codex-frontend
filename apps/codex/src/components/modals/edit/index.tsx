@@ -17,30 +17,32 @@ import {
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useAccount, useSwitchNetwork } from 'wagmi';
-import { RegisterModal } from '.';
 import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../forms';
 import { BSC_CHAIN } from '@/env';
+import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
+import { useEditAccount } from '@/hooks/contract/useEditAccount';
 
-export const fullFormRegistModal = NiceModal.create(() => {
+export const EditAccountModal = NiceModal.create(() => {
   const toast = useToast();
   const modal = useModal();
   const { address } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
+  const { data: userInfo, refetch: refetchAccountInfo } = useGetAccountDetails(address);
 
-  const registerFormik = useFormik({
+  const editFormik = useFormik({
     initialValues: {
-      account: '',
-      name: '',
-      avatar: '',
-      bio: '',
-      company: '',
-      location: '',
-      website: '',
-      socialAccounts: [''],
+      name: userInfo?.name || '',
+      avatar: userInfo?.avatar || '',
+      bio: userInfo?.bio || '',
+      company: userInfo?.company || '',
+      location: userInfo?.location || '',
+      website: userInfo?.website || '',
+      socialAccounts: userInfo?.socialAccounts || [''],
     },
     onSubmit: (values) => {
+      // console.log('values', values);
       switchNetwork?.(BSC_CHAIN.id);
       write?.();
     },
@@ -48,8 +50,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
 
   const onSuccess = useCallback(() => {
     modal.hide();
-    NiceModal.hide(RegisterModal);
-  }, [modal]);
+    refetchAccountInfo();
+  }, [modal, refetchAccountInfo]);
 
   const onError = useCallback(
     (error: Error | null) => {
@@ -64,9 +66,9 @@ export const fullFormRegistModal = NiceModal.create(() => {
     [toast],
   );
 
-  const { write, isLoading, isRightChain } = useRegister(
+  const { write, isLoading, isRightChain } = useEditAccount(
     address as `0x{string}`,
-    registerFormik.values,
+    editFormik.values,
     onSuccess,
     onError,
   );
@@ -83,14 +85,15 @@ export const fullFormRegistModal = NiceModal.create(() => {
       >
         <ModalBody pl="70px" pr="70px">
           <Stack>
-            <Box as="form" onSubmit={registerFormik.handleSubmit}>
+            <Box as="form" onSubmit={editFormik.handleSubmit}>
               <FormControl mt="16px">
                 <StyledFormLabel>Paste image link for avatar</StyledFormLabel>
                 <StyledInput
                   name="avatar"
                   type="url"
                   placeholder="https://"
-                  onChange={registerFormik.handleChange}
+                  value={editFormik.values.avatar}
+                  onChange={editFormik.handleChange}
                 />
               </FormControl>
               <FormControl mt="16px">
@@ -99,7 +102,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                   type="text"
                   name="name"
                   placeholder="Kick"
-                  onChange={registerFormik.handleChange}
+                  value={editFormik.values.name}
+                  onChange={editFormik.handleChange}
                 />
               </FormControl>
               <FormControl mt="16px">
@@ -108,7 +112,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                   name="bio"
                   type="text"
                   placeholder="Add a bio"
-                  onChange={registerFormik.handleChange}
+                  value={editFormik.values.bio}
+                  onChange={editFormik.handleChange}
                 />
               </FormControl>
               <FormControl mt="16px">
@@ -121,7 +126,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                     type="text"
                     placeholder="Company"
                     pl="3em"
-                    onChange={registerFormik.handleChange}
+                    value={editFormik.values.company}
+                    onChange={editFormik.handleChange}
                   />
                 </InputGroup>
               </FormControl>
@@ -135,7 +141,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                     type="text"
                     placeholder="Location"
                     pl="3em"
-                    onChange={registerFormik.handleChange}
+                    value={editFormik.values.location}
+                    onChange={editFormik.handleChange}
                   />
                 </InputGroup>
               </FormControl>
@@ -149,7 +156,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                     type="text"
                     placeholder="Website"
                     pl="3em"
-                    onChange={registerFormik.handleChange}
+                    value={editFormik.values.website}
+                    onChange={editFormik.handleChange}
                   />
                 </InputGroup>
               </FormControl>
@@ -165,7 +173,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                       type="text"
                       placeholder="Website"
                       pl="3em"
-                      onChange={registerFormik.handleChange}
+                      value={editFormik.values.socialAccounts![0]}
+                      onChange={editFormik.handleChange}
                     />
                   </InputGroup>
                   <InputGroup>
@@ -177,7 +186,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                       type="text"
                       placeholder="Website"
                       pl="3em"
-                      onChange={registerFormik.handleChange}
+                      value={editFormik.values.socialAccounts![1]}
+                      onChange={editFormik.handleChange}
                     />
                   </InputGroup>
                   <InputGroup>
@@ -189,7 +199,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                       type="text"
                       placeholder="Website"
                       pl="3em"
-                      onChange={registerFormik.handleChange}
+                      value={editFormik.values.socialAccounts![2]}
+                      onChange={editFormik.handleChange}
                     />
                   </InputGroup>
                   <InputGroup>
@@ -201,7 +212,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                       type="text"
                       placeholder="Website"
                       pl="3em"
-                      onChange={registerFormik.handleChange}
+                      value={editFormik.values.socialAccounts![3]}
+                      onChange={editFormik.handleChange}
                     />
                   </InputGroup>
                 </Stack>
@@ -220,26 +232,8 @@ export const fullFormRegistModal = NiceModal.create(() => {
                   disabled={!write || isLoading}
                   isLoading={isLoading}
                 >
-                  {isRightChain ? 'Register' : 'Switch Network'}
+                  {isRightChain ? 'Edit' : 'Switch Network'}
                 </StyledButton>
-
-                <Box
-                  textAlign="center"
-                  as="a"
-                  href="#"
-                  fontSize="16px"
-                  color="#5F5F5F"
-                  _hover={{
-                    color: '#9f9f9f',
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    modal.hide();
-                    NiceModal.show(RegisterModal);
-                  }}
-                >
-                  Back
-                </Box>
               </Stack>
             </Box>
           </Stack>
