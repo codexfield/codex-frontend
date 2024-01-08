@@ -33,7 +33,7 @@ export const EmptyRepo = (props: IProps) => {
           <Section as="p">gitd init</Section>
           <Section as="p">gitd add README.md</Section>
           <Section as="p">{'gitd commit -m "first commit"'}</Section>
-          <Section as="p">git remote add origin ${cloneUrl}</Section>
+          <Section as="p">gitd remote add origin ${cloneUrl}</Section>
           <Section as="p">gitd push origin main -f</Section>
         </CodeBlock>
       </Box>
@@ -41,7 +41,7 @@ export const EmptyRepo = (props: IProps) => {
       <Box>
         <Title as="h3">…or push an existing repository from the command line</Title>
         <CodeBlock>
-          <Section as="p">gitd remote add origin ${cloneUrl}</Section>
+          <Section as="p">gitd remote add origin {cloneUrl}</Section>
           <Section as="p">gitd push origin main -f</Section>
         </CodeBlock>
       </Box>
