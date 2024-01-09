@@ -79,9 +79,15 @@ export const RoadMap = () => {
             <Box as="span">2024</Box>
           </CardTitle>
           <CardDesc>
-            Code Marketplace: Enabling Code Trading
+            Code Marketplace: Enabling Code Trading Functionality.
             <Space />
-            Functionality. Mainnet Launch: Deploy CodexField to Greenfield Mainnet.
+            <Box as="span" color="#7A3CFF">
+              Mainnet Launch
+            </Box>
+            :{' '}
+            <Box as="span" color="#FFC700">
+              Deploy CodexField to Greenfield Mainnet.
+            </Box>
           </CardDesc>
         </Card>
       </Row>
