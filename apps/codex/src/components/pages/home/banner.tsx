@@ -25,7 +25,7 @@ export const Banner = () => {
           p="5rem"
         >
           <Title as="h1">CodexField</Title>
-          <Desc as="p">
+          <Desc>
             Empowers developers by providing them with true ownership and control over their code
             assets.
             <br />
