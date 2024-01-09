@@ -1,5 +1,5 @@
 import { GreenfieldClient, getAllSps } from '@/config/GnfsClient';
-import { GNFD_CHAINID } from '@/env';
+import { ENV, GNFD_CHAINID } from '@/env';
 import { IReturnOffChainAuthKeyPairAndUpload } from '@bnb-chain/greenfield-js-sdk';
 
 /**
@@ -11,13 +11,14 @@ export const getOffchainAuthKeys = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   provider: any,
 ): Promise<IReturnOffChainAuthKeyPairAndUpload | undefined> => {
-  const storageResStr = localStorage.getItem(address);
+  const key = ENV + address;
+  const storageResStr = localStorage.getItem(key);
 
   if (storageResStr) {
     const storageRes = JSON.parse(storageResStr) as IReturnOffChainAuthKeyPairAndUpload;
     if (storageRes.expirationTime < Date.now()) {
       // alert('Your auth key has expired, please generate a new one');
-      localStorage.removeItem(address);
+      localStorage.removeItem(key);
       return;
     }
 
@@ -42,6 +43,6 @@ export const getOffchainAuthKeys = async (
     throw offchainAuthRes;
   }
 
-  localStorage.setItem(address, JSON.stringify(offChainData));
+  localStorage.setItem(key, JSON.stringify(offChainData));
   return offChainData;
 };
