@@ -1,4 +1,3 @@
-import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { Box, Flex } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { CustomAvatar } from './avatars';
@@ -12,6 +11,8 @@ export const CustomConnectButton = () => {
         // can remove all 'authenticationStatus' checks
         const ready = mounted;
         const connected = ready && account && chain;
+
+        console.log('chain', chain);
 
         return (
           <Box
@@ -71,7 +72,11 @@ export const CustomConnectButton = () => {
                         </Box>
                       )}
 
-                      <Box ml="11px">{chain.name}</Box>
+                      <Box ml="11px">
+                        {chain.name}
+                        {/* {chain.id === 56 && bscChain.name}
+                        {chain.id !== 56 && chain.name} */}
+                      </Box>
                     </HConnectButton>
                   </Flex>
 

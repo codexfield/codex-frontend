@@ -10,7 +10,7 @@ import { Chain, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 
-const bscChain: Chain = {
+export const bscChain: Chain = {
   ...BSC_CHAIN,
   name: 'BNB Chain',
 };
