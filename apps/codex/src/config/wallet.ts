@@ -5,12 +5,12 @@ import { publicProvider } from 'wagmi/providers/public';
 
 const bscChain: Chain = {
   ...BSC_CHAIN,
-  name: 'BSC',
+  name: 'BNB Chain',
 };
 
 const gnfdChain: Chain = {
   id: GNFD_CHAINID,
-  name: 'Greenfield',
+  name: 'BSC Greenfield',
   network: 'Greenfield',
   iconBackground: '#ebac0e',
   iconUrl: async () => (await import('./icons/bsc.svg')).default.src,
