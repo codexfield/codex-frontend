@@ -1,4 +1,11 @@
-import { BSC_CHAIN, GNFD_CHAINID, GNFD_RPC, GNFD_SCAN_URL, WALLET_CONNECT_PROJECT_ID } from '@/env';
+import {
+  BSC_CHAIN,
+  ENV,
+  GNFD_CHAINID,
+  GNFD_RPC,
+  GNFD_SCAN_URL,
+  WALLET_CONNECT_PROJECT_ID,
+} from '@/env';
 import { Chain, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
@@ -10,13 +17,13 @@ const bscChain: Chain = {
 
 const gnfdChain: Chain = {
   id: GNFD_CHAINID,
-  name: 'BSC Greenfield',
+  name: 'BNB Greenfield',
   network: 'Greenfield',
   iconBackground: '#ebac0e',
   iconUrl: async () => (await import('./icons/bsc.svg')).default.src,
   nativeCurrency: {
     name: 'BNB',
-    symbol: 'tBNB',
+    symbol: 'BNB',
     decimals: 18,
   },
   rpcUrls: {
@@ -37,7 +44,7 @@ const gnfdChain: Chain = {
       url: GNFD_SCAN_URL,
     },
   },
-  testnet: true,
+  testnet: ENV === 'TESTNET',
 };
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
