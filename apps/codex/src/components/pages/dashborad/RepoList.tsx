@@ -1,9 +1,7 @@
-import { deleteBucket } from '@/apis/deleteBucket';
 import { NewRepo } from '@/components/NewRepo';
 import { VisibilityBadge } from '@/components/ui/VisibilityBadge';
-import { queryClient } from '@/config/ReactQuery';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
-import { GET_REPO_LIST_QUERY_KEY, useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
+import { useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
 import { CanlanderIcon } from '@/icons/CanlanderIcon';
 import { MoreActionIcon } from '@/icons/MoreActionIcon';
 import { RepoIcon } from '@/icons/RepoIcon';
@@ -19,13 +17,11 @@ import {
   MenuItem,
   MenuList,
   Spinner,
-  Stack,
   VStack,
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { useAccount } from 'wagmi';
-import dayjs from 'dayjs';
 
 export const RepoList = () => {
   const { data: repoList, isLoading } = useGetRepoList();
@@ -103,21 +99,21 @@ export const RepoList = () => {
                         {getRepoName(repo.BucketInfo.BucketName, userInfo.id)}
                         <VisibilityBadge visibility={repo.BucketInfo?.Visibility || -1} />
                       </Link>
-                      {/* <Menu>
-                      <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />
-                      <MenuList bg="#1C1C1E">
-                        <MenuItem
-                          color="#CA1414"
-                          fontSize="14px"
-                          onClick={() => {
-                            // console.log('e', e);
-                            handleDeleteRepo(repo?.BucketInfo?.BucketName);
-                          }}
-                        >
-                          Delete Repo
-                        </MenuItem>
-                      </MenuList>
-                    </Menu> */}
+                      <Menu>
+                        <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />
+                        <MenuList bg="#1C1C1E">
+                          <MenuItem
+                            color="#CA1414"
+                            fontSize="14px"
+                            onClick={() => {
+                              // console.log('e', e);
+                              // handleDeleteRepo(repo?.BucketInfo?.BucketName);
+                            }}
+                          >
+                            Delete Repo
+                          </MenuItem>
+                        </MenuList>
+                      </Menu>
                     </RepoItem>
                   </Flex>
                 </Box>
