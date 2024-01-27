@@ -19,9 +19,11 @@ import {
   Spinner,
   VStack,
 } from '@chakra-ui/react';
+import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { useAccount } from 'wagmi';
+import { EditRepo } from '../../modals/repo/edit';
 
 export const RepoList = () => {
   const { data: repoList, isLoading } = useGetRepoList();
@@ -99,18 +101,25 @@ export const RepoList = () => {
                         {getRepoName(repo.BucketInfo.BucketName, userInfo.id)}
                         <VisibilityBadge visibility={repo.BucketInfo?.Visibility || -1} />
                       </Link>
-                      <Menu>
+                      <Menu placement="bottom-end">
                         <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />
                         <MenuList bg="#1C1C1E">
                           <MenuItem
-                            color="#CA1414"
+                            // color="#CA1414"
                             fontSize="14px"
+                            sx={{
+                              bg: '#1c1c1e',
+                              _hover: {
+                                bg: '#1f1f1e',
+                              },
+                            }}
                             onClick={() => {
                               // console.log('e', e);
                               // handleDeleteRepo(repo?.BucketInfo?.BucketName);
+                              NiceModal.show(EditRepo);
                             }}
                           >
-                            Delete Repo
+                            Edit Repo
                           </MenuItem>
                         </MenuList>
                       </Menu>

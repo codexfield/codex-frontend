@@ -1,4 +1,4 @@
-import { EditAccountModal } from '@/components/modals/edit';
+import { EditAccountModal } from '@/components/modals/users/edit';
 import { CustomAvatar } from '@/components/ui/avatars';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { useIsMounted } from '@/hooks/useIsMounted';

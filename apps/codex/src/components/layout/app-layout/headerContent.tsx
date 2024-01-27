@@ -9,7 +9,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useEffect } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
-import { RegisterModal } from '@/components/modals/register';
+import { RegisterModal } from '@/components/modals/users/register';
 
 const HeaderContent = () => {
   const router = useRouter();

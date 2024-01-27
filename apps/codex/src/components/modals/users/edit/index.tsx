@@ -1,4 +1,6 @@
-import { useRegister } from '@/hooks/contract/useRegister';
+import { BSC_CHAIN } from '@/env';
+import { useEditAccount } from '@/hooks/contract/useEditAccount';
+import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { CompanyIcon } from '@/icons/CompanyIcon';
 import { LocationIcon } from '@/icons/LocationIcon';
 import { WebsiteIcon } from '@/icons/WebSiteIcon';
@@ -18,12 +20,9 @@ import {
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useAccount, useSwitchNetwork } from 'wagmi';
 import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../forms';
-import { BSC_CHAIN } from '@/env';
-import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
-import { useEditAccount } from '@/hooks/contract/useEditAccount';
 
 export const EditAccountModal = NiceModal.create(() => {
   const toast = useToast();
