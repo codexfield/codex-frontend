@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
   Select,
   Stack,
@@ -46,8 +47,6 @@ export const EditRepo = NiceModal.create<IProps>(({ bucketInfo, onSuccess }) => 
       });
 
       onSuccess?.();
-
-      console.log('res', res);
     },
   });
 
@@ -97,7 +96,7 @@ export const EditRepo = NiceModal.create<IProps>(({ bucketInfo, onSuccess }) => 
                   disabled={!isPending}
                   isLoading={isPending}
                 >
-                  Update
+                  Change Visibility
                 </StyledButton>
               </Stack>
             </Box>

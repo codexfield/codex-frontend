@@ -24,11 +24,22 @@ import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { useAccount } from 'wagmi';
 import { EditRepo } from '../../modals/repo/edit';
+import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
 
 export const RepoList = () => {
   const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList();
   const { address } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
+
+  const handleChangeVisibility = (repo: BucketMetaWithVGF) => {
+    NiceModal.show(EditRepo, {
+      bucketInfo: repo.BucketInfo,
+      onSuccess: () => {
+        refetchRepoList();
+        NiceModal.hide(EditRepo);
+      },
+    });
+  };
 
   return (
     <Box>
@@ -101,13 +112,7 @@ export const RepoList = () => {
                               },
                             }}
                             onClick={() => {
-                              NiceModal.show(EditRepo, {
-                                bucketInfo: repo.BucketInfo,
-                                onSuccess: () => {
-                                  refetchRepoList();
-                                  NiceModal.hide(EditRepo);
-                                },
-                              });
+                              handleChangeVisibility(repo);
                             }}
                           >
                             Edit Repo
