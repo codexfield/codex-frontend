@@ -13,7 +13,7 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { FormikProps, useFormik } from 'formik';
 import { useCallback } from 'react';
 import { useAccount, useSwitchNetwork } from 'wagmi';
-import { StyledButton, StyledInput } from '../forms';
+import { StyledButton, StyledInput } from '../../forms';
 import { fullFormRegistModal } from './fullForm';
 import { BSC_CHAIN } from '@/env';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';

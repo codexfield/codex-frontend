@@ -26,22 +26,9 @@ import { useAccount } from 'wagmi';
 import { EditRepo } from '../../modals/repo/edit';
 
 export const RepoList = () => {
-  const { data: repoList, isLoading } = useGetRepoList();
+  const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList();
   const { address } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
-
-  console.log('repoList', repoList);
-  // const handleDeleteRepo = async (bucketName: string) => {
-  //   if (!address) return;
-
-  //   // console.log('handleDeleteRepo', bucketName);
-  //   const res = await deleteBucket(bucketName, address);
-  //   // console.log(res);
-  //   const x = await queryClient.invalidateQueries({
-  //     queryKey: [GET_REPO_LIST_QUERY_KEY, address],
-  //   });
-  //   // console.log('x', x);
-  // };
 
   return (
     <Box>
@@ -114,9 +101,13 @@ export const RepoList = () => {
                               },
                             }}
                             onClick={() => {
-                              // console.log('e', e);
-                              // handleDeleteRepo(repo?.BucketInfo?.BucketName);
-                              NiceModal.show(EditRepo);
+                              NiceModal.show(EditRepo, {
+                                bucketInfo: repo.BucketInfo,
+                                onSuccess: () => {
+                                  refetchRepoList();
+                                  NiceModal.hide(EditRepo);
+                                },
+                              });
                             }}
                           >
                             Edit Repo

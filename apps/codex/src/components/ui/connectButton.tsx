@@ -12,7 +12,7 @@ export const CustomConnectButton = () => {
         const ready = mounted;
         const connected = ready && account && chain;
 
-        console.log('chain', chain);
+        // console.log('chain', chain);
 
         return (
           <Box

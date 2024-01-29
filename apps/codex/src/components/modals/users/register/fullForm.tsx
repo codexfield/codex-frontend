@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 import { useCallback } from 'react';
 import { useAccount, useSwitchNetwork } from 'wagmi';
 import { RegisterModal } from '.';
-import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../forms';
+import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../../forms';
 import { BSC_CHAIN } from '@/env';
 
 export const fullFormRegistModal = NiceModal.create(() => {

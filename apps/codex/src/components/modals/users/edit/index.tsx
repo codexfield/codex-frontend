@@ -22,7 +22,7 @@ import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useCallback } from 'react';
 import { useAccount, useSwitchNetwork } from 'wagmi';
-import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../forms';
+import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../../forms';
 
 export const EditAccountModal = NiceModal.create(() => {
   const toast = useToast();
