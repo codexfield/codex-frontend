@@ -23,11 +23,9 @@ import {
 import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
+import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
 import { useAccount } from 'wagmi';
 import { EditRepo } from '../../modals/repo/edit';
-import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
-import { ListRepo } from '@/components/modals/repo/list';
-import { useGetUserListed } from '@/hooks/contract/useGetUserListed';
 
 export const RepoList = () => {
   const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList();
@@ -47,16 +45,6 @@ export const RepoList = () => {
       onSuccess: () => {
         refetchRepoList();
         NiceModal.hide(EditRepo);
-      },
-    });
-  };
-
-  const handleListRepo = (repo: BucketMetaWithVGF) => {
-    NiceModal.show(ListRepo, {
-      bucketInfo: repo.BucketInfo,
-      onSuccess: () => {
-        refetchRepoList();
-        NiceModal.hide(ListRepo);
       },
     });
   };
