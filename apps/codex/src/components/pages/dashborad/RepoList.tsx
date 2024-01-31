@@ -117,13 +117,13 @@ export const RepoList = () => {
                           >
                             Change Visibility
                           </StyledMenuItem>
-                          {/* <StyledMenuItem
+                          <StyledMenuItem
                             onClick={() => {
                               handleListRepo(repo);
                             }}
                           >
                             List
-                          </StyledMenuItem> */}
+                          </StyledMenuItem>
                         </MenuList>
                       </Menu>
                     </RepoItem>
