@@ -15,6 +15,7 @@ import {
   Menu,
   MenuButton,
   MenuItem,
+  MenuItemProps,
   MenuList,
   Spinner,
   VStack,
@@ -25,11 +26,20 @@ import NextLink from 'next/link';
 import { useAccount } from 'wagmi';
 import { EditRepo } from '../../modals/repo/edit';
 import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
+import { ListRepo } from '@/components/modals/repo/list';
+import { useGetUserListed } from '@/hooks/contract/useGetUserListed';
 
 export const RepoList = () => {
   const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList();
   const { address } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
+
+  // const { data } = useGetUserListed({
+  //   address,
+  //   limit: 10n,
+  //   offset: 0n,
+  // });
+  // console.log('data', data);
 
   const handleChangeVisibility = (repo: BucketMetaWithVGF) => {
     NiceModal.show(EditRepo, {
@@ -37,6 +47,16 @@ export const RepoList = () => {
       onSuccess: () => {
         refetchRepoList();
         NiceModal.hide(EditRepo);
+      },
+    });
+  };
+
+  const handleListRepo = (repo: BucketMetaWithVGF) => {
+    NiceModal.show(ListRepo, {
+      bucketInfo: repo.BucketInfo,
+      onSuccess: () => {
+        refetchRepoList();
+        NiceModal.hide(ListRepo);
       },
     });
   };
@@ -102,21 +122,20 @@ export const RepoList = () => {
                       <Menu placement="bottom-end">
                         <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />
                         <MenuList bg="#1C1C1E">
-                          <MenuItem
-                            // color="#CA1414"
-                            fontSize="14px"
-                            sx={{
-                              bg: '#1c1c1e',
-                              _hover: {
-                                bg: '#1f1f1e',
-                              },
-                            }}
+                          <StyledMenuItem
                             onClick={() => {
                               handleChangeVisibility(repo);
                             }}
                           >
-                            Edit Repo
-                          </MenuItem>
+                            Change Visibility
+                          </StyledMenuItem>
+                          {/* <StyledMenuItem
+                            onClick={() => {
+                              handleListRepo(repo);
+                            }}
+                          >
+                            List
+                          </StyledMenuItem> */}
                         </MenuList>
                       </Menu>
                     </RepoItem>
@@ -154,3 +173,16 @@ const RepoItem = styled(Flex)`
   padding-right: 24px;
   border-radius: 8px;
 `;
+
+const StyledMenuItem = (props: MenuItemProps) => (
+  <MenuItem
+    fontSize="14px"
+    sx={{
+      bg: '#1c1c1e',
+      _hover: {
+        bg: '#1f1f1e',
+      },
+    }}
+    {...props}
+  />
+);
