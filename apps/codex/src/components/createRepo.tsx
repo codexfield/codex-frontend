@@ -192,7 +192,7 @@ export const CreateRepoForm = () => {
             disabled={creating}
             isLoading={creating}
           >
-            {isGnfdChain ? 'Creat repository' : 'Switch Network'}
+            {isGnfdChain ? 'Create repository' : 'Switch Network'}
           </StyledButton>
         </Flex>
       </Box>
