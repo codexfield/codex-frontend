@@ -1,15 +1,19 @@
 import { offchainDataAtom } from '@/atoms/offchainDataAtom';
 import { getOffchainAuthKeys } from '@/utils/offchainAuth';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
 export const useGetOffchainAuth = (isFetch: boolean) => {
+  const router = useRouter();
+
   const { address, connector } = useAccount();
   const [offchainData, setOffchainData] = useAtom(offchainDataAtom);
 
   useEffect(() => {
     const fetchOffchainAuth = async () => {
+      if (router.pathname !== '/dashboard') return;
       if (!isFetch) return;
       if (!address) return;
 

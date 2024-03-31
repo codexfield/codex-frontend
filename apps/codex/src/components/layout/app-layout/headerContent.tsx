@@ -67,6 +67,16 @@ const HeaderContent = () => {
         >
           Dashboard
         </NavLink>
+
+        <NavLink
+          as={NextLink}
+          href="/airdrop"
+          sx={{
+            color: router.pathname == '/airdrop' ? '#A276FF' : '',
+          }}
+        >
+          Airdrop
+        </NavLink>
       </Flex>
 
       <CustomConnectButton />

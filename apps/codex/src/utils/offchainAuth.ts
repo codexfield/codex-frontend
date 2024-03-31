@@ -11,7 +11,7 @@ export const getOffchainAuthKeys = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   provider: any,
 ): Promise<IReturnOffChainAuthKeyPairAndUpload | undefined> => {
-  const key = ENV + address;
+  const key = ENV + '_' + address;
   const storageResStr = localStorage.getItem(key);
 
   if (storageResStr) {
