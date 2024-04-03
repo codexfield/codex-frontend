@@ -5,16 +5,14 @@ import Logo from '@/images/logo.svg';
 export const Footer = () => {
   return (
     <Container>
-      <Flex maxW="1920px" m="0 auto" fontWeight="400" justifyContent="space-between">
-        <Box>
-          <Box>
-            <img src={Logo.src} />
-          </Box>
-          <Box color="#898989" fontSize="24px" mt="10px">
-            © 2024 CodexField Labs
-          </Box>
-        </Box>
-
+      <Box
+        maxW="1920px"
+        mx="auto"
+        fontWeight="400"
+        justifyContent="space-between"
+        flexDir="row-reverse"
+        display={{ lg: 'flex' }}
+      >
         <Social>
           <Box>
             <Title>LEARN</Title>
@@ -79,7 +77,16 @@ export const Footer = () => {
             </Flex>
           </Box>
         </Social>
-      </Flex>
+
+        <Box mt={{ base: '20px', lg: '0' }}>
+          <Box>
+            <img src={Logo.src} />
+          </Box>
+          <Box color="#898989" fontSize="24px" mt="10px">
+            © 2024 CodexField Labs
+          </Box>
+        </Box>
+      </Box>
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, theme } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 export const RoadMap = () => {
@@ -19,7 +19,7 @@ export const RoadMap = () => {
         product experience.
       </Box>
 
-      <Row wrap="wrap" gap="90px" justifyContent="space-between">
+      <Row wrap="wrap" gap="90px" display={{ xl: 'flex' }} justifyContent="space-between">
         <Card className="card">
           <CardTitle>
             <Box as="span">Q2</Box>
@@ -91,7 +91,7 @@ export const RoadMap = () => {
           </CardDesc>
         </Card>
       </Row>
-      <Row wrap="wrap" gap="90px" justifyContent="space-between">
+      <Row wrap="wrap" gap="90px" display={{ xl: 'flex' }} justifyContent="space-between">
         <Card className="card">
           <CardTitle>
             <Box as="span">Q2</Box>
@@ -164,7 +164,7 @@ const Title = styled(Box)`
   font-weight: 700;
 `;
 
-const Row = styled(Flex)`
+const Row = styled(Box)`
   align-items: stretch;
 `;
 
@@ -197,10 +197,13 @@ const CardDesc = (props: any) => {
 };
 
 const Card = styled(Flex)`
+  @media (min-width: ${(props: any) => props.theme.breakpoints.xl}) {
+    width: calc(25% - 80px);
+  }
+
   flex-direction: column;
   justify-content: space-between;
   color: #fff;
-  width: calc(25% - 80px);
   flex: 1;
   font-weight: 500;
   border-top: 1px solid #eff0f3;

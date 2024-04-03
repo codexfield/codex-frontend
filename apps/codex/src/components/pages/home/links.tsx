@@ -111,14 +111,27 @@ export const Links = () => {
 };
 
 const Title = styled(Box)`
-  font-size: 96px;
+  font-size: 38px;
+  @media (min-width: ${(props: any) => props.theme.breakpoints.md}) {
+    font-size: 48px;
+  }
+  @media (min-width: ${(props: any) => props.theme.breakpoints.xl}) {
+    font-size: 96px;
+  }
   font-weight: 900;
 `;
 
 const Info = styled(Flex)`
   text-transform: uppercase;
   color: #ffffff;
-  font-size: 32px;
+
+  font-size: 24px;
+  @media (min-width: ${(props: any) => props.theme.breakpoints.md}) {
+    font-size: 28px;
+  }
+  @media (min-width: ${(props: any) => props.theme.breakpoints.xl}) {
+    font-size: 32px;
+  }
   line-height: 1.4;
 `;
 
