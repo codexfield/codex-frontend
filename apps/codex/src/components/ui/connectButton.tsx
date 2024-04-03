@@ -77,6 +77,11 @@ export const CustomConnectButton = () => {
                         {/* {chain.id === 56 && bscChain.name}
                         {chain.id !== 56 && chain.name} */}
                       </Box>
+                      <Box ml="11px">
+                        {chain.name}
+                        {/* {chain.id === 56 && bscChain.name}
+                        {chain.id !== 56 && chain.name} */}
+                      </Box>
                     </HConnectButton>
                   </Flex>
 
