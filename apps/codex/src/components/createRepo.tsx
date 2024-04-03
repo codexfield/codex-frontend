@@ -1,23 +1,23 @@
+import { createBucket } from '@/apis/createBucket';
 import { newRepoAtom } from '@/atoms/newRepoAtom';
 import { offchainDataAtom } from '@/atoms/offchainDataAtom';
-import { selectSp } from '@/config/GnfsClient';
-import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Link } from '@chakra-ui/react';
-import styled from '@emotion/styled';
-import { FormikErrors, useFormik } from 'formik';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { StyledButton, StyledInput } from './modals/forms';
-import { createBucket } from '@/apis/createBucket';
 import GnfdBackend from '@/config/GnfdBackend';
+import { selectSp } from '@/config/GnfsClient';
 import { useGetAccountDetails } from '@/hooks/contract/useGetAccountDetails';
 import { getBucketName } from '@/utils';
+import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Link } from '@chakra-ui/react';
 import git from '@codexfield/isomorphic-git';
+import styled from '@emotion/styled';
+import { FormikErrors, useFormik } from 'formik';
+import { useAtom, useSetAtom } from 'jotai';
+import { StyledButton, StyledInput } from './modals/forms';
 // @ts-ignore
+import { GNFD_CHAINID } from '@/env';
+import { useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
+import { getOffchainAuthKeys } from '@/utils/offchainAuth';
 import LightningFS from '@codexfield/lightning-fs';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
-import { useGetRepoList } from '@/hooks/gnfd/useGetRepoList';
-import { GNFD_CHAINID } from '@/env';
 
 interface FormValues {
   repoName: string;
@@ -26,8 +26,8 @@ interface FormValues {
 
 export const CreateRepoForm = () => {
   const [creating, setCreating] = useState(false);
-  const offchainData = useAtomValue(offchainDataAtom);
-  const { address } = useAccount();
+  const [offchainData, setOffchainData] = useAtom(offchainDataAtom);
+  const { address, connector } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
   const { refetch: refetchRepoList } = useGetRepoList();
   const { switchNetwork } = useSwitchNetwork();
@@ -47,7 +47,18 @@ export const CreateRepoForm = () => {
       return errors;
     },
     onSubmit: async (values, { setErrors }) => {
-      if (!offchainData || !address || !offchainData.seed || !userInfo) return;
+      if (!address || !userInfo) return;
+
+      if (!offchainData || !offchainData.seed) {
+        // alert('no offchain data');
+        const provider = await connector?.getProvider();
+        const data = await getOffchainAuthKeys(address, provider);
+        setOffchainData({
+          address: address,
+          seed: data?.seedString,
+        });
+        return;
+      }
 
       switchNetwork?.(GNFD_CHAINID);
 
@@ -178,6 +189,7 @@ export const CreateRepoForm = () => {
           >
             Cancel
           </StyledButton>
+
           <StyledButton
             type="submit"
             h="50px"
@@ -192,7 +204,11 @@ export const CreateRepoForm = () => {
             disabled={creating}
             isLoading={creating}
           >
-            {isGnfdChain ? 'Creat repository' : 'Switch Network'}
+            {!offchainData || !offchainData.seed
+              ? 'Signature'
+              : isGnfdChain
+              ? 'Creat repository'
+              : 'Switch Network'}
           </StyledButton>
         </Flex>
       </Box>
