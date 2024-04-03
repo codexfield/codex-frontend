@@ -20,12 +20,10 @@ export const Banner = () => {
           position="absolute"
           bottom="80px"
           zIndex={9}
-          ml="auto"
-          mr="auto"
-          p="5rem"
+          p="2em"
         >
           <Title as="h1">CodexField</Title>
-          <Desc fontSize="36px">
+          <Desc fontSize={['28px', '36px']}>
             Empowers developers by providing them with true ownership and control over their code
             assets.
             <br />
@@ -51,7 +49,12 @@ const Container = styled(Box)``;
 
 const Title = styled(Box)`
   color: #7a3cff;
-  font-size: 64px;
+
+  font-size: 48px;
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    font-size: 64px;
+  }
+
   font-weight: 700;
 `;
 

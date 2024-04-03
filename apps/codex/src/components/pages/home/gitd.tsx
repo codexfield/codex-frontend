@@ -7,7 +7,7 @@ import { Desc } from './banner';
 
 export const Gitd = () => {
   return (
-    <Container p="60px" display={{ lg: 'flex' }}>
+    <Container display={{ lg: 'flex' }}>
       <Box pb="20px">
         <Title>
           <Box as="span">Manage Code</Box>
@@ -50,10 +50,20 @@ export const Gitd = () => {
 
 const Container = styled(Box)`
   justify-content: space-between;
+
+  padding: 15px;
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    padding: 60px;
+  }
 `;
 
 const Title = styled(Box)`
   font-weight: 700;
-  font-size: 96px;
   line-height: 1.4;
+
+  font-size: 48px;
+
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    font-size: 96px;
+  }
 `;

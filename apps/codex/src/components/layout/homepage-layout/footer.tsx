@@ -78,11 +78,11 @@ export const Footer = () => {
           </Box>
         </Social>
 
-        <Box mt={{ base: '20px', lg: '0' }}>
-          <Box>
+        <Box mt={{ base: '20px', lg: '0' }} fontSize={{ base: '16px', lg: '24px' }}>
+          <Box w="40vw">
             <img src={Logo.src} />
           </Box>
-          <Box color="#898989" fontSize="24px" mt="10px">
+          <Box color="#898989" mt="10px">
             © 2024 CodexField Labs
           </Box>
         </Box>
@@ -92,21 +92,37 @@ export const Footer = () => {
 };
 
 const Container = styled.footer`
-  margin: 100px;
+  margin: 20px;
+
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    margin: 100px;
+  }
 `;
 
 const Social = styled(Flex)`
   a {
     margin-top: 5px;
     color: #898989;
-    font-size: 24px;
+
+    font-size: 16px;
+    @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+      font-size: 24px;
+    }
     font-weight: 300;
   }
-  gap: 5em;
+
+  justify-content: space-between;
+  gap: 1em;
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    gap: 5em;
+  }
 `;
 
 const Title = styled(Box)`
-  font-size: 24px;
+  font-size: 16px;
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    font-size: 24px;
+  }
   font-weight: 600;
   color: #fff;
 `;

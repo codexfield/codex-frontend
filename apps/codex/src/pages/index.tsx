@@ -18,7 +18,7 @@ export default function Home() {
       {media === 'PC' && <Slogon />}
 
       <Box maxW="1920px" ml="auto" mr="auto">
-        <Hr mb="60px" />
+        {media === 'PC' && <Hr mb="60px" />}
 
         <SideBanner />
         <Gitd />

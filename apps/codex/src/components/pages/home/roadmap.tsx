@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 export const RoadMap = () => {
   return (
-    <Box p="0 60px">
+    <Box p={{ base: '15px', lg: '0 60px' }}>
       <Title>RoadMap</Title>
 
       <Box color="#EFF0F3" fontSize="24px" lineHeight={1.4} as="p" maxW="800px" mb="140px">
@@ -159,7 +159,11 @@ export const RoadMap = () => {
 };
 
 const Title = styled(Box)`
-  font-size: 96px;
+  font-size: 48px;
+
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    font-size: 96px;
+  }
   color: #eff0f3;
   font-weight: 700;
 `;

@@ -111,9 +111,9 @@ export const Links = () => {
 };
 
 const Title = styled(Box)`
-  font-size: 38px;
+  font-size: 18px;
   @media (min-width: ${(props: any) => props.theme.breakpoints.md}) {
-    font-size: 48px;
+    font-size: 38px;
   }
   @media (min-width: ${(props: any) => props.theme.breakpoints.xl}) {
     font-size: 96px;
@@ -125,7 +125,7 @@ const Info = styled(Flex)`
   text-transform: uppercase;
   color: #ffffff;
 
-  font-size: 24px;
+  font-size: 16px;
   @media (min-width: ${(props: any) => props.theme.breakpoints.md}) {
     font-size: 28px;
   }
@@ -144,15 +144,24 @@ const Date = styled(Box)`
 `;
 
 const AdLink = styled(Flex)`
+  padding: 10px;
+  @media (min-width: ${(props: any) => props.theme.breakpoints.lg}) {
+    padding: 50px;
+  }
+
   &:nth-child(1) {
     border-top: 1px solid #ffffff;
   }
   border-bottom: 1px solid #ffffff;
   color: #ffffff;
-  padding: 50px;
 
   &:hover {
     background: #fff;
     color: #000000;
+  }
+
+  img {
+    width: 30vw;
+    max-width: 180px;
   }
 `;
