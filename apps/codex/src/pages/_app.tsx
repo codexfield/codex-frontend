@@ -1,5 +1,5 @@
-import { AppLayout } from '@/components/layout/app-layout';
-import { CustomAvatar } from '@/components/ui/avatars';
+import { AppLayout } from '@/shared/components/layout/app-layout';
+import { CustomAvatar } from '@/shared/components/avatars';
 import { chains, wagmiConfig } from '@/config/wallet';
 import { ChakraProvider } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Provider as JotaiProvider } from 'jotai';
 import { AppProps } from 'next/app';
 import { WagmiConfig } from 'wagmi';
-import { HomepageLayout } from '../components/layout/homepage-layout';
+import { HomepageLayout } from '../shared/components/layout/homepage-layout';
 import { theme } from '../theme';
 import './globals.css';
 import { queryClient } from '@/config/ReactQuery';
