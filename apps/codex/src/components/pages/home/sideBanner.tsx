@@ -16,7 +16,7 @@ export const SideBanner = () => {
           </Box>
         </Title>
 
-        <Desc my={{ lg: '10px' }} fontSize={['12px', '18px', '24px']}>
+        <Desc my={{ lg: '10px' }} fontSize={['16px', '22px', '26px']}>
           CodexField operates by interacting with a decentralized network of storage providers
           (SPs). Users can securely upload their code with unique access and usage permissions. The
           data is then stored off-chain with redundancy and backup, while metadata is stored on the
@@ -40,6 +40,7 @@ const Title = styled(Box)`
 `;
 
 const Video = styled.video`
+  height: 60vw;
   object-fit: cover;
 `;
 
