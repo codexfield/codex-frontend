@@ -13,7 +13,7 @@ export const Banner = () => {
         </Box>
 
         <VStack
-          w="50vw"
+          w={{ /* base: '100vw',  */ xl: '50vw' }}
           maxW="900px"
           justify="space-between"
           align="flex-start"
@@ -25,7 +25,7 @@ export const Banner = () => {
           p="5rem"
         >
           <Title as="h1">CodexField</Title>
-          <Desc>
+          <Desc fontSize="36px">
             Empowers developers by providing them with true ownership and control over their code
             assets.
             <br />
@@ -64,7 +64,7 @@ const Video = styled.video`
 
 export const Desc = styled(Box)`
   color: #eff0f3;
-  font-size: 36px;
+  /* font-size: 36px; */
   font-weight: 400;
   line-height: 1.4;
 `;

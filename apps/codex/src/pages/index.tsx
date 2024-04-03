@@ -4,25 +4,25 @@ import { Links } from '@/components/pages/home/links';
 import { RoadMap } from '@/components/pages/home/roadmap';
 import { SideBanner } from '@/components/pages/home/sideBanner';
 import { Slogon } from '@/components/pages/home/slogon';
+import { useMedia } from '@/hooks/useMedia';
 import { Box } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 export default function Home() {
+  const media = useMedia();
+
   return (
     <Box>
       <Banner />
 
-      <Slogon />
+      {media === 'PC' && <Slogon />}
 
       <Box maxW="1920px" ml="auto" mr="auto">
         <Hr mb="60px" />
 
         <SideBanner />
-
         <Gitd />
-
         <RoadMap />
-
         <Links />
       </Box>
     </Box>
