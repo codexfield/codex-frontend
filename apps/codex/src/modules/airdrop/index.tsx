@@ -26,7 +26,7 @@ import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
-import { RankList } from './components/Rank';
+import { RankList } from './components/RankList';
 
 export const Airdrop = () => {
   const { address } = useAccount();
