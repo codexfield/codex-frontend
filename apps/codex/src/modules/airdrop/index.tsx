@@ -3,7 +3,6 @@ import InviteImage from '@/images/invite.png';
 import { CheckIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Center,
   Flex,
   Heading,
@@ -16,20 +15,18 @@ import {
   TabProps,
   Tabs,
   Text,
-  useClipboard,
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useAccount } from 'wagmi';
-import { Rank } from './components/Rank';
+import { GreenButton, PurpleButton } from './components/Buttons';
+import { CopyButton } from './components/Buttons/CopyButton';
 import { User } from './components/User';
 import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
-import { useRouter } from 'next/router';
-import { GreenButton, PurpleButton } from './components/Buttons';
-import { CopyButton } from './components/Buttons/CopyButton';
+import { Rank } from './components/Rank';
 
 export const Airdrop = () => {
   const { address } = useAccount();

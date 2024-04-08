@@ -1,6 +1,6 @@
+import { shortAddress } from '@/shared/utils';
 import { Box, Flex, Spinner, Stack } from '@chakra-ui/react';
 import { useQueryRank } from '../../hooks/useQueryRank';
-import { shortAddress } from '@/shared/utils';
 
 export const Rank = () => {
   const { isLoading, data: rankInfo } = useQueryRank();
