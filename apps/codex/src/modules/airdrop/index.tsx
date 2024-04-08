@@ -33,7 +33,6 @@ import { CopyButton } from './components/Buttons/CopyButton';
 
 export const Airdrop = () => {
   const { address } = useAccount();
-  const { onCopy, value, hasCopied, setValue } = useClipboard('');
   const router = useRouter();
 
   if (!address) {
@@ -53,10 +52,6 @@ export const Airdrop = () => {
 
   const code = !isLoading && userInfo && userInfo.result?.user.invite_code;
   const inviteUrl = window.location.href + '/invite?code=' + code;
-  useEffect(() => {
-    setValue(inviteUrl || '');
-  }, []);
-
   const taskList = userInfo?.result?.taskList;
 
   return (
