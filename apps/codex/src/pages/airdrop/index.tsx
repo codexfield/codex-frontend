@@ -1,5 +1,7 @@
 import { Airdrop } from '@/modules/airdrop';
+import { useIsMounted } from '@/shared/hooks/useIsMounted';
 
 export default function AirdropPage() {
-  return <Airdrop />;
+  const isMounted = useIsMounted();
+  return isMounted && <Airdrop />;
 }
