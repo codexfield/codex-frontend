@@ -26,7 +26,7 @@ import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
-import { Rank } from './components/Rank';
+import { RankList } from './components/Rank';
 
 export const Airdrop = () => {
   const { address } = useAccount();
@@ -308,7 +308,7 @@ export const Airdrop = () => {
             <TabIndicator mt="-1.5px" height="2px" bg="#d9d9d9" borderRadius="1px" />
             <TabPanels>
               <TabPanel>
-                <Rank />
+                <RankList />
               </TabPanel>
               <TabPanel>
                 <Stack alignItems="center" gap="30px" p="40px">
