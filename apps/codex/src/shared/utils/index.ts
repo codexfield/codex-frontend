@@ -37,3 +37,7 @@ export const DYMTimeAsObject = (timestamp: number) => {
     y: dym[2],
   };
 };
+
+export const shortAddress = (address: string) => {
+  return address.slice(0, 6) + '...' + address.slice(-6);
+};
