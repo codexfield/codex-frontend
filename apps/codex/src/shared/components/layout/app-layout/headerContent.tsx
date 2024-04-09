@@ -22,7 +22,7 @@ const HeaderContent = () => {
 
   useEffect(() => {
     // if don't connect wallet, show rainbow wallets modal
-    if (!address) {
+    if (!address && router.pathname === '/dashboard') {
       openConnectModal?.();
       return;
     }
