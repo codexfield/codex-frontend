@@ -27,6 +27,8 @@ export const useConnectTwitter = (params: IConnectTwitterParams) => {
       // 302 redirect
 
       window.location.href = response.url;
+      // window.open(response.url);
+      // const popup = window.open(response.url, '', `height=400, width=600`);
     },
     onSuccess: (data) => {
       // ...
