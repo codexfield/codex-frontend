@@ -1,4 +1,4 @@
-import { shortAddress } from '@/shared/utils';
+import { shortAddress, shortName } from '@/shared/utils';
 import { Box, Flex, Spinner, Stack } from '@chakra-ui/react';
 import { useQueryRank } from '../../hooks/useQueryRank';
 
@@ -14,9 +14,11 @@ export const RankList: React.FC = () => {
       ) : (
         rankInfo.result.map((item, index) => {
           return (
-            <Flex justifyContent="space-between" key={index}>
-              <Box>{item.rank}</Box>
-              <Box>{item.twitter_name}</Box>
+            <Flex gap="15px" justifyContent="space-between" key={index}>
+              <Box width="15px">{item.rank}</Box>
+              <Box flex="1" title={item.twitter_name}>
+                {shortName(item.twitter_name)}
+              </Box>
               <Box>{shortAddress(item.address)}</Box>
               <Box>{item.points.toLocaleString()}</Box>
             </Flex>

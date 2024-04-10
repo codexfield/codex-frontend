@@ -41,3 +41,10 @@ export const DYMTimeAsObject = (timestamp: number) => {
 export const shortAddress = (address: string) => {
   return address.slice(0, 6) + '...' + address.slice(-6);
 };
+
+export const shortName = (name: string) => {
+  if (name.length > 10) {
+    return name.slice(0, 20) + '...';
+  }
+  return name;
+};
