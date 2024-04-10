@@ -18,7 +18,7 @@ export const useConnectTwitter = (params: IConnectTwitterParams) => {
       if (!address) return;
 
       const response = await fetch(
-        `${AIRDROP_DOMAIN}/connect/twitter?address=${address}&reference_code=${referenceCode}`,
+        `${AIRDROP_DOMAIN}/connect/twitter?address=${address}&reference_code=${referenceCode}&callback=https://preview-codexfield.netlify.app/airdrop`,
         {
           redirect: 'manual',
         },
@@ -39,7 +39,7 @@ export const useConnectTwitter = (params: IConnectTwitterParams) => {
           popup?.close();
           clearInterval(timer);
         }
-      }, 3000);
+      }, 10000);
     },
     onSuccess: (data) => {
       // ...

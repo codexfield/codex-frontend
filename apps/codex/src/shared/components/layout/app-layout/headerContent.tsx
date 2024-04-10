@@ -1,8 +1,9 @@
 import { CustomConnectButton } from '@/shared/components/connectButton';
-import { Flex, Link } from '@chakra-ui/react';
+import { Box, Flex, Link } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { TwitterButton } from '../../TwitterButton';
 
 const HeaderContent = () => {
   const router = useRouter();
@@ -41,7 +42,10 @@ const HeaderContent = () => {
         </NavLink>
       </Flex>
 
-      <CustomConnectButton />
+      <Flex gap="20px">
+        {router.pathname === '/airdrop' && <TwitterButton />}
+        <CustomConnectButton />
+      </Flex>
     </>
   );
 };

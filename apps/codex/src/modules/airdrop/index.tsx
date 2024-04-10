@@ -61,14 +61,21 @@ export const Airdrop = () => {
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton
-                    isDisabled={userInfo?.code == 0}
-                    onClick={async () => {
-                      connect();
-                    }}
-                  >
-                    Connect
-                  </PurpleButton>
+                  {userInfo?.code == 0 ? (
+                    <Flex justifyContent="end" flex="1" alignItems="center" gap="6px">
+                      <CheckIcon w="14px" />
+                      <Box as="span">Completed</Box>
+                    </Flex>
+                  ) : (
+                    <PurpleButton
+                      isDisabled={userInfo?.code == 0}
+                      onClick={async () => {
+                        connect();
+                      }}
+                    >
+                      Connect
+                    </PurpleButton>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -139,7 +146,13 @@ export const Airdrop = () => {
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton>Join</PurpleButton>
+                  <PurpleButton
+                    onClick={() => {
+                      window.open('https://t.me/CodexField');
+                    }}
+                  >
+                    Join
+                  </PurpleButton>
                   <GreenButton
                     // isLoading={isPending}
                     onClick={async () => {
@@ -226,7 +239,18 @@ export const Airdrop = () => {
                 </Flex>
 
                 <Buttons justifyContent="flex-end">
-                  <CopyButton value={inviteUrl} />
+                  {userInfo?.result ? (
+                    <CopyButton value={inviteUrl} />
+                  ) : (
+                    <PurpleButton
+                      isDisabled={userInfo?.code == 0}
+                      onClick={async () => {
+                        connect();
+                      }}
+                    >
+                      Connect
+                    </PurpleButton>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -302,16 +326,29 @@ export const Airdrop = () => {
             </TabList>
             <TabIndicator mt="-1.5px" height="2px" bg="#d9d9d9" borderRadius="1px" />
             <TabPanels>
-              <TabPanel>
+              <TabPanel p="0">
                 <RankList />
               </TabPanel>
-              <TabPanel>
+              <TabPanel p="0">
                 <Stack alignItems="center" gap="30px" p="40px">
-                  <Box w="54px">
-                    <img src={InviteImage.src} />
-                  </Box>
-                  <Box as="p">{inviteUrl}</Box>
-                  <CopyButton value={inviteUrl} />
+                  {userInfo?.result ? (
+                    <>
+                      <Box w="54px">
+                        <img src={InviteImage.src} />
+                      </Box>
+                      <Box as="p">{inviteUrl}</Box>
+                      <CopyButton value={inviteUrl} />
+                    </>
+                  ) : (
+                    <PurpleButton
+                      isDisabled={userInfo?.code == 0}
+                      onClick={async () => {
+                        connect();
+                      }}
+                    >
+                      Connect Twitter
+                    </PurpleButton>
+                  )}
                 </Stack>
                 <Box as="p" color="#5F5F5F" fontSize="12px">
                   Great Britain, whose children we are, and whose language we speak, should no
