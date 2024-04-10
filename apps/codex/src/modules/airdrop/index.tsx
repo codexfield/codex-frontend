@@ -32,17 +32,12 @@ export const Airdrop = () => {
   const { address } = useAccount();
   const router = useRouter();
 
-  if (!address) {
-    // redirect to metamask
-  }
-
   const { isLoading, data: userInfo } = useQueryUser(address);
-
   console.log('userInfo', userInfo);
 
   const { mutateAsync: connect } = useConnectTwitter({
     address: address,
-    referenceCode: '',
+    referenceCode: (router?.query?.code as string) || '',
   });
 
   const { mutateAsync: verify } = useVerify();
