@@ -12,9 +12,9 @@ export const RankList: React.FC = () => {
       {!rankInfo ? (
         <></>
       ) : (
-        rankInfo.result.map((item) => {
+        rankInfo.result.map((item, index) => {
           return (
-            <Flex justifyContent="space-between" key={item.rank}>
+            <Flex justifyContent="space-between" key={index}>
               <Box>{item.rank}</Box>
               <Box>{item.twitter_name}</Box>
               <Box>{shortAddress(item.address)}</Box>

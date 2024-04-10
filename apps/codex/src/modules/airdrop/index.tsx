@@ -67,7 +67,7 @@ export const Airdrop = () => {
                 </Flex>
                 <Buttons>
                   <PurpleButton
-                    isDisabled={userInfo?.code == 0}
+                    // isDisabled={userInfo?.code == 0}
                     onClick={async () => {
                       connect();
                     }}

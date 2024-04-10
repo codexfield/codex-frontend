@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import * as axios from 'axios';
 import { AIRDROP_DOMAIN } from '../api';
+import { useQueryUser } from './useQueryUser';
 
 interface IConnectTwitterParams {
   address?: string;
@@ -8,9 +9,12 @@ interface IConnectTwitterParams {
 }
 
 export const useConnectTwitter = (params: IConnectTwitterParams) => {
+  const { address, referenceCode } = params;
+
+  const { refetch, data: userInfo } = useQueryUser(address);
+
   return useMutation({
     mutationFn: async () => {
-      const { address, referenceCode } = params;
       if (!address) return;
 
       const response = await fetch(
@@ -26,9 +30,17 @@ export const useConnectTwitter = (params: IConnectTwitterParams) => {
 
       // 302 redirect
 
-      window.location.href = response.url;
-      // window.open(response.url);
-      // const popup = window.open(response.url, '', `height=400, width=600`);
+      // window.location.href = response.url;
+      const popup = window.open(response.url, '', `height=400, width=600`);
+
+      const timer = setInterval(() => {
+        refetch();
+        if (userInfo !== undefined) {
+          popup?.close();
+
+          clearInterval(timer);
+        }
+      }, 3000);
     },
     onSuccess: (data) => {
       // ...
