@@ -12,7 +12,8 @@ import { FileIcon } from '@/shared/icons/FileIcon';
 import { FolderIcon } from '@/shared/icons/FolderIcon';
 import { RepoIcon } from '@/shared/icons/RepoIcon';
 import { getRepoName } from '@/shared/utils';
-import { Box, Center, Flex, Link, Spinner } from '@chakra-ui/react';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { Box, Button, Center, Flex, Link, Spinner } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -52,6 +53,9 @@ export default function Repo() {
       latestCommit is {latestCommitOid} */}
 
       <RepoContainer w="960px">
+        <Button variant="unstyled" fontSize="20px" onClick={router.back}>
+          <ChevronLeftIcon boxSize="22px" verticalAlign="-6px" /> Back
+        </Button>
         <RepoTitleContainer>
           <Flex justifyContent="space-between" alignItems="center">
             <RepoName>
@@ -118,11 +122,11 @@ export default function Repo() {
 }
 
 const RepoContainer = styled(Box)`
-  border-radius: 8px;
   overflow: hidden;
 `;
 const RepoTitleContainer = styled(Box)`
   background: #282829;
+  border-radius: 8px 8px 0 0;
   box-shadow: 0px 10px 10px 0px rgba(18, 18, 20, 0.25);
   /* height: 70px;
   line-height: 70px; */
@@ -139,6 +143,7 @@ const RepoName = styled(Flex)`
 const RepoConentList = styled(Box)`
   border: 1px solid #282829;
   background: #1c1c1e;
+  border-radius: 0 0 8px 8px;
 `;
 const RepeContentItem = styled(Box)`
   color: #ffffff;
