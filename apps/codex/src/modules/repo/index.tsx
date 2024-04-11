@@ -1,3 +1,6 @@
+import { ClonePopver } from '@/modules/repo/components/ClonePopover';
+import { EmptyRepo } from '@/modules/repo/components/EmptyRepo';
+import { Side } from '@/shared/components/Side';
 import { VisibilityBadge } from '@/shared/components/VisibilityBadge';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useGetBucketInfo } from '@/shared/hooks/gnfd/useGetBucketInfo';
@@ -8,9 +11,6 @@ import { OidType, useReadRepoByOid } from '@/shared/hooks/useReadRepoByOid';
 import { FileIcon } from '@/shared/icons/FileIcon';
 import { FolderIcon } from '@/shared/icons/FolderIcon';
 import { RepoIcon } from '@/shared/icons/RepoIcon';
-import { ClonePopver } from '@/modules/repo/components/ClonePopover';
-import { EmptyRepo } from '@/modules/repo/components/EmptyRepo';
-import { Side } from '@/shared/components/Side';
 import { getRepoName } from '@/shared/utils';
 import { Box, Center, Flex, Link, Spinner } from '@chakra-ui/react';
 import styled from '@emotion/styled';
@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import { useAccount } from 'wagmi';
+import { SharePopver } from './components/ShareRepo';
 
 export default function Repo() {
   const router = useRouter();
@@ -58,7 +59,15 @@ export default function Repo() {
               <Box color="#a276ff">{repoName}</Box>
               <VisibilityBadge visibility={bucketInfo?.visibility || -1} />
             </RepoName>
-            <ClonePopver buckname={name as string} />
+
+            <Flex alignItems="center">
+              {bucketInfo?.visibility === 1 && (
+                <SharePopver
+                  url={`${window.location.origin}/repo/${bucketInfo?.bucketName}?type=tree`}
+                />
+              )}
+              <ClonePopver buckname={name as string} />
+            </Flex>
           </Flex>
         </RepoTitleContainer>
         <RepoConentList>

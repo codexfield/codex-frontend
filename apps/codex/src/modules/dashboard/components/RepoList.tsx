@@ -1,4 +1,5 @@
 import { NewRepo } from '@/modules/dashboard/components/NewRepo';
+import { SharePopver } from '@/modules/repo/components/ShareRepo';
 import { VisibilityBadge } from '@/shared/components/VisibilityBadge';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useGetRepoList } from '@/shared/hooks/gnfd/useGetRepoList';
@@ -25,7 +26,9 @@ import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
 import { useAccount } from 'wagmi';
+import { DeleteRepo } from './modals/repo/delete';
 import { EditRepo } from './modals/repo/edit';
+import { useRouter } from 'next/router';
 
 export const RepoList = () => {
   const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList();
@@ -39,12 +42,25 @@ export const RepoList = () => {
   // });
   // console.log('data', data);
 
+  const router = useRouter();
+  console.log('router', router);
+
   const handleChangeVisibility = (repo: BucketMetaWithVGF) => {
     NiceModal.show(EditRepo, {
       bucketInfo: repo.BucketInfo,
       onSuccess: () => {
         refetchRepoList();
         NiceModal.hide(EditRepo);
+      },
+    });
+  };
+
+  const handleDeleteRepo = (repo: BucketMetaWithVGF) => {
+    NiceModal.show(DeleteRepo, {
+      bucketInfo: repo.BucketInfo,
+      onSuccess: () => {
+        refetchRepoList();
+        NiceModal.hide(DeleteRepo);
       },
     });
   };
@@ -107,6 +123,13 @@ export const RepoList = () => {
                         {getRepoName(repo.BucketInfo.BucketName, userInfo.id)}
                         <VisibilityBadge visibility={repo.BucketInfo?.Visibility || -1} />
                       </Link>
+
+                      {repo.BucketInfo?.Visibility === 1 && (
+                        <SharePopver
+                          url={`${window.location.origin}/repo/${repo?.BucketInfo?.BucketName}?type=tree`}
+                        />
+                      )}
+
                       <Menu placement="bottom-end">
                         <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />
                         <MenuList bg="#1C1C1E">
@@ -117,6 +140,14 @@ export const RepoList = () => {
                           >
                             Change Visibility
                           </StyledMenuItem>
+                          {/* <StyledMenuItem
+                            color="#CA1414"
+                            onClick={() => {
+                              handleDeleteRepo(repo);
+                            }}
+                          >
+                            Delete Repo
+                          </StyledMenuItem> */}
                           {/* <StyledMenuItem
                             onClick={() => {
                               handleListRepo(repo);

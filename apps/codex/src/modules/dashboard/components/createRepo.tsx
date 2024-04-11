@@ -1,26 +1,39 @@
 import { createBucket } from '@/apis/createBucket';
-import { newRepoAtom } from '@/modules/dashboard/atoms/newRepoAtom';
-import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
 import GnfdBackend from '@/config/GnfdBackend';
 import { selectSp } from '@/config/GnfsClient';
+import { GNFD_CHAINID } from '@/env';
+import { newRepoAtom } from '@/modules/dashboard/atoms/newRepoAtom';
+import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
+import { useGetRepoList } from '@/shared/hooks/gnfd/useGetRepoList';
 import { getBucketName } from '@/shared/utils';
-import { Box, Flex, FormControl, FormErrorMessage, FormLabel, Link } from '@chakra-ui/react';
+import { getOffchainAuthKeys } from '@/shared/utils/offchainAuth';
+import {
+  Box,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Link,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import git from '@codexfield/isomorphic-git';
 import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtom, useSetAtom } from 'jotai';
 import { StyledButton, StyledInput } from './modals/forms';
-import { GNFD_CHAINID } from '@/env';
-import { useGetRepoList } from '@/shared/hooks/gnfd/useGetRepoList';
-import { getOffchainAuthKeys } from '@/shared/utils/offchainAuth';
 // @ts-ignore
 import LightningFS from '@codexfield/lightning-fs';
 import { useState } from 'react';
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
+import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
 
 interface FormValues {
   repoName: string;
+  visibility: keyof typeof VisibilityType;
   description?: string;
 }
 
@@ -38,6 +51,7 @@ export const CreateRepoForm = () => {
     initialValues: {
       repoName: '',
       description: '',
+      visibility: 'VISIBILITY_TYPE_PUBLIC_READ',
     },
     validate: (values: FormValues) => {
       const errors: FormikErrors<FormValues> = {};
@@ -79,6 +93,7 @@ export const CreateRepoForm = () => {
           address,
           seed,
           primarySpAddress: spInfo.primarySpAddress,
+          visibility: values.visibility,
         });
 
         if (createBucketRes.code === 0) {
@@ -161,6 +176,48 @@ export const CreateRepoForm = () => {
             <FormErrorMessage>{createRepoFormik.errors.repoName}</FormErrorMessage>
           )}
         </FormControl>
+
+        <FormControl mt="16px">
+          <Text fontSize="16px" color="#5f5f5f">
+            Great repository names are short and memorable.Need inspiration? How about potential
+            -dollop ?
+          </Text>
+          <RadioGroup
+            name="visibility"
+            id="visibility"
+            onChange={(e) => {
+              createRepoFormik.setValues((preValues) => ({
+                ...preValues,
+                visibility: e as keyof typeof VisibilityType,
+              }));
+            }}
+            value={createRepoFormik.values.visibility}
+          >
+            <Stack p="20px" bg="#1E1E1E" borderRadius="8px" mt="15px" gap="24px">
+              <Radio value="VISIBILITY_TYPE_PUBLIC_READ">
+                <Stack>
+                  <Text fontSize="16px" fontWeight="700">
+                    Public
+                  </Text>
+                  <Text color="#5F5F5F" fontSize="14px">
+                    Anyone on the Internet can see this repository . you choose who can contakt.
+                  </Text>
+                </Stack>
+              </Radio>
+              <Radio value="VISIBILITY_TYPE_PRIVATE">
+                <Stack>
+                  <Text fontSize="16px" fontWeight="700">
+                    Private
+                  </Text>
+                  <Text color="#5F5F5F" fontSize="14px">
+                    You choose who can see and connit to this repository.
+                  </Text>
+                </Stack>
+              </Radio>
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+
         {/* <FormControl mt="16px">
           <SubTitle as="h3">
             Great repository names are short and memorable.Need inspiration? How about potential

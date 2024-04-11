@@ -14,6 +14,7 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAtomValue } from 'jotai';
 import { useEffect } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
+import { useIsMounted } from '@/shared/hooks/useIsMounted';
 
 export const Dashboard: React.FC = () => {
   const { address } = useAccount();
@@ -48,6 +49,10 @@ export const Dashboard: React.FC = () => {
   // apply offchain auth data
   useGetOffchainAuth(userIsRegister);
   const showCreateRepo = useAtomValue(newRepoAtom);
+
+  const isMounted = useIsMounted();
+
+  if (!isMounted) return null;
 
   return (
     <Flex gap="20px" w="1360px" ml="auto" mr="auto">

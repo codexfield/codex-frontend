@@ -1,21 +1,24 @@
 import { GreenfieldClient } from '@/config/GnfsClient';
+import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
 
 export const createBucket = async ({
   bucketName,
   address,
   primarySpAddress,
   seed,
+  visibility,
 }: {
   bucketName: string;
   address: string;
   seed: string;
   primarySpAddress: string;
+  visibility: keyof typeof VisibilityType;
 }) => {
   const tx = await GreenfieldClient.bucket.createBucket(
     {
       bucketName,
       creator: address,
-      visibility: 'VISIBILITY_TYPE_PRIVATE',
+      visibility,
       chargedReadQuota: '0',
       spInfo: {
         primarySpAddress,
