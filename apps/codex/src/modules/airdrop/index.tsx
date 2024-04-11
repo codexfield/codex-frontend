@@ -52,375 +52,390 @@ export const Airdrop = () => {
   const taskList = userInfo?.result?.taskList;
 
   return (
-    <Flex gap="30px" w="1360px" ml="auto" mr="auto" justifyContent="space-between" p="30px">
-      <Stack w="730px">
-        <Box>
-          <Title>Mandatory Tasks</Title>
+    <>
+      <Flex gap="30px" w="1360px" ml="auto" mr="auto" justifyContent="space-between" p="30px">
+        <Stack w="730px">
+          <Box>
+            <Title>Mandatory Tasks</Title>
 
-          <Stack gap="15px" w="100%">
-            <Task>
-              <Status done={userInfo?.code == 0} />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Connect Twitter account</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-                <Buttons>
-                  {userInfo?.code == 0 ? (
-                    <Complete />
-                  ) : (
-                    <PurpleButton
-                      isDisabled={userInfo?.code == 0}
-                      onClick={async () => {
-                        connect();
-                      }}
-                    >
-                      Connect
-                    </PurpleButton>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
-            <Task>
-              <Status done={taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1} />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Follow @CodexField on Twitter</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-                <Buttons>
-                  {taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1 ? (
-                    <Complete />
-                  ) : (
-                    <>
-                      <PurpleButton
-                        onClick={() => {
-                          window.open('https://twitter.com/codexfield');
-                        }}
-                      >
-                        Follow
-                      </PurpleButton>
-                      <GreenButton
-                        // isLoading={isPending}
-                        onClick={async () => {
-                          await verify({
-                            taskName: 'FollowTwitter',
-                          });
-                        }}
-                      >
-                        Verify
-                      </GreenButton>
-                    </>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
-            <Task>
-              <Status
-                done={taskList?.find((x) => x.name === 'PostCodexFieldTwitter')?.status === 1}
-              />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Post CodexField Airdrop Campaign tweet</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-                <Buttons>
-                  {taskList?.find((x) => x.name === 'PostCodexFieldTwitter')?.status === 1 ? (
-                    <Complete />
-                  ) : (
-                    <>
-                      <PurpleButton
-                        onClick={() => {
-                          const url = postTweet();
-                          window.open(url, '_blank');
-                        }}
-                      >
-                        Post
-                      </PurpleButton>
-                      <GreenButton
-                        // isLoading={isPending}
-                        onClick={async () => {
-                          await verify({
-                            taskName: 'PostCodexFieldTwitter',
-                          });
-                        }}
-                      >
-                        Verify
-                      </GreenButton>
-                    </>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
-            <Task>
-              <Status done={taskList?.find((x) => x.name === 'JoinTelegram')?.status === 1} />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Join CodexField Telegrame group</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-                <Buttons>
-                  {taskList?.find((x) => x.name === 'JoinTelegram')?.status === 1 ? (
-                    <Complete />
-                  ) : (
-                    <>
-                      <PurpleButton
-                        onClick={() => {
-                          window.open('https://t.me/CodexField');
-                        }}
-                      >
-                        Join
-                      </PurpleButton>
-                      <GreenButton
-                        // isLoading={isPending}
-                        onClick={async () => {
-                          await verify({
-                            taskName: 'JoinTelegram',
-                          });
-                        }}
-                      >
-                        Verify
-                      </GreenButton>
-                    </>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
-          </Stack>
-        </Box>
-
-        <Box>
-          <Title>Optional Tasks</Title>
-          <Stack gap="15px">
-            <Task>
-              <Status done={taskList?.find((x) => x.name === 'PostTwitterWithTag')?.status === 1} />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Post a tweet with @CodexField tag(Daily)</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-                <Buttons>
-                  {taskList?.find((x) => x.name === 'PostTwitterWithTag')?.status === 1 ? (
-                    <Stack justifyContent="end" flex="1">
+            <Stack gap="15px" w="100%">
+              <Task>
+                <Status done={userInfo?.code == 0} />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Connect Twitter account</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+                  <Buttons>
+                    {userInfo?.code == 0 ? (
                       <Complete />
-                      {userInfo?.result.current_timestamp && (
-                        <Countdown now={userInfo?.result.current_timestamp} />
-                      )}
-                    </Stack>
-                  ) : (
-                    <>
+                    ) : (
                       <PurpleButton
-                        onClick={() => {
-                          const url = postTweet();
-                          window.open(url, '_blank');
+                        isDisabled={userInfo?.code == 0}
+                        onClick={async () => {
+                          connect();
                         }}
                       >
-                        Post
+                        Connect
                       </PurpleButton>
-                      <GreenButton
-                        onClick={async () => {
-                          await verify({
-                            taskName: 'PostTwitterWithTag',
-                          });
-                        }}
-                      >
-                        Verify
-                      </GreenButton>
-                    </>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+              <Task>
+                <Status done={taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1} />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Follow @CodexField on Twitter</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+                  <Buttons>
+                    {taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            window.open('https://twitter.com/codexfield');
+                          }}
+                        >
+                          Follow
+                        </PurpleButton>
+                        <GreenButton
+                          // isLoading={isPending}
+                          onClick={async () => {
+                            await verify({
+                              taskName: 'FollowTwitter',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+              <Task>
+                <Status
+                  done={taskList?.find((x) => x.name === 'PostCodexFieldTwitter')?.status === 1}
+                />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Post CodexField Airdrop Campaign tweet</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+                  <Buttons>
+                    {taskList?.find((x) => x.name === 'PostCodexFieldTwitter')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            const text = `Join the airdrop campaign for CodexField, your gateway to decentralized code ownership on BNB Greenfield. Win token airdrops & unlock the future of code!
 
-            <Task>
-              <Status done={taskList?.find((x) => x.name === 'RetweetLatestTweet')?.status === 1} />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Retweet, like and comment on the latest tweet</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-                <Buttons>
-                  {taskList?.find((x) => x.name === 'RetweetLatestTweet')?.status === 1 ? (
-                    <Complete />
-                  ) : (
-                    <>
-                      <PurpleButton
-                        onClick={() => {
-                          window.open('https://twitter.com/codexfield');
-                        }}
-                      >
-                        Retweet
-                      </PurpleButton>
-                      <GreenButton
-                        onClick={async () => {
-                          await verify({
-                            taskName: 'RetweetLatestTweet',
-                          });
-                        }}
-                      >
-                        Verify
-                      </GreenButton>
-                    </>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
+                          Follow @CodexField to learn more!`;
+                            const url = postTweet(text);
+                            window.open(url, '_blank');
+                          }}
+                        >
+                          Post
+                        </PurpleButton>
+                        <GreenButton
+                          // isLoading={isPending}
+                          onClick={async () => {
+                            await verify({
+                              taskName: 'PostCodexFieldTwitter',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+              <Task>
+                <Status done={taskList?.find((x) => x.name === 'JoinTelegram')?.status === 1} />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Join CodexField Telegrame group</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+                  <Buttons>
+                    {taskList?.find((x) => x.name === 'JoinTelegram')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            window.open('https://t.me/CodexField');
+                          }}
+                        >
+                          Join
+                        </PurpleButton>
+                        <GreenButton
+                          // isLoading={isPending}
+                          onClick={async () => {
+                            await verify({
+                              taskName: 'JoinTelegram',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+            </Stack>
+          </Box>
 
-            <Task>
-              <Status />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Box>
-                    Invite friends to join the campaign
-                    <Popover trigger="hover" placement="bottom-end" closeOnBlur>
-                      <PopoverTrigger>
-                        <InfoOutlineIcon color="#646464" ml="4px" />
-                      </PopoverTrigger>
-                      <PopoverContent bg="#7A3CFF" p="15px" border="none">
-                        <PopoverBody>
-                          A successful invite needs to complet all mandatory tasks.
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Popover>
-                  </Box>
-                  <Text>10 Points + 20% boost</Text>
-                </Flex>
+          <Box>
+            <Title>Optional Tasks</Title>
+            <Stack gap="15px">
+              <Task>
+                <Status
+                  done={taskList?.find((x) => x.name === 'PostTwitterWithTag')?.status === 1}
+                />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Post a tweet with @CodexField tag(Daily)</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+                  <Buttons>
+                    {taskList?.find((x) => x.name === 'PostTwitterWithTag')?.status === 1 ? (
+                      <Stack justifyContent="end" flex="1">
+                        <Complete />
+                        {userInfo?.result.current_timestamp && (
+                          <Countdown now={userInfo?.result.current_timestamp} />
+                        )}
+                      </Stack>
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            const text = `Follow @CodexField to unlock the future of code!`;
+                            const url = postTweet(text);
+                            window.open(url, '_blank');
+                          }}
+                        >
+                          Post
+                        </PurpleButton>
+                        <GreenButton
+                          onClick={async () => {
+                            await verify({
+                              taskName: 'PostTwitterWithTag',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
 
-                <Buttons justifyContent="flex-end">
-                  {userInfo?.result ? (
-                    <CopyButton value={inviteUrl} />
-                  ) : (
-                    <PurpleButton
-                      isDisabled={userInfo?.code == 0}
-                      onClick={async () => {
-                        connect();
-                      }}
-                    >
-                      Connect
-                    </PurpleButton>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
-          </Stack>
-        </Box>
+              <Task>
+                <Status
+                  done={taskList?.find((x) => x.name === 'RetweetLatestTweet')?.status === 1}
+                />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Retweet, like and comment on the latest tweet</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+                  <Buttons>
+                    {taskList?.find((x) => x.name === 'RetweetLatestTweet')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            window.open('https://twitter.com/codexfield');
+                          }}
+                        >
+                          Retweet
+                        </PurpleButton>
+                        <GreenButton
+                          onClick={async () => {
+                            await verify({
+                              taskName: 'RetweetLatestTweet',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
 
-        <Box>
-          <Title>Advanced Tasks</Title>
-          <Stack gap="15px">
-            <Task>
-              <Status done={taskList?.find((x) => x.name === 'RegisterCodexFiled')?.status === 1} />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Register CodexField ID</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-                <Buttons>
-                  {taskList?.find((x) => x.name === 'RegisterCodexFiled')?.status === 1 ? (
-                    <Complete />
-                  ) : (
-                    <>
-                      <PurpleButton
-                        onClick={() => {
-                          router.push('/dashboard');
-                        }}
-                      >
-                        Register
-                      </PurpleButton>
-                      <GreenButton
-                        onClick={async () => {
-                          await verify({
-                            taskName: 'RegisterCodexFiled',
-                          });
-                        }}
-                      >
-                        Verify
-                      </GreenButton>
-                    </>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
+              <Task>
+                <Status />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Box>
+                      Invite friends to join the campaign
+                      <Popover trigger="hover" placement="bottom-end" closeOnBlur>
+                        <PopoverTrigger>
+                          <InfoOutlineIcon color="#646464" ml="4px" />
+                        </PopoverTrigger>
+                        <PopoverContent bg="#7A3CFF" p="15px" border="none">
+                          <PopoverBody>
+                            Invite your friends and get 20% of the points your friends make.
+                          </PopoverBody>
+                        </PopoverContent>
+                      </Popover>
+                    </Box>
+                    <Text>10 Points + 20% bonus</Text>
+                  </Flex>
 
-            <Task>
-              <Status
-                done={taskList?.find((x) => x.name === 'CreateRepoCodexField')?.status === 1}
-              />
-              <TaskContent>
-                <Flex justifyContent="space-between" flex="1">
-                  <Text>Create a repo on CodexField</Text>
-                  <Text>10 Points</Text>
-                </Flex>
-
-                <Buttons justifyContent="flex-end">
-                  {taskList?.find((x) => x.name === 'CreateRepoCodexField')?.status === 1 ? (
-                    <Complete />
-                  ) : (
-                    <>
-                      <GreenButton
-                        onClick={async () => {
-                          await verify({
-                            taskName: 'CreateRepoCodexField',
-                          });
-                        }}
-                      >
-                        Verify
-                      </GreenButton>
-                    </>
-                  )}
-                </Buttons>
-              </TaskContent>
-            </Task>
-          </Stack>
-        </Box>
-      </Stack>
-
-      <Box flex="1" mt="130px">
-        <User />
-
-        <Invites>
-          <Tabs variant="unstyled" position="relative">
-            <TabList>
-              <InvitesTab>Leaderboard</InvitesTab>
-              <InvitesTab>Invites</InvitesTab>
-            </TabList>
-            <TabIndicator mt="-1.5px" height="2px" bg="#d9d9d9" borderRadius="1px" />
-            <TabPanels>
-              <TabPanel p="0">
-                <RankList />
-              </TabPanel>
-              <TabPanel p="0">
-                <Stack alignItems="center" gap="30px" p="40px">
-                  {userInfo?.result ? (
-                    <>
-                      <Box w="54px">
-                        <img src={InviteImage.src} />
-                      </Box>
-                      <Box as="p">{inviteUrl}</Box>
+                  <Buttons justifyContent="flex-end">
+                    {userInfo?.result ? (
                       <CopyButton value={inviteUrl} />
-                    </>
-                  ) : (
-                    <PurpleButton
-                      isDisabled={userInfo?.code == 0}
-                      onClick={async () => {
-                        connect();
-                      }}
-                    >
-                      Connect Twitter
-                    </PurpleButton>
-                  )}
-                </Stack>
-                <Box as="p" color="#5F5F5F" fontSize="12px">
-                  Great Britain, whose children we are, and whose language we speak, should no
-                  longer be our standard; for the taste of her writers is already corrupted, and her
-                  language on the decline.
-                </Box>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Invites>
-      </Box>
-    </Flex>
+                    ) : (
+                      <PurpleButton
+                        isDisabled={userInfo?.code == 0}
+                        onClick={async () => {
+                          connect();
+                        }}
+                      >
+                        Connect
+                      </PurpleButton>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+            </Stack>
+          </Box>
+
+          <Box>
+            <Title>Advanced Tasks</Title>
+            <Stack gap="15px">
+              <Task>
+                <Status
+                  done={taskList?.find((x) => x.name === 'RegisterCodexFiled')?.status === 1}
+                />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Register CodexField ID</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+                  <Buttons>
+                    {taskList?.find((x) => x.name === 'RegisterCodexFiled')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            router.push('/dashboard');
+                          }}
+                        >
+                          Register
+                        </PurpleButton>
+                        <GreenButton
+                          onClick={async () => {
+                            await verify({
+                              taskName: 'RegisterCodexFiled',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+
+              <Task>
+                <Status
+                  done={taskList?.find((x) => x.name === 'CreateRepoCodexField')?.status === 1}
+                />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Create a repo on CodexField</Text>
+                    <Text>10 Points</Text>
+                  </Flex>
+
+                  <Buttons justifyContent="flex-end">
+                    {taskList?.find((x) => x.name === 'CreateRepoCodexField')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <GreenButton
+                          onClick={async () => {
+                            await verify({
+                              taskName: 'CreateRepoCodexField',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+            </Stack>
+          </Box>
+        </Stack>
+
+        <Box flex="1" mt="130px">
+          <User />
+
+          <Invites>
+            <Tabs variant="unstyled" position="relative">
+              <TabList>
+                <InvitesTab>Leaderboard</InvitesTab>
+                <InvitesTab>Invites</InvitesTab>
+              </TabList>
+              <TabIndicator mt="-1.5px" height="2px" bg="#d9d9d9" borderRadius="1px" />
+              <TabPanels>
+                <TabPanel p="0">
+                  <RankList />
+                </TabPanel>
+                <TabPanel p="0">
+                  <Stack alignItems="center" gap="30px" p="40px">
+                    {userInfo?.result ? (
+                      <>
+                        <Box w="54px">
+                          <img src={InviteImage.src} />
+                        </Box>
+                        <Box as="p">{inviteUrl}</Box>
+                        <Box as="p">
+                          Invite your friends and get 20% of the points your friends make.
+                        </Box>
+                        <CopyButton value={inviteUrl} />
+                      </>
+                    ) : (
+                      <PurpleButton
+                        isDisabled={userInfo?.code == 0}
+                        onClick={async () => {
+                          connect();
+                        }}
+                      >
+                        Connect Twitter
+                      </PurpleButton>
+                    )}
+                  </Stack>
+                  <Box as="p" color="#5F5F5F" fontSize="12px">
+                    Great Britain, whose children we are, and whose language we speak, should no
+                    longer be our standard; for the taste of her writers is already corrupted, and
+                    her language on the decline.
+                  </Box>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          </Invites>
+        </Box>
+      </Flex>
+    </>
   );
 };
 

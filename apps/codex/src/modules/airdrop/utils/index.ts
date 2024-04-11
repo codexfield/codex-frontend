@@ -1,13 +1,9 @@
-export const postTweet = () => {
+export const postTweet = (text: string) => {
   // post tweet
   // 1. url
   const windowReference = window.location.href;
   const hrefEl =
-    'https://twitter.com/intent/tweet?url=' +
-    windowReference +
-    '&text=' +
-    encodeURIComponent('codexfield!');
-  // tweetButton.setAttribute('href', hrefEl)
+    'https://twitter.com/intent/tweet?url=' + windowReference + '&text=' + encodeURIComponent(text);
 
   return hrefEl;
 
