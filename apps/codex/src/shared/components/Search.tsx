@@ -9,36 +9,54 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useOutsideClick,
 } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useGetAccountDetailsByName } from '../hooks/contract/useGetAccountDetailsByName';
 
 export const Search = () => {
+  const ref = useRef(null);
   const router = useRouter();
   const [kw, setKw] = useState('');
   const { address } = useAccount();
 
-  const { isLoading, data: searchUserData } = useGetAccountDetailsByName(kw, address);
+  const [open, setOpen] = useState(false);
+  useOutsideClick({
+    ref: ref,
+    handler: () => setOpen(false),
+  });
+
+  const { data: searchUserData } = useGetAccountDetailsByName(kw, address);
 
   // console.log('data', searchUserData);
 
   const handleSearch = (e: any) => {
     e.preventDefault();
+
+    setOpen(true);
+
     const target = e.target as HTMLInputElement;
     if (!target.value) return;
 
     if (e.key === 'Enter') {
+      setOpen(false);
       router.push(`/profile/${target.value}`);
+      return;
     }
 
     setKw(target.value);
   };
 
+  const handleFocus = () => {
+    if (!kw) return;
+    setOpen(true);
+  };
+
   return (
-    <Box h="46px" minW="560px" pos="relative">
+    <Box h="46px" minW="560px" pos="relative" ref={ref}>
       <InputGroup>
         <Input
           placeholder="Enter by Address / Profile"
@@ -48,13 +66,14 @@ export const Search = () => {
             color: '#5F5F5F',
           }}
           onKeyUp={handleSearch}
+          onFocus={handleFocus}
         />
         <InputRightElement bg="#7A3CFF" borderRadius="0 8px 8px 0">
           <SearchIcon />
         </InputRightElement>
       </InputGroup>
 
-      {kw && (
+      {open && (
         <Box
           pos="absolute"
           p="10px"
@@ -84,6 +103,7 @@ export const Search = () => {
                       p="8px"
                       fontSize="12px"
                       onClick={() => {
+                        setOpen(false);
                         router.push(`/profile/${searchUserData.account}`);
                       }}
                     >
@@ -94,7 +114,6 @@ export const Search = () => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-          )
         </Box>
       )}
     </Box>
