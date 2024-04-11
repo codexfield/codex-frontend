@@ -4,6 +4,7 @@ import NextLink from 'next/link';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { TwitterButton } from '../../TwitterButton';
+import { Search } from '../../Search';
 
 const HeaderContent = () => {
   const router = useRouter();
@@ -43,6 +44,7 @@ const HeaderContent = () => {
       </Flex>
 
       <Flex gap="20px">
+        <Search />
         {router.pathname === '/airdrop' && <TwitterButton />}
         <CustomConnectButton />
       </Flex>

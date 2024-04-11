@@ -81,7 +81,9 @@ export const Dashboard: React.FC = () => {
 
         <Box w="960px">
           {userIsRegister && (
-            <>{showCreateRepo.clickedButton ? <CreateRepoForm /> : <RepoList />}</>
+            <>
+              {showCreateRepo.clickedButton ? <CreateRepoForm /> : <RepoList address={address} />}
+            </>
           )}
         </Box>
       </Stack>

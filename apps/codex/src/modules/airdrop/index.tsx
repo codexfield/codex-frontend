@@ -270,7 +270,7 @@ export const Airdrop = () => {
               <Status />
               <TaskContent>
                 <Flex justifyContent="space-between" flex="1">
-                  <Text>
+                  <Box>
                     Invite friends to join the campaign
                     <Popover trigger="hover" placement="bottom-end" closeOnBlur>
                       <PopoverTrigger>
@@ -282,7 +282,7 @@ export const Airdrop = () => {
                         </PopoverBody>
                       </PopoverContent>
                     </Popover>
-                  </Text>
+                  </Box>
                   <Text>10 Points + 20% boost</Text>
                 </Flex>
 

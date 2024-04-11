@@ -1,14 +1,12 @@
 import { GreenfieldClient } from '@/config/GnfsClient';
-import { useQuery } from '@tanstack/react-query';
-import { useAccount } from 'wagmi';
-import { useSelectSp } from './useSelectSp';
 import { REPO_PREFIX } from '@/shared/constants/app';
+import { useQuery } from '@tanstack/react-query';
+import { useSelectSp } from './useSelectSp';
 
 export const GET_REPO_LIST_QUERY_KEY = 'GET_BUCKET_REPO_LIST';
 
-export const useGetRepoList = () => {
-  const { address } = useAccount();
-
+export const useGetRepoList = (address?: `0x${string}`) => {
+  // const { address } = useAccount();
   const { data: spInfo } = useSelectSp();
 
   return useQuery({

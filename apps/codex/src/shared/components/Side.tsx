@@ -10,10 +10,18 @@ import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useAccount } from 'wagmi';
 
-export const Side = () => {
-  const { address } = useAccount();
+interface IProps {
+  address?: `0x${string}`;
+}
+
+export const Side = (props: IProps) => {
+  const { address } = props;
+
+  const { address: myAddress } = useAccount();
   const isMounted = useIsMounted();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
+
+  // console.log('myAddress', myAddress, address);
 
   const showEditAccountModal = () => {
     NiceModal.show(EditAccountModal);
@@ -40,23 +48,25 @@ export const Side = () => {
               ID: {String(userInfo.id)}
             </Box>
 
-            <Box mt="26px">
-              <Button
-                w="100%"
-                borderRadius="10px"
-                border="1px solid rgba(255, 255, 255, 0.15);"
-                bg="rgba(30, 30, 30, 1)"
-                boxShadow="0px 4px 6px 0px rgba(0, 0, 0, 0.25);"
-                color="#FFF"
-                fontSize="14px"
-                _hover={{
-                  bg: 'rgba(30, 30, 30, 0.8)',
-                }}
-                onClick={showEditAccountModal}
-              >
-                Edit Profile
-              </Button>
-            </Box>
+            {myAddress === address && (
+              <Box mt="26px">
+                <Button
+                  w="100%"
+                  borderRadius="10px"
+                  border="1px solid rgba(255, 255, 255, 0.15);"
+                  bg="rgba(30, 30, 30, 1)"
+                  boxShadow="0px 4px 6px 0px rgba(0, 0, 0, 0.25);"
+                  color="#FFF"
+                  fontSize="14px"
+                  _hover={{
+                    bg: 'rgba(30, 30, 30, 0.8)',
+                  }}
+                  onClick={showEditAccountModal}
+                >
+                  Edit Profile
+                </Button>
+              </Box>
+            )}
 
             <Follow alignItems="center">
               <Box>

@@ -25,15 +25,19 @@ import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
-import { useAccount } from 'wagmi';
 import { DeleteRepo } from './modals/repo/delete';
 import { EditRepo } from './modals/repo/edit';
-import { useRouter } from 'next/router';
 
-export const RepoList = () => {
-  const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList();
-  const { address } = useAccount();
-  const { data: userInfo } = useGetAccountDetails(address);
+interface IProps {
+  address?: `0x${string}`;
+}
+
+export const RepoList = (props: IProps) => {
+  const { address } = props;
+  const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList(address);
+
+  // console.log('repoList', repoList);
+  const { data: userInfo } = useGetAccountDetails(address as `0x${string}`);
 
   // const { data } = useGetUserListed({
   //   address,
@@ -41,9 +45,6 @@ export const RepoList = () => {
   //   offset: 0n,
   // });
   // console.log('data', data);
-
-  const router = useRouter();
-  console.log('router', router);
 
   const handleChangeVisibility = (repo: BucketMetaWithVGF) => {
     NiceModal.show(EditRepo, {
