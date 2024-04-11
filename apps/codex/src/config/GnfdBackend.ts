@@ -25,7 +25,7 @@ export default class GnfdBackend {
   private seed: string;
   private address: string;
   private forageInstance: LocalForage;
-  private cache = false;
+  private cache = true;
 
   constructor(repoName: string, seed: string, endpoint: string, address: string) {
     this.repoName = repoName;
