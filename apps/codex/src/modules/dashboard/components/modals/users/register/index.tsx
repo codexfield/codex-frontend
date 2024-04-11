@@ -67,7 +67,14 @@ export const RegisterModal = NiceModal.create(() => {
   );
 
   return (
-    <Modal isCentered isOpen={modal.visible} onClose={() => {}} size={'md'}>
+    <Modal
+      isCentered
+      isOpen={modal.visible}
+      onClose={() => {
+        modal.hide();
+      }}
+      size={'md'}
+    >
       <ModalOverlay backdropFilter="blur(7px)" boxShadow="0px 14px 40px 0px #000" />
       <ModalContent
         bg="#1C1C1E"

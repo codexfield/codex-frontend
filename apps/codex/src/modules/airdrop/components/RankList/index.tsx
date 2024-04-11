@@ -6,7 +6,16 @@ export const RankList: React.FC = () => {
   const { isLoading, data: rankInfo } = useQueryRank();
 
   return (
-    <Box maxH="1200px" overflow="scroll" py="15px">
+    <Box
+      maxH="1200px"
+      overflowY="auto"
+      py="15px"
+      sx={{
+        '::-webkit-scrollbar': {
+          display: 'none',
+        },
+      }}
+    >
       <Stack gap="8px">
         {isLoading && <Spinner />}
 

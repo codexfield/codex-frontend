@@ -4,20 +4,18 @@ import { Side } from '@/shared/components/Side';
 import { newRepoAtom } from '@/modules/dashboard/atoms/newRepoAtom';
 import { NewRepo } from '@/modules/dashboard/components/NewRepo';
 import { CreateRepoForm } from '@/modules/dashboard/components/createRepo';
-import { Box, Flex, Stack } from '@chakra-ui/react';
-import styled from '@emotion/styled';
-import { useAtomValue } from 'jotai';
+import { RegisterModal } from '@/modules/dashboard/components/modals/users/register';
+import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useGetOffchainAuth } from '@/shared/hooks/useGetOffchainAuth';
+import { Box, Button, Center, Flex, Stack } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
+import styled from '@emotion/styled';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAtomValue } from 'jotai';
 import { useEffect } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
-import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
-import { RegisterModal } from '@/modules/dashboard/components/modals/users/register';
-import { useRouter } from 'next/router';
 
 export const Dashboard: React.FC = () => {
-  const router = useRouter();
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
@@ -56,10 +54,31 @@ export const Dashboard: React.FC = () => {
       <Stack gap="40px">
         <Flex justifyContent="space-between">
           <TabTitle>My Repos</TabTitle>
-          <NewRepo />
+          {userIsRegister ? (
+            <NewRepo />
+          ) : (
+            <RegisterButton
+              color="#FFF"
+              _hover={{
+                bg: 'rgba(122, 60, 255, 0.8)',
+              }}
+              _disabled={{
+                bg: '#1E1E1E',
+                color: '#5F5F5F',
+                boxShadow: 'none',
+              }}
+              onClick={() => NiceModal.show(RegisterModal)}
+            >
+              Register
+            </RegisterButton>
+          )}
         </Flex>
 
-        <Box w="960px">{showCreateRepo.clickedButton ? <CreateRepoForm /> : <RepoList />}</Box>
+        <Box w="960px">
+          {userIsRegister && (
+            <>{showCreateRepo.clickedButton ? <CreateRepoForm /> : <RepoList />}</>
+          )}
+        </Box>
       </Stack>
 
       <Side />
@@ -70,4 +89,12 @@ export const Dashboard: React.FC = () => {
 const TabTitle = styled(Box)`
   font-size: 24px;
   font-weight: 800;
+`;
+
+const RegisterButton = styled(Button)`
+  font-size: 14px;
+  background: #7a3cff;
+  box-shadow: 0px 0px 51.6px 0px #874eff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  height: 30px;
+  border-radius: 10px;
 `;

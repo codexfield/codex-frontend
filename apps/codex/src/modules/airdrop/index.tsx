@@ -1,11 +1,15 @@
 import InviteImage from '@/images/invite.png';
 
-import { CheckIcon } from '@chakra-ui/icons';
+import { CheckIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import {
   Box,
   Center,
   Flex,
   Heading,
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
   Stack,
   Tab,
   TabIndicator,
@@ -21,12 +25,13 @@ import { useRouter } from 'next/router';
 import { useAccount } from 'wagmi';
 import { GreenButton, PurpleButton } from './components/Buttons';
 import { CopyButton } from './components/Buttons/CopyButton';
+import { Countdown } from './components/Countdown';
+import { RankList } from './components/RankList';
 import { User } from './components/User';
 import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
-import { RankList } from './components/RankList';
 
 export const Airdrop = () => {
   const { address } = useAccount();
@@ -62,10 +67,7 @@ export const Airdrop = () => {
                 </Flex>
                 <Buttons>
                   {userInfo?.code == 0 ? (
-                    <Flex justifyContent="end" flex="1" alignItems="center" gap="6px">
-                      <CheckIcon w="14px" />
-                      <Box as="span">Completed</Box>
-                    </Flex>
+                    <Complete />
                   ) : (
                     <PurpleButton
                       isDisabled={userInfo?.code == 0}
@@ -80,30 +82,36 @@ export const Airdrop = () => {
               </TaskContent>
             </Task>
             <Task>
-              <Status />
+              <Status done={taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1} />
               <TaskContent>
                 <Flex justifyContent="space-between" flex="1">
                   <Text>Follow @CodexField on Twitter</Text>
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton
-                    onClick={() => {
-                      window.open('https://twitter.com/codexfield');
-                    }}
-                  >
-                    Follow
-                  </PurpleButton>
-                  <GreenButton
-                    // isLoading={isPending}
-                    onClick={async () => {
-                      await verify({
-                        taskName: 'FollowTwitter',
-                      });
-                    }}
-                  >
-                    Verify
-                  </GreenButton>
+                  {taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1 ? (
+                    <Complete />
+                  ) : (
+                    <>
+                      <PurpleButton
+                        onClick={() => {
+                          window.open('https://twitter.com/codexfield');
+                        }}
+                      >
+                        Follow
+                      </PurpleButton>
+                      <GreenButton
+                        // isLoading={isPending}
+                        onClick={async () => {
+                          await verify({
+                            taskName: 'FollowTwitter',
+                          });
+                        }}
+                      >
+                        Verify
+                      </GreenButton>
+                    </>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -117,24 +125,30 @@ export const Airdrop = () => {
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton
-                    onClick={() => {
-                      const url = postTweet();
-                      window.open(url, '_blank');
-                    }}
-                  >
-                    Post
-                  </PurpleButton>
-                  <GreenButton
-                    // isLoading={isPending}
-                    onClick={async () => {
-                      await verify({
-                        taskName: 'PostCodexFieldTwitter',
-                      });
-                    }}
-                  >
-                    Verify
-                  </GreenButton>
+                  {taskList?.find((x) => x.name === 'PostCodexFieldTwitter')?.status === 1 ? (
+                    <Complete />
+                  ) : (
+                    <>
+                      <PurpleButton
+                        onClick={() => {
+                          const url = postTweet();
+                          window.open(url, '_blank');
+                        }}
+                      >
+                        Post
+                      </PurpleButton>
+                      <GreenButton
+                        // isLoading={isPending}
+                        onClick={async () => {
+                          await verify({
+                            taskName: 'PostCodexFieldTwitter',
+                          });
+                        }}
+                      >
+                        Verify
+                      </GreenButton>
+                    </>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -146,23 +160,29 @@ export const Airdrop = () => {
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton
-                    onClick={() => {
-                      window.open('https://t.me/CodexField');
-                    }}
-                  >
-                    Join
-                  </PurpleButton>
-                  <GreenButton
-                    // isLoading={isPending}
-                    onClick={async () => {
-                      await verify({
-                        taskName: 'JoinTelegram',
-                      });
-                    }}
-                  >
-                    Verify
-                  </GreenButton>
+                  {taskList?.find((x) => x.name === 'JoinTelegram')?.status === 1 ? (
+                    <Complete />
+                  ) : (
+                    <>
+                      <PurpleButton
+                        onClick={() => {
+                          window.open('https://t.me/CodexField');
+                        }}
+                      >
+                        Join
+                      </PurpleButton>
+                      <GreenButton
+                        // isLoading={isPending}
+                        onClick={async () => {
+                          await verify({
+                            taskName: 'JoinTelegram',
+                          });
+                        }}
+                      >
+                        Verify
+                      </GreenButton>
+                    </>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -180,23 +200,34 @@ export const Airdrop = () => {
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton
-                    onClick={() => {
-                      const url = postTweet();
-                      window.open(url, '_blank');
-                    }}
-                  >
-                    Post
-                  </PurpleButton>
-                  <GreenButton
-                    onClick={async () => {
-                      await verify({
-                        taskName: 'PostTwitterWithTag',
-                      });
-                    }}
-                  >
-                    Verify
-                  </GreenButton>
+                  {taskList?.find((x) => x.name === 'PostTwitterWithTag')?.status === 1 ? (
+                    <Stack justifyContent="end" flex="1">
+                      <Complete />
+                      {userInfo?.result.current_timestamp && (
+                        <Countdown now={userInfo?.result.current_timestamp} />
+                      )}
+                    </Stack>
+                  ) : (
+                    <>
+                      <PurpleButton
+                        onClick={() => {
+                          const url = postTweet();
+                          window.open(url, '_blank');
+                        }}
+                      >
+                        Post
+                      </PurpleButton>
+                      <GreenButton
+                        onClick={async () => {
+                          await verify({
+                            taskName: 'PostTwitterWithTag',
+                          });
+                        }}
+                      >
+                        Verify
+                      </GreenButton>
+                    </>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -209,23 +240,28 @@ export const Airdrop = () => {
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton
-                    onClick={() => {
-                      const url = postTweet();
-                      window.open(url, '_blank');
-                    }}
-                  >
-                    Retweet
-                  </PurpleButton>
-                  <GreenButton
-                    onClick={async () => {
-                      await verify({
-                        taskName: 'RetweetLatestTweet',
-                      });
-                    }}
-                  >
-                    Verify
-                  </GreenButton>
+                  {taskList?.find((x) => x.name === 'RetweetLatestTweet')?.status === 1 ? (
+                    <Complete />
+                  ) : (
+                    <>
+                      <PurpleButton
+                        onClick={() => {
+                          window.open('https://twitter.com/codexfield');
+                        }}
+                      >
+                        Retweet
+                      </PurpleButton>
+                      <GreenButton
+                        onClick={async () => {
+                          await verify({
+                            taskName: 'RetweetLatestTweet',
+                          });
+                        }}
+                      >
+                        Verify
+                      </GreenButton>
+                    </>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -234,8 +270,20 @@ export const Airdrop = () => {
               <Status />
               <TaskContent>
                 <Flex justifyContent="space-between" flex="1">
-                  <Text>Invite friends to join the campaign</Text>
-                  <Text>10 Points / Invite</Text>
+                  <Text>
+                    Invite friends to join the campaign
+                    <Popover trigger="hover" placement="bottom-end" closeOnBlur>
+                      <PopoverTrigger>
+                        <InfoOutlineIcon color="#646464" ml="4px" />
+                      </PopoverTrigger>
+                      <PopoverContent bg="#7A3CFF" p="15px" border="none">
+                        <PopoverBody>
+                          A successful invite needs to complet all mandatory tasks.
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
+                  </Text>
+                  <Text>10 Points + 20% boost</Text>
                 </Flex>
 
                 <Buttons justifyContent="flex-end">
@@ -268,22 +316,28 @@ export const Airdrop = () => {
                   <Text>10 Points</Text>
                 </Flex>
                 <Buttons>
-                  <PurpleButton
-                    onClick={() => {
-                      router.push('/dashboard');
-                    }}
-                  >
-                    Register
-                  </PurpleButton>
-                  <GreenButton
-                    onClick={async () => {
-                      await verify({
-                        taskName: 'RegisterCodexFiled',
-                      });
-                    }}
-                  >
-                    Verify
-                  </GreenButton>
+                  {taskList?.find((x) => x.name === 'RegisterCodexFiled')?.status === 1 ? (
+                    <Complete />
+                  ) : (
+                    <>
+                      <PurpleButton
+                        onClick={() => {
+                          router.push('/dashboard');
+                        }}
+                      >
+                        Register
+                      </PurpleButton>
+                      <GreenButton
+                        onClick={async () => {
+                          await verify({
+                            taskName: 'RegisterCodexFiled',
+                          });
+                        }}
+                      >
+                        Verify
+                      </GreenButton>
+                    </>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -299,15 +353,21 @@ export const Airdrop = () => {
                 </Flex>
 
                 <Buttons justifyContent="flex-end">
-                  <GreenButton
-                    onClick={async () => {
-                      await verify({
-                        taskName: 'CreateRepoCodexField',
-                      });
-                    }}
-                  >
-                    Verify
-                  </GreenButton>
+                  {taskList?.find((x) => x.name === 'CreateRepoCodexField')?.status === 1 ? (
+                    <Complete />
+                  ) : (
+                    <>
+                      <GreenButton
+                        onClick={async () => {
+                          await verify({
+                            taskName: 'CreateRepoCodexField',
+                          });
+                        }}
+                      >
+                        Verify
+                      </GreenButton>
+                    </>
+                  )}
                 </Buttons>
               </TaskContent>
             </Task>
@@ -423,4 +483,11 @@ const InvitesTab = (props: TabProps) => (
     fontSize="24px"
     {...props}
   />
+);
+
+const Complete: React.FC = () => (
+  <Flex justifyContent="end" flex="1" alignItems="center" gap="6px">
+    <CheckIcon w="14px" />
+    <Box as="span">Completed</Box>
+  </Flex>
 );
