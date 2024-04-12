@@ -73,7 +73,12 @@ export const RepoList = (props: IProps) => {
           <Spinner />
         </Center>
       ) : (
-        <RepoListContainer background="linear-gradient(to right, transparent 14px, #5f5f5f 15px, transparent 1px);">
+        <RepoListContainer
+          background={`${
+            repoList?.length !== 0 &&
+            'linear-gradient(to right, transparent 14px, #5f5f5f 15px, transparent 1px)'
+          }`}
+        >
           {repoList?.length === 0 && (
             <Center p="40px">
               <VStack gap="20px">

@@ -88,7 +88,7 @@ export const Dashboard: React.FC = () => {
         </Box>
       </Stack>
 
-      <Side />
+      <Side address={address} />
     </Flex>
   );
 };

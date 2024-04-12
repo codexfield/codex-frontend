@@ -328,7 +328,7 @@ export const Airdrop = () => {
                         </PopoverContent>
                       </Popover>
                     </Box>
-                    <Text>10 Points + 20% bonus</Text>
+                    <Text>20% Bonus</Text>
                   </Flex>
 
                   <Buttons justifyContent="flex-end">

@@ -116,7 +116,7 @@ export default function Repo() {
         )}
       </RepoContainer>
 
-      <Side />
+      <Side address={address} />
     </Flex>
   );
 }
