@@ -22,7 +22,7 @@ export const Home: React.FC = () => {
 
         <SideBanner />
         <Gitd />
-        <RoadMap />
+        {media === 'PC' && <RoadMap />}
         <Links />
       </Box>
     </Box>
