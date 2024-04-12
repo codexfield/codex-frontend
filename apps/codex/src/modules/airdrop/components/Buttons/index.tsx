@@ -1,4 +1,4 @@
-import { Button, useClipboard } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 export const PurpleButton = styled(Button)`
@@ -13,6 +13,9 @@ export const PurpleButton = styled(Button)`
   &:hover {
     background: #7a5cff;
   }
+  &:disabled {
+    background: #a5a5a5;
+  }
 `;
 
 export const GreenButton = styled(Button)`
@@ -25,5 +28,8 @@ export const GreenButton = styled(Button)`
 
   &:hover {
     background: #049118;
+  }
+  &:disabled {
+    background: #a5a5a5;
   }
 `;

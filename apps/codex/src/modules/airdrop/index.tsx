@@ -3,6 +3,7 @@ import InviteImage from '@/images/invite.png';
 import { CheckIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import {
   Box,
+  Button,
   Center,
   Flex,
   Heading,
@@ -23,7 +24,7 @@ import {
 import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useEffect, useLayoutEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { GreenButton, PurpleButton } from './components/Buttons';
 import { CopyButton } from './components/Buttons/CopyButton';
@@ -35,11 +36,24 @@ import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
-import { useDeepCompareEffect } from 'react-use';
+import { useAtom } from 'jotai';
+import { actionsStateAtom } from './atoms/actionsStateAtom';
 
 export const Airdrop = () => {
   const { address } = useAccount();
   const router = useRouter();
+
+  const [actionStates, setActionStates] = useAtom(actionsStateAtom);
+
+  const handleTriggerAction = (index: number) => {
+    const actions = actionStates.map((a, i) => {
+      if (i === index) {
+        return 1;
+      }
+      return a;
+    });
+    setActionStates(actions);
+  };
 
   const { isLoading, data: userInfo } = useQueryUser(address);
   console.log('userInfo', userInfo);
@@ -110,13 +124,14 @@ export const Airdrop = () => {
                       <>
                         <PurpleButton
                           onClick={() => {
+                            handleTriggerAction(0);
                             window.open('https://twitter.com/codexfield');
                           }}
                         >
                           Follow
                         </PurpleButton>
                         <GreenButton
-                          // isLoading={isPending}
+                          isDisabled={actionStates[0] === 0}
                           onClick={async () => {
                             await verify({
                               taskName: 'FollowTwitter',
@@ -146,9 +161,11 @@ export const Airdrop = () => {
                       <>
                         <PurpleButton
                           onClick={() => {
+                            handleTriggerAction(1);
+
                             const text = `Join the airdrop campaign for CodexField, your gateway to decentralized code ownership on BNB Greenfield. Win token airdrops & unlock the future of code!
 
-                          Follow @CodexField to learn more!`;
+                            Follow @CodexField to learn more!`;
                             const url = postTweet(text);
                             window.open(url, '_blank');
                           }}
@@ -156,7 +173,7 @@ export const Airdrop = () => {
                           Post
                         </PurpleButton>
                         <GreenButton
-                          // isLoading={isPending}
+                          isDisabled={actionStates[1] === 0}
                           onClick={async () => {
                             await verify({
                               taskName: 'PostCodexFieldTwitter',
@@ -184,13 +201,14 @@ export const Airdrop = () => {
                       <>
                         <PurpleButton
                           onClick={() => {
+                            handleTriggerAction(2);
                             window.open('https://t.me/CodexField');
                           }}
                         >
                           Join
                         </PurpleButton>
                         <GreenButton
-                          // isLoading={isPending}
+                          isDisabled={actionStates[2] === 0}
                           onClick={async () => {
                             await verify({
                               taskName: 'JoinTelegram',
@@ -231,6 +249,7 @@ export const Airdrop = () => {
                       <>
                         <PurpleButton
                           onClick={() => {
+                            handleTriggerAction(3);
                             const text = `Follow @CodexField to unlock the future of code!`;
                             const url = postTweet(text);
                             window.open(url, '_blank');
@@ -239,6 +258,7 @@ export const Airdrop = () => {
                           Post
                         </PurpleButton>
                         <GreenButton
+                          isDisabled={actionStates[3] === 0}
                           onClick={async () => {
                             await verify({
                               taskName: 'PostTwitterWithTag',
@@ -269,12 +289,14 @@ export const Airdrop = () => {
                       <>
                         <PurpleButton
                           onClick={() => {
+                            handleTriggerAction(4);
                             window.open('https://twitter.com/codexfield');
                           }}
                         >
                           Retweet
                         </PurpleButton>
                         <GreenButton
+                          isDisabled={actionStates[4] === 0}
                           onClick={async () => {
                             await verify({
                               taskName: 'RetweetLatestTweet',
@@ -347,12 +369,14 @@ export const Airdrop = () => {
                       <>
                         <PurpleButton
                           onClick={() => {
+                            handleTriggerAction(5);
                             router.push('/dashboard');
                           }}
                         >
                           Register
                         </PurpleButton>
                         <GreenButton
+                          isDisabled={actionStates[5] === 0}
                           onClick={async () => {
                             await verify({
                               taskName: 'RegisterCodexFiled',
@@ -382,7 +406,16 @@ export const Airdrop = () => {
                       <Complete />
                     ) : (
                       <>
+                        <PurpleButton
+                          onClick={() => {
+                            handleTriggerAction(6);
+                            router.push('/dashboard');
+                          }}
+                        >
+                          Create
+                        </PurpleButton>
                         <GreenButton
+                          isDisabled={actionStates[6] === 0}
                           onClick={async () => {
                             await verify({
                               taskName: 'CreateRepoCodexField',
