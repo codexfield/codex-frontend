@@ -20,18 +20,22 @@ import {
   Tabs,
   Text,
 } from '@chakra-ui/react';
+import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { GreenButton, PurpleButton } from './components/Buttons';
 import { CopyButton } from './components/Buttons/CopyButton';
 import { Countdown } from './components/Countdown';
+import { InviteModal } from './components/InviteModal';
 import { RankList } from './components/RankList';
 import { User } from './components/User';
 import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
+import { useDeepCompareEffect } from 'react-use';
 
 export const Airdrop = () => {
   const { address } = useAccount();
@@ -50,6 +54,16 @@ export const Airdrop = () => {
   const code = !isLoading && userInfo && userInfo.result?.user.invite_code;
   const inviteUrl = window.location.href + '/invite?code=' + code;
   const taskList = userInfo?.result?.taskList;
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (userInfo && userInfo.code == 0) {
+      NiceModal.hide(InviteModal);
+      return;
+    }
+
+    NiceModal.show(InviteModal);
+  }, [userInfo]);
 
   return (
     <>
