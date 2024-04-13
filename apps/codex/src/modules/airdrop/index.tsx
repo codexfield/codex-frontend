@@ -455,9 +455,6 @@ export const Airdrop = () => {
                           <img src={InviteImage.src} />
                         </Box>
                         <Box as="p">{inviteUrl}</Box>
-                        <Box as="p">
-                          Invite your friends and get 20% of the points your friends make.
-                        </Box>
                         <CopyButton value={inviteUrl} />
                       </>
                     ) : (
@@ -471,10 +468,8 @@ export const Airdrop = () => {
                       </PurpleButton>
                     )}
                   </Stack>
-                  <Box as="p" color="#5F5F5F" fontSize="12px">
-                    Great Britain, whose children we are, and whose language we speak, should no
-                    longer be our standard; for the taste of her writers is already corrupted, and
-                    her language on the decline.
+                  <Box as="p" fontSize="14px">
+                    Invite your friends and get 20% of the points your friends make.
                   </Box>
                 </TabPanel>
               </TabPanels>
