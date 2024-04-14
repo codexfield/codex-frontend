@@ -1,6 +1,8 @@
 import { StyledButton } from '@/modules/dashboard/components/modals/forms';
 import {
   Box,
+  Flex,
+  FormErrorMessage,
   HStack,
   Modal,
   ModalBody,
@@ -17,6 +19,8 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useCheckCode } from '../../hooks/useCheckCode';
+import { WarningIcon } from '@chakra-ui/icons';
 
 interface IProps {
   // bucketInfo: BucketMetaWithVGF['BucketInfo'];
@@ -27,12 +31,19 @@ export const InviteModal = NiceModal.create<IProps>(() => {
   const modal = useModal();
   const router = useRouter();
   const [code, setCode] = useState('');
+  const { isLoading: checking, data: checkCodeResponse, refetch: doCheck } = useCheckCode(code);
 
   const handleSkip = () => {
     modal.hide();
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
+    const checkRes = await doCheck();
+
+    if (!checkRes.data || checkRes.data.code === -1) {
+      return;
+    }
+
     router.push({
       ...router,
       query: {
@@ -65,7 +76,7 @@ export const InviteModal = NiceModal.create<IProps>(() => {
           <ModalHeader textAlign="center">
             <Text fontSize="32px">Invitation Code</Text>
           </ModalHeader>
-          <Box /* as="form" onSubmit={deleteFormik.handleSubmit} */ fontWeight="bold">
+          <Box fontWeight="bold">
             <Text fontSize="16px" textAlign="center">
               You will{' '}
               <Text
@@ -92,9 +103,15 @@ export const InviteModal = NiceModal.create<IProps>(() => {
               </PinInput>
             </HStack>
 
+            {checkCodeResponse?.code === -1 && (
+              <ErrorMessage>
+                <WarningIcon mr="4px" />
+                <Text>Invalid Code</Text>
+              </ErrorMessage>
+            )}
+
             <ModalFooter gap="20px" justifyContent="center" mt="20px">
               <StyledButton
-                // type="submit"
                 bg="hsla(259, 100%, 62%, 1)"
                 _hover={{
                   bg: 'hsla(259, 100%, 62%, 0.8)',
@@ -102,9 +119,9 @@ export const InviteModal = NiceModal.create<IProps>(() => {
                 _active={{
                   bg: 'hsla(259, 100%, 58%, 0.6)',
                 }}
-                // disabled={!isPending}
-                // isLoading={isPending}
                 onClick={handleOk}
+                isLoading={checking}
+                isDisabled={checking}
               >
                 Confirm
               </StyledButton>
@@ -134,4 +151,12 @@ const CodexPinInputField = styled(PinInputField)`
   font-size: 36px;
   font-weight: bold;
   border: 1px solid #5f5f5f;
+`;
+
+const ErrorMessage = styled(Flex)`
+  color: #f00d0d;
+  font-size: 16px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
 `;

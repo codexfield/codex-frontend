@@ -25,6 +25,18 @@ interface IUserResult {
       complete_time: '';
     }[];
     invites: [];
+    reference: {
+      address: string;
+      avatar: string;
+      invite_code: string;
+      points: number;
+      rank: number;
+      refer_code: string;
+      telegram_id: string;
+      telegram_name: string;
+      twitter_id: string;
+      twitter_name: string;
+    };
   };
 }
 
