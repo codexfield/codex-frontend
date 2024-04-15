@@ -32,7 +32,7 @@ export const RankList: React.FC = () => {
                 p="10px"
                 borderRadius="18px"
               >
-                <Box width="15px">{item.rank}</Box>
+                <Box /* width="15px" */>{item.rank}</Box>
                 <Box flex="1" title={item.twitter_name}>
                   {shortName(item.twitter_name)}
                 </Box>
