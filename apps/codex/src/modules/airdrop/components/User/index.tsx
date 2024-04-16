@@ -1,14 +1,17 @@
-import styled from '@emotion/styled';
-import { Flex, Heading, Spinner, Stat, StatNumber } from '@chakra-ui/react';
 import RankImage from '@/images/rank.png';
 import StarImage from '@/images/star.png';
+import { Flex, Heading, Stat, StatNumber } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 import { useAccount } from 'wagmi';
+import { useQueryRank } from '../../hooks/useQueryRank';
 import { useQueryUser } from '../../hooks/useQueryUser';
 
 export const User = () => {
   const { address } = useAccount();
 
   const { data: userInfo } = useQueryUser(address);
+
+  const { data: rankInfo } = useQueryRank(address);
 
   return (
     <Flex gap="30px">
@@ -39,7 +42,7 @@ export const User = () => {
           Rank
         </Heading>
         <StatNumber textAlign="center" h="58px" lineHeight="58px" color="#A276FF">
-          {(userInfo && userInfo.result?.user.rank.toLocaleString()) || '0'}
+          {(rankInfo && rankInfo.user_rank.toLocaleString()) || '0'}
         </StatNumber>
       </Show>
     </Flex>

@@ -5,6 +5,7 @@ import { useAccount } from 'wagmi';
 import { AIRDROP_DOMAIN } from '../api';
 import { useQueryUser } from './useQueryUser';
 import { useToast } from '@chakra-ui/react';
+import { useQueryRank } from './useQueryRank';
 
 interface IVerifyParams {
   taskName: string;
@@ -12,8 +13,9 @@ interface IVerifyParams {
 
 export const useVerify = () => {
   const { address } = useAccount();
+  const { refetch: refetchRankList } = useQueryRank(address);
   const { openConnectModal } = useConnectModal();
-  const { refetch } = useQueryUser(address);
+  const { refetch: refetchUser } = useQueryUser(address);
   const toast = useToast();
 
   return useMutation({
@@ -46,7 +48,8 @@ export const useVerify = () => {
         });
       }
 
-      refetch();
+      refetchUser();
+      refetchRankList();
     },
   });
 };

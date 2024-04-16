@@ -1,9 +1,11 @@
 import { shortAddress, shortName } from '@/shared/utils';
 import { Box, Flex, Spinner, Stack } from '@chakra-ui/react';
 import { useQueryRank } from '../../hooks/useQueryRank';
+import { useAccount } from 'wagmi';
 
 export const RankList: React.FC = () => {
-  const { isLoading, data: rankInfo } = useQueryRank();
+  const { address } = useAccount();
+  const { isLoading, data: rankInfo } = useQueryRank(address);
 
   return (
     <Box
@@ -22,7 +24,7 @@ export const RankList: React.FC = () => {
         {!rankInfo ? (
           <></>
         ) : (
-          rankInfo.result.map((item, index) => {
+          rankInfo.rank_user_list.map((item, index) => {
             return (
               <Flex
                 gap="15px"
