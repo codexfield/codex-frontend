@@ -1,6 +1,7 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import {
   Box,
+  Flex,
   Input,
   InputGroup,
   InputRightElement,
@@ -16,12 +17,12 @@ import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useGetAccountDetailsByName } from '../hooks/contract/useGetAccountDetailsByName';
+import { MetaMaskAvatar } from 'react-metamask-avatar';
 
 export const Search = () => {
   const ref = useRef(null);
   const router = useRouter();
   const [kw, setKw] = useState('');
-  const { address } = useAccount();
 
   const [open, setOpen] = useState(false);
   useOutsideClick({
@@ -29,9 +30,9 @@ export const Search = () => {
     handler: () => setOpen(false),
   });
 
-  const { data: searchUserData } = useGetAccountDetailsByName(kw, address);
+  const { data: searchUserData } = useGetAccountDetailsByName(kw);
 
-  // console.log('data', searchUserData);
+  console.log('searchUserData', searchUserData);
 
   const handleSearch = (e: any) => {
     e.preventDefault();
@@ -95,20 +96,23 @@ export const Search = () => {
               <TabPanel px="0" py="5px">
                 {searchUserData && searchUserData.id !== BigInt(0) && (
                   <>
-                    <Box
+                    <Flex
+                      gap="4px"
                       cursor="pointer"
                       bg="#000"
                       border="1px solid #5F5F5F"
                       borderRadius="8px"
                       p="8px"
                       fontSize="12px"
+                      alignItems="center"
                       onClick={() => {
                         setOpen(false);
                         router.push(`/profile/${searchUserData.account}`);
                       }}
                     >
+                      <MetaMaskAvatar address={searchUserData.account} />
                       {`${window.location.origin}/profile/${searchUserData.account}`}
-                    </Box>
+                    </Flex>
                   </>
                 )}
               </TabPanel>

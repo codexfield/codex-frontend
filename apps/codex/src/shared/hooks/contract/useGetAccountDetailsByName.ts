@@ -3,8 +3,9 @@ import { ACCOUNT_MANAGE_ABI } from '@/shared/constants/abi/accountManageAbi';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useContractRead } from 'wagmi';
 
-export const useGetAccountDetailsByName = (kw: string, addr?: `0x${string}`) => {
+export const useGetAccountDetailsByName = (kw: string) => {
   const name = useDebounce(kw, 500);
+  console.log('name', name);
 
   return useContractRead({
     address: CONTRACT_ADDRESS,
@@ -12,8 +13,9 @@ export const useGetAccountDetailsByName = (kw: string, addr?: `0x${string}`) => 
     functionName: 'getAccountDetailsByName',
     args: [name],
     chainId: BSC_CHAIN.id,
-    enabled: addr !== undefined && name !== '',
+    enabled: name !== '',
     select(data) {
+      console.log('data', data);
       const [
         id,
         account,
