@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { TwitterButton } from '../../TwitterButton';
 import { Search } from '../../Search';
+import { ENV } from '@/env';
 
 const HeaderContent = () => {
   const router = useRouter();
@@ -32,15 +33,17 @@ const HeaderContent = () => {
           Dashboard
         </NavLink>
 
-        <NavLink
-          as={NextLink}
-          href="/airdrop"
-          sx={{
-            color: router.pathname == '/airdrop' ? '#A276FF' : '',
-          }}
-        >
-          Airdrop
-        </NavLink>
+        {ENV === 'TESTNET' && (
+          <NavLink
+            as={NextLink}
+            href="/airdrop"
+            sx={{
+              color: router.pathname == '/airdrop' ? '#A276FF' : '',
+            }}
+          >
+            Airdrop
+          </NavLink>
+        )}
       </Flex>
 
       <Flex gap="20px">
