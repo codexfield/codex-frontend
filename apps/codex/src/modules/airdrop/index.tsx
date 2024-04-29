@@ -92,7 +92,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Connect Twitter account</Text>
-                    <Text>10 Points</Text>
+                    <Text>50 Points</Text>
                   </Flex>
                   <Buttons>
                     {userInfo?.code == 0 ? (
@@ -115,7 +115,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Follow @CodexField on Twitter</Text>
-                    <Text>10 Points</Text>
+                    <Text>50 Points</Text>
                   </Flex>
                   <Buttons>
                     {taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1 ? (

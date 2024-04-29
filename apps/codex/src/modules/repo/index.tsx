@@ -116,7 +116,7 @@ export default function Repo() {
         )}
       </RepoContainer>
 
-      <Side address={address} />
+      {bucketInfo?.owner && <Side address={bucketInfo.owner as `0x${string}`} />}
     </Flex>
   );
 }

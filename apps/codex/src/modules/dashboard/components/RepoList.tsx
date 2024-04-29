@@ -27,13 +27,18 @@ import NextLink from 'next/link';
 import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
 import { DeleteRepo } from './modals/repo/delete';
 import { EditRepo } from './modals/repo/edit';
+import { useAccount } from 'wagmi';
+import { useRouter } from 'next/router';
+import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
 
 interface IProps {
   address?: `0x${string}`;
 }
 
 export const RepoList = (props: IProps) => {
+  const router = useRouter();
   const { address } = props;
+  const { address: accountAddress } = useAccount();
   const { data: repoList, isLoading, refetch: refetchRepoList } = useGetRepoList(address);
 
   // console.log('repoList', repoList);
@@ -45,6 +50,8 @@ export const RepoList = (props: IProps) => {
   //   offset: 0n,
   // });
   // console.log('data', data);
+
+  const isOwner = accountAddress === address;
 
   const handleChangeVisibility = (repo: BucketMetaWithVGF) => {
     NiceModal.show(EditRepo, {
@@ -93,6 +100,12 @@ export const RepoList = (props: IProps) => {
             userInfo &&
             repoList?.map((repo) => {
               const createdAt = DYMTimeAsObject(repo.BucketInfo.CreateAt);
+
+              console.log('isOwner', isOwner);
+
+              const isRepoPublic =
+                repo.BucketInfo.Visibility === VisibilityType.VISIBILITY_TYPE_PUBLIC_READ;
+
               return (
                 <Box key={repo.BucketInfo.BucketName} mb="20px">
                   <RepoDate>
@@ -115,7 +128,15 @@ export const RepoList = (props: IProps) => {
                     >
                       <Link
                         as={NextLink}
-                        href={`/repo/${repo?.BucketInfo?.BucketName}?type=tree`}
+                        // href={isOwner ? `/repo/${repo?.BucketInfo?.BucketName}?type=tree` : '#'}
+                        href="#"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isOwner || isRepoPublic) {
+                            router.push(`/repo/${repo?.BucketInfo?.BucketName}?type=tree`);
+                          }
+                        }}
+                        pointerEvents={isOwner || isRepoPublic ? 'auto' : 'none'}
                         display="flex"
                         padding="18px"
                         alignItems="center"
@@ -136,17 +157,22 @@ export const RepoList = (props: IProps) => {
                         />
                       )}
 
-                      <Menu placement="bottom-end">
-                        <MenuButton as={IconButton} icon={<MoreActionIcon />} variant="unstyled" />
-                        <MenuList bg="#1C1C1E">
-                          <StyledMenuItem
-                            onClick={() => {
-                              handleChangeVisibility(repo);
-                            }}
-                          >
-                            Change Visibility
-                          </StyledMenuItem>
-                          {/* <StyledMenuItem
+                      {isOwner && (
+                        <Menu placement="bottom-end">
+                          <MenuButton
+                            as={IconButton}
+                            icon={<MoreActionIcon />}
+                            variant="unstyled"
+                          />
+                          <MenuList bg="#1C1C1E">
+                            <StyledMenuItem
+                              onClick={() => {
+                                handleChangeVisibility(repo);
+                              }}
+                            >
+                              Change Visibility
+                            </StyledMenuItem>
+                            {/* <StyledMenuItem
                             color="#CA1414"
                             onClick={() => {
                               handleDeleteRepo(repo);
@@ -154,15 +180,16 @@ export const RepoList = (props: IProps) => {
                           >
                             Delete Repo
                           </StyledMenuItem> */}
-                          {/* <StyledMenuItem
+                            {/* <StyledMenuItem
                             onClick={() => {
                               handleListRepo(repo);
                             }}
                           >
                             List
                           </StyledMenuItem> */}
-                        </MenuList>
-                      </Menu>
+                          </MenuList>
+                        </Menu>
+                      )}
                     </RepoItem>
                   </Flex>
                 </Box>
