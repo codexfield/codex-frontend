@@ -155,7 +155,7 @@ export const RepoList = (props: IProps) => {
                         />
                       )}
 
-                      {isOwner && (
+                      {/* {isOwner && (
                         <Menu placement="bottom-end">
                           <MenuButton
                             as={IconButton}
@@ -170,24 +170,24 @@ export const RepoList = (props: IProps) => {
                             >
                               Change Visibility
                             </StyledMenuItem>
-                            {/* <StyledMenuItem
+                            <StyledMenuItem
                             color="#CA1414"
                             onClick={() => {
                               handleDeleteRepo(repo);
                             }}
                           >
                             Delete Repo
-                          </StyledMenuItem> */}
-                            {/* <StyledMenuItem
+                          </StyledMenuItem>
+                            <StyledMenuItem
                             onClick={() => {
-                              handleListRepo(repo);
+                              // handleListRepo(repo);
                             }}
                           >
                             List
-                          </StyledMenuItem> */}
+                          </StyledMenuItem>
                           </MenuList>
                         </Menu>
-                      )}
+                      )} */}
                     </RepoItem>
                   </Flex>
                 </Box>
