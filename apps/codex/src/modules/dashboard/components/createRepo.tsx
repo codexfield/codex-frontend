@@ -25,11 +25,11 @@ import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtom, useSetAtom } from 'jotai';
 import { StyledButton, StyledInput } from './modals/forms';
+import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
 // @ts-ignore
 import LightningFS from '@codexfield/lightning-fs';
 import { useState } from 'react';
-import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi';
-import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
+import { useAccount, useSwitchChain } from 'wagmi';
 
 interface FormValues {
   repoName: string;
@@ -40,11 +40,10 @@ interface FormValues {
 export const CreateRepoForm = () => {
   const [creating, setCreating] = useState(false);
   const [offchainData, setOffchainData] = useAtom(offchainDataAtom);
-  const { address, connector } = useAccount();
+  const { address, connector, chain } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
   const { refetch: refetchRepoList } = useGetRepoList();
-  const { switchNetwork } = useSwitchNetwork();
-  const { chain } = useNetwork();
+  const { switchChain } = useSwitchChain();
   const isGnfdChain = chain?.id === GNFD_CHAINID;
 
   const createRepoFormik = useFormik({
@@ -74,7 +73,9 @@ export const CreateRepoForm = () => {
         return;
       }
 
-      switchNetwork?.(GNFD_CHAINID);
+      switchChain?.({
+        chainId: GNFD_CHAINID,
+      });
 
       const { repoName } = values;
       const { seed } = offchainData;

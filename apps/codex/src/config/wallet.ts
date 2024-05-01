@@ -6,9 +6,10 @@ import {
   GNFD_SCAN_URL,
   WALLET_CONNECT_PROJECT_ID,
 } from '@/env';
-import { Chain, getDefaultWallets } from '@rainbow-me/rainbowkit';
-import { configureChains, createConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import { createConfig, http } from 'wagmi';
+import { rainbowWallet, walletConnectWallet, trustWallet } from '@rainbow-me/rainbowkit/wallets';
+import { Chain } from 'wagmi/chains';
 
 export const bscChain: Chain = {
   ...BSC_CHAIN,
@@ -18,9 +19,9 @@ export const bscChain: Chain = {
 const gnfdChain: Chain = {
   id: GNFD_CHAINID,
   name: 'BNB Greenfield',
-  network: 'Greenfield',
-  iconBackground: '#ebac0e',
-  iconUrl: async () => (await import('./icons/bsc.svg')).default.src,
+  // network: 'Greenfield',
+  // iconBackground: '#ebac0e',
+  // iconUrl: async () => (await import('./icons/bsc.svg')).default.src,
   nativeCurrency: {
     name: 'BNB',
     symbol: 'BNB',
@@ -47,25 +48,33 @@ const gnfdChain: Chain = {
   testnet: ENV === 'TESTNET',
 };
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [bscChain],
+// const { chains, publicClient, webSocketPublicClient } = configureChains(
+//   [bscChain],
+//   [
+//     // alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+//     publicProvider(),
+//   ],
+// );
+
+const connectors = connectorsForWallets(
   [
-    // alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
-    publicProvider(),
+    {
+      groupName: 'Recommended',
+      wallets: [rainbowWallet, trustWallet],
+    },
   ],
+  {
+    appName: 'CodeXfield',
+    projectId: WALLET_CONNECT_PROJECT_ID,
+  },
 );
 
-const { connectors } = getDefaultWallets({
-  appName: 'CodeXField',
-  projectId: WALLET_CONNECT_PROJECT_ID,
-  chains,
-});
-
 const wagmiConfig = createConfig({
-  autoConnect: true,
+  chains: [bscChain],
+  transports: {
+    [bscChain.id]: http(),
+  },
   connectors,
-  webSocketPublicClient,
-  publicClient,
 });
 
-export { chains, wagmiConfig };
+export { wagmiConfig };

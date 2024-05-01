@@ -1,6 +1,7 @@
-import { AppLayout } from '@/shared/components/layout/app-layout';
+import { queryClient } from '@/config/ReactQuery';
+import { wagmiConfig } from '@/config/wallet';
 import { CustomAvatar } from '@/shared/components/avatars';
-import { chains, wagmiConfig } from '@/config/wallet';
+import { AppLayout } from '@/shared/components/layout/app-layout';
 import { ChakraProvider } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
@@ -9,27 +10,25 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Provider as JotaiProvider } from 'jotai';
 import { AppProps } from 'next/app';
-import { WagmiConfig } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import { HomepageLayout } from '../shared/components/layout/homepage-layout';
 import { theme } from '../theme';
 import './globals.css';
-import { queryClient } from '@/config/ReactQuery';
 
 export default function App({ Component, pageProps }: AppProps) {
   const Layout = Component.displayName === 'Home' ? HomepageLayout : AppLayout;
 
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        modalSize="compact"
-        chains={chains}
-        avatar={CustomAvatar}
-        theme={darkTheme({
-          accentColor: '#1E1E1E',
-          borderRadius: 'large',
-        })}
-      >
-        <QueryClientProvider client={queryClient}>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider
+          modalSize="compact"
+          avatar={CustomAvatar}
+          theme={darkTheme({
+            accentColor: '#1E1E1E',
+            borderRadius: 'large',
+          })}
+        >
           <ChakraProvider theme={theme}>
             <JotaiProvider>
               <NiceModal.Provider>
@@ -40,8 +39,8 @@ export default function App({ Component, pageProps }: AppProps) {
             </JotaiProvider>
           </ChakraProvider>
           <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

@@ -18,7 +18,7 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useCallback } from 'react';
-import { useAccount, useSwitchNetwork } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { RegisterModal } from '.';
 import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../../forms';
 import { BSC_CHAIN } from '@/env';
@@ -27,7 +27,7 @@ export const fullFormRegistModal = NiceModal.create(() => {
   const toast = useToast();
   const modal = useModal();
   const { address } = useAccount();
-  const { switchNetwork } = useSwitchNetwork();
+  const { switchChain } = useSwitchChain();
 
   const registerFormik = useFormik({
     initialValues: {
@@ -41,8 +41,10 @@ export const fullFormRegistModal = NiceModal.create(() => {
       socialAccounts: [''],
     },
     onSubmit: (values) => {
-      switchNetwork?.(BSC_CHAIN.id);
-      write?.();
+      switchChain?.({
+        chainId: BSC_CHAIN.id,
+      });
+      write?.(simulateData!.request);
     },
   });
 
@@ -64,7 +66,7 @@ export const fullFormRegistModal = NiceModal.create(() => {
     [toast],
   );
 
-  const { write, isLoading, isRightChain } = useRegister(
+  const { write, isLoading, isRightChain, simulateData } = useRegister(
     address as `0x{string}`,
     registerFormik.values,
     onSuccess,

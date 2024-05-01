@@ -3,10 +3,10 @@ import { BSC_CHAIN, CONTRACT_ADDRESS } from '@/env';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
 import {
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
+  useAccount,
+  useWriteContract,
+  useSimulateContract,
+  useWaitForTransactionReceipt,
 } from 'wagmi';
 
 export const useRegister = (
@@ -16,33 +16,37 @@ export const useRegister = (
   onError: (e: Error | null) => void,
 ) => {
   const debounceValues = useDebounce(values, 500);
-  const { chain } = useNetwork();
+  const { chain } = useAccount();
   const { name, avatar, bio, company, location, website, socialAccounts } = debounceValues;
 
   const isRightChain = chain?.id === BSC_CHAIN.id;
 
   const {
-    config,
+    data: simulateData,
     error: prepareError,
     isLoading: prepareIsLoading,
-  } = usePrepareContractWrite({
+  } = useSimulateContract({
     address: CONTRACT_ADDRESS,
     abi: ACCOUNT_MANAGE_ABI,
     functionName: 'register',
     args: [address, name, avatar, bio, company, location, website, socialAccounts],
     chainId: BSC_CHAIN.id,
-    enabled: name !== '' && address !== undefined && isRightChain,
+    query: {
+      enabled: name !== '' && address !== undefined && isRightChain,
+    },
   });
 
-  const { data, error, isError, write } = useContractWrite(config);
+  const { data, writeContract, isError, error } = useWriteContract();
 
   const {
     isLoading: waitForTransactionIsLoading,
     isSuccess,
     isError: waitForTxError,
-  } = useWaitForTransaction({
-    hash: data?.hash,
-    enabled: isRightChain,
+  } = useWaitForTransactionReceipt({
+    hash: data,
+    query: {
+      enabled: isRightChain,
+    },
   });
 
   useEffect(() => {
@@ -55,7 +59,8 @@ export const useRegister = (
   }, [error, isError, isSuccess, onError, onSuccess, prepareError, waitForTxError]);
 
   return {
-    write,
+    simulateData,
+    write: writeContract,
     isLoading: prepareIsLoading || waitForTransactionIsLoading,
     isSuccess,
     isRightChain,

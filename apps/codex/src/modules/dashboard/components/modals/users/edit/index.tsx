@@ -21,14 +21,14 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useCallback } from 'react';
-import { useAccount, useSwitchNetwork } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { StyleTextarea, StyledButton, StyledInput, StyledInputElement } from '../../forms';
 
 export const EditAccountModal = NiceModal.create(() => {
   const toast = useToast();
   const modal = useModal();
   const { address } = useAccount();
-  const { switchNetwork } = useSwitchNetwork();
+  const { switchChain } = useSwitchChain();
   const { data: userInfo, refetch: refetchAccountInfo } = useGetAccountDetails(address);
 
   const editFormik = useFormik({
@@ -43,8 +43,10 @@ export const EditAccountModal = NiceModal.create(() => {
     },
     onSubmit: (values) => {
       // console.log('values', values);
-      switchNetwork?.(BSC_CHAIN.id);
-      write?.();
+      switchChain?.({
+        chainId: BSC_CHAIN.id,
+      });
+      write?.(simulateData!.request);
     },
   });
 
@@ -66,7 +68,7 @@ export const EditAccountModal = NiceModal.create(() => {
     [toast],
   );
 
-  const { write, isLoading, isRightChain } = useEditAccount(
+  const { write, isLoading, isRightChain, simulateData } = useEditAccount(
     address as `0x{string}`,
     editFormik.values,
     onSuccess,

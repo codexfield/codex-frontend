@@ -7,21 +7,19 @@ import { CreateRepoForm } from '@/modules/dashboard/components/createRepo';
 import { RegisterModal } from '@/modules/dashboard/components/modals/users/register';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useGetOffchainAuth } from '@/shared/hooks/useGetOffchainAuth';
-import { Box, Button, Center, Flex, Stack } from '@chakra-ui/react';
+import { useIsMounted } from '@/shared/hooks/useIsMounted';
+import { Box, Button, Flex, Stack } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAtomValue } from 'jotai';
 import { useEffect } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
-import { useIsMounted } from '@/shared/hooks/useIsMounted';
+import { useAccount } from 'wagmi';
 
 export const Dashboard: React.FC = () => {
-  const { address } = useAccount();
-  const { chain } = useNetwork();
+  const { address, chain } = useAccount();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
   const { openConnectModal } = useConnectModal();
-  // const { switchNetwork } = useSwitchNetwork();
   const userIsRegister = userInfo !== undefined && userInfo.id !== BigInt(0);
 
   useEffect(() => {

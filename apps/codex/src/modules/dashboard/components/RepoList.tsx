@@ -101,8 +101,6 @@ export const RepoList = (props: IProps) => {
             repoList?.map((repo) => {
               const createdAt = DYMTimeAsObject(repo.BucketInfo.CreateAt);
 
-              console.log('isOwner', isOwner);
-
               const isRepoPublic =
                 repo.BucketInfo.Visibility === VisibilityType.VISIBILITY_TYPE_PUBLIC_READ;
 

@@ -18,7 +18,7 @@ import {
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { useFormik } from 'formik';
 import { BucketMetaWithVGF } from 'node_modules/@bnb-chain/greenfield-js-sdk/dist/esm/types/sp/Common';
-import { useAccount, useSwitchNetwork } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { StyledButton } from '../forms';
 
 interface IProps {
@@ -29,7 +29,7 @@ interface IProps {
 export const DeleteRepo = NiceModal.create<IProps>(({ bucketInfo, onSuccess }) => {
   const { address } = useAccount();
   const modal = useModal();
-  const { switchNetwork } = useSwitchNetwork();
+  const { switchChain } = useSwitchChain();
   const { mutateAsync: deleteBucket, isPending } = useDeleteBucket();
 
   const deleteFormik = useFormik({
@@ -38,7 +38,9 @@ export const DeleteRepo = NiceModal.create<IProps>(({ bucketInfo, onSuccess }) =
     },
     onSubmit: async (values) => {
       // console.log('values', values);
-      switchNetwork?.(GNFD_CHAINID);
+      switchChain?.({
+        chainId: GNFD_CHAINID,
+      });
       if (!address) return;
 
       const res = await deleteBucket({
