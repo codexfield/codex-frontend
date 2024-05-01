@@ -45,7 +45,7 @@ export const CustomConnectButton = () => {
               return (
                 <div style={{ display: 'flex', gap: 12 }}>
                   <Flex>
-                    <HConnectButton
+                    {/* <HConnectButton
                       pl="0"
                       borderRadius="23px"
                       onClick={openChainModal}
@@ -74,10 +74,8 @@ export const CustomConnectButton = () => {
 
                       <Box ml="11px">
                         {chain.name}
-                        {/* {chain.id === 56 && bscChain.name}
-                        {chain.id !== 56 && chain.name} */}
                       </Box>
-                    </HConnectButton>
+                    </HConnectButton> */}
                   </Flex>
 
                   <HConnectButton
