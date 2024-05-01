@@ -48,7 +48,7 @@ const gnfdChain: Chain = {
 };
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [bscChain, gnfdChain],
+  [bscChain],
   [
     // alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider(),
