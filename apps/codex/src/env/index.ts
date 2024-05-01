@@ -10,7 +10,7 @@ export const GNFD_SCAN_URL = process.env.NEXT_PUBLIC_GNFD_SCAN_URL || '';
 export const BSC_CHAIN = ENV === 'TESTNET' ? bscTestnet : bsc;
 
 export const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ||
-  '0xae5c57a7285602830aEA302f56e8Cf647a82F022') as `0x{string}`;
+  '0xa5B2c9194131A4E0BFaCbF9E5D6722c873159cb7') as `0x{string}`;
 
 export const MARTET_CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_MARKET_CONTRACT_ADDRESS ||
   '0x077299B747Cb9da17AC6F7f2c509B9488d831564') as `0x{string}`;

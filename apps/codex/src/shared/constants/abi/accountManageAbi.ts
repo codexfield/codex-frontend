@@ -429,7 +429,7 @@ export const ACCOUNT_MANAGE_ABI = [
         internalType: 'bool',
       },
     ],
-    stateMutability: 'nonpayable',
+    stateMutability: 'payable',
   },
   {
     type: 'function',
