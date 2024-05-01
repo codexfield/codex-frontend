@@ -1,5 +1,5 @@
 import { GreenfieldClient } from '@/config/GnfsClient';
-import { SpResponse } from '@bnb-chain/greenfield-js-sdk';
+import { SpResponse, VisibilityType } from '@bnb-chain/greenfield-js-sdk';
 import { Stat } from '@codexfield/isomorphic-git';
 import { ReedSolomon } from '@bnb-chain/reed-solomon';
 import localforage from 'localforage';
@@ -134,59 +134,25 @@ export default class GnfdBackend {
       // console.error(e)
     }
 
-    // console.log('checksums', checksums);
-
-    // const { contentLength, expectCheckSums } = hashResult;
-    const createObjectTx = await GreenfieldClient.object.createObject(
-      {
-        bucketName: this.repoName,
-        objectName: objectName,
-        creator: this.address,
-        visibility: 'VISIBILITY_TYPE_PRIVATE',
-        fileType: 'application/octet-stream',
-        redundancyType: 'REDUNDANCY_EC_TYPE',
-        contentLength: d.length,
-        expectCheckSums: checksums,
-      },
-      {
-        type: 'EDDSA',
-        domain: window.location.origin,
-        seed: this.seed,
-        address: this.address,
-      },
-    );
-
-    const simulateInfo = await createObjectTx.simulate({
-      denom: 'BNB',
-    });
-
-    // console.log('simulateInfo', simulateInfo);
-
-    const res = await createObjectTx.broadcast({
-      denom: 'BNB',
-      gasLimit: Number(simulateInfo?.gasLimit),
-      gasPrice: simulateInfo?.gasPrice || '5000000000',
-      payer: this.address,
-      granter: '',
-    });
-
     // if (res.code === 0) {
     //   console.log('createObject tx success');
     // } else {
     //   console.log('create object failed.', res);
     // }
 
-    await this.delay(5000);
+    // await this.delay(5000);
 
     // console.log('data:', data);
     const blob = new Blob([data], { type: 'text/plain' });
     const file = new File([blob], 'foo.txt', { type: 'text/plain' });
-    const uploadRes = await GreenfieldClient.object.uploadObject(
+    const uploadRes = await GreenfieldClient.object.delegateUploadObject(
       {
         bucketName: this.repoName,
         objectName: objectName,
         body: file,
-        txnHash: res.transactionHash,
+        delegatedOpts: {
+          visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
+        },
       },
       {
         type: 'EDDSA',
@@ -197,7 +163,7 @@ export default class GnfdBackend {
     );
     // console.log('uploadRes', uploadRes);
 
-    return res;
+    return uploadRes;
   }
 
   async delay(time: number) {
@@ -250,7 +216,7 @@ export default class GnfdBackend {
         return {
           // @ts-ignore
           type: 'file',
-          size: res?.objectInfo.payloadSize.toNumber(),
+          size: res.objectInfo?.payloadSize.toNumber() || 0,
         };
       }
     } catch (err) {

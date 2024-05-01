@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@bnb-chain/greenfield-cosmos-types": "0.4.0-alpha.30",
-    "@bnb-chain/greenfield-js-sdk": "^1.1.2",
+    "@bnb-chain/greenfield-js-sdk": "2.0.0-alpha.10",
     "@bnb-chain/reed-solomon": "^1.1.2",
     "@bradgarropy/use-countdown": "^2.0.1",
     "@chakra-ui/icons": "^2.1.1",
