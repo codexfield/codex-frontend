@@ -4,9 +4,7 @@ import { Client } from '@bnb-chain/greenfield-js-sdk';
 const GREEN_CHAIN_ID = GNFD_CHAINID;
 const GRPC_URL = GNFD_RPC;
 
-export const GreenfieldClient = Client.create(GRPC_URL, String(GREEN_CHAIN_ID), {
-  zkCryptoUrl: 'https://unpkg.com/@bnb-chain/greenfield-zk-crypto@0.0.3/dist/node/zk-crypto.wasm',
-});
+export const GreenfieldClient = Client.create(GRPC_URL, String(GREEN_CHAIN_ID));
 
 export const getSps = async () => {
   const sps = await GreenfieldClient.sp.getStorageProviders();

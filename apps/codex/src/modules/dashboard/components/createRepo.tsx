@@ -94,7 +94,7 @@ export const CreateRepoForm = () => {
           address,
           seed,
           primarySpAddress: spInfo.primarySpAddress,
-          visibility: values.visibility,
+          visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
         });
 
         if (createBucketRes.code === 0) {
