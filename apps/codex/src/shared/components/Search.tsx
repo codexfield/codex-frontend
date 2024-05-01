@@ -32,8 +32,6 @@ export const Search = () => {
 
   const { data: searchUserData } = useGetAccountDetailsByName(kw);
 
-  console.log('searchUserData', searchUserData);
-
   const handleSearch = (e: any) => {
     e.preventDefault();
 

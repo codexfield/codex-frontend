@@ -5,13 +5,16 @@ import { IReturnOffChainAuthKeyPairAndUpload } from '@bnb-chain/greenfield-js-sd
 /**
  * generate off-chain auth key pair and upload public key to sp
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getKey = (address: string) => {
+  return 'CodeX' + '_' + ENV + '_' + address;
+};
+
 export const getOffchainAuthKeys = async (
   address: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   provider: any,
 ): Promise<IReturnOffChainAuthKeyPairAndUpload | undefined> => {
-  const key = ENV + '_' + address;
+  const key = getKey(address);
   const storageResStr = localStorage.getItem(key);
 
   if (storageResStr) {

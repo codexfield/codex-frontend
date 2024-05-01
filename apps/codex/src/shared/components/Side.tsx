@@ -21,8 +21,6 @@ export const Side = (props: IProps) => {
   const isMounted = useIsMounted();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
 
-  // console.log('myAddress', myAddress, address);
-
   const showEditAccountModal = () => {
     NiceModal.show(EditAccountModal);
   };

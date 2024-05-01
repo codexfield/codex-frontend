@@ -8,6 +8,10 @@ import {
   useSimulateContract,
   useWaitForTransactionReceipt,
 } from 'wagmi';
+import { useGetFee } from './useGetFee';
+import { parseEther } from 'viem';
+
+const ExtraFee = parseEther('0.005');
 
 export const useRegister = (
   address: `0x{string}`,
@@ -21,6 +25,8 @@ export const useRegister = (
 
   const isRightChain = chain?.id === BSC_CHAIN.id;
 
+  const { data: fees, isLoading: isLoadingFee } = useGetFee(ExtraFee);
+
   const {
     data: simulateData,
     error: prepareError,
@@ -32,8 +38,9 @@ export const useRegister = (
     args: [address, name, avatar, bio, company, location, website, socialAccounts],
     chainId: BSC_CHAIN.id,
     query: {
-      enabled: name !== '' && address !== undefined && isRightChain,
+      enabled: name !== '' && address !== undefined && isRightChain && !isLoadingFee,
     },
+    value: fees,
   });
 
   const { data, writeContract, isError, error } = useWriteContract();
