@@ -250,7 +250,7 @@ export default class GnfdBackend {
         return {
           // @ts-ignore
           type: 'file',
-          size: res.objectInfo.payloadSize.toNumber(),
+          size: res?.objectInfo.payloadSize.toNumber(),
         };
       }
     } catch (err) {
