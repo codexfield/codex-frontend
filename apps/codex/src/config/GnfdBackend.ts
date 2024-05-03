@@ -25,7 +25,7 @@ export default class GnfdBackend {
   private seed: string;
   private address: string;
   private forageInstance: LocalForage;
-  private cache = true;
+  private cache = false;
 
   constructor(repoName: string, seed: string, endpoint: string, address: string) {
     this.repoName = repoName;
@@ -52,7 +52,7 @@ export default class GnfdBackend {
     if (cacheObjectRes && this.cache) {
       res = cacheObjectRes;
     } else {
-      // console.log('xxx', this.seed, this.address, this.repoName, objectName, this.endpoint);
+      console.log('xxx', this.seed, this.address, this.repoName, objectName, this.endpoint);
       res = await GreenfieldClient.object.getObject(
         {
           bucketName: this.repoName,
@@ -66,7 +66,7 @@ export default class GnfdBackend {
           address: this.address,
         },
       );
-      // console.log('repo', this.repoName, objectName, res);
+      console.log('repo', this.repoName, objectName, res);
 
       if (this.cache) {
         await this.forageInstance.setItem(objectName, res);
@@ -93,7 +93,7 @@ export default class GnfdBackend {
       objectName = filepath.slice(1);
     }
 
-    // console.log('get object', filepath, objectName)
+    console.log('get object', filepath, objectName);
 
     const res = await this.readGnfdObject(objectName);
 
@@ -120,31 +120,13 @@ export default class GnfdBackend {
 
   private async writeGnfdObject(objectName: string, data: Uint8Array | string) {
     // console.log('onWriteObject', objectName)
-    // let hashResult = {} as any
-    let checksums: string[] = [];
     const d = await this.convertToUint8Array(data);
 
-    try {
-      const rs = new ReedSolomon();
-      checksums = rs.encode(d);
-      // hashResult = await (window as any).FileHandle.getCheckSums(
-      //   await this.convertToUint8Array(data)
-      // );
-    } catch (e) {
-      // console.error(e)
-    }
-
-    // if (res.code === 0) {
-    //   console.log('createObject tx success');
-    // } else {
-    //   console.log('create object failed.', res);
-    // }
-
-    // await this.delay(5000);
-
-    // console.log('data:', data);
-    const blob = new Blob([data], { type: 'text/plain' });
-    const file = new File([blob], 'foo.txt', { type: 'text/plain' });
+    console.log('data: ', data);
+    console.log('d: ', d);
+    const blob = new Blob([d], { type: 'text/plain' });
+    const file = new File([blob], 'foo', { type: 'text/plain' });
+    console.log('file: ', file);
     const uploadRes = await GreenfieldClient.object.delegateUploadObject(
       {
         bucketName: this.repoName,

@@ -48,3 +48,7 @@ export const shortName = (name: string) => {
   }
   return name;
 };
+
+export function sleep(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}

@@ -1,13 +1,14 @@
 import { createBucket } from '@/apis/createBucket';
 import GnfdBackend from '@/config/GnfdBackend';
 import { selectSp } from '@/config/GnfsClient';
-import { GNFD_CHAINID } from '@/env';
+import { BSC_CHAIN } from '@/env';
 import { newRepoAtom } from '@/modules/dashboard/atoms/newRepoAtom';
 import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useGetRepoList } from '@/shared/hooks/gnfd/useGetRepoList';
-import { getBucketName } from '@/shared/utils';
+import { getBucketName, sleep } from '@/shared/utils';
 import { getOffchainAuthKeys } from '@/shared/utils/offchainAuth';
+import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
 import {
   Box,
   Flex,
@@ -25,11 +26,12 @@ import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtom, useSetAtom } from 'jotai';
 import { StyledButton, StyledInput } from './modals/forms';
-import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
+import { useGetFee } from '@/shared/hooks/contract/useGetFee';
 // @ts-ignore
 import LightningFS from '@codexfield/lightning-fs';
 import { useState } from 'react';
-import { useAccount, useSwitchChain } from 'wagmi';
+import { Address } from 'viem';
+import { useAccount, usePublicClient, useSwitchChain, useWalletClient } from 'wagmi';
 
 interface FormValues {
   repoName: string;
@@ -42,9 +44,16 @@ export const CreateRepoForm = () => {
   const [offchainData, setOffchainData] = useAtom(offchainDataAtom);
   const { address, connector, chain } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
-  const { refetch: refetchRepoList } = useGetRepoList();
+  const { refetch: refetchRepoList } = useGetRepoList(address);
   const { switchChain } = useSwitchChain();
-  const isGnfdChain = chain?.id === GNFD_CHAINID;
+  // const isGnfdChain = chain?.id === GNFD_CHAINID;
+  const isBSCChain = chain?.id === BSC_CHAIN.id;
+  const publicClient = usePublicClient({
+    chainId: BSC_CHAIN.id,
+  });
+  const { data: walletClient } = useWalletClient();
+
+  const { data: fees } = useGetFee();
 
   const createRepoFormik = useFormik({
     initialValues: {
@@ -52,6 +61,8 @@ export const CreateRepoForm = () => {
       description: '',
       visibility: 'VISIBILITY_TYPE_PUBLIC_READ',
     },
+    validateOnBlur: false,
+    validateOnChange: false,
     validate: (values: FormValues) => {
       const errors: FormikErrors<FormValues> = {};
       if (!values.repoName) {
@@ -73,9 +84,12 @@ export const CreateRepoForm = () => {
         return;
       }
 
-      switchChain?.({
-        chainId: GNFD_CHAINID,
-      });
+      if (!isBSCChain) {
+        switchChain?.({
+          chainId: BSC_CHAIN.id,
+        });
+        return;
+      }
 
       const { repoName } = values;
       const { seed } = offchainData;
@@ -89,20 +103,32 @@ export const CreateRepoForm = () => {
 
         const bucketName = getBucketName(repoName, userInfo.id);
 
-        const createBucketRes = await createBucket({
+        const createBucketHash = await createBucket({
+          fees,
+          publicClient,
+          walletClient,
           bucketName,
           address,
           seed,
-          primarySpAddress: spInfo.primarySpAddress,
+          primarySpAddress: spInfo.primarySpAddress as Address,
           visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
         });
 
-        if (createBucketRes.code === 0) {
-          // eslint-disable-next-line no-console
-          console.log('create repo success');
-        }
+        console.log('createBucketHash', createBucketHash);
 
+        if (!createBucketHash) return;
+
+        const tx = await publicClient?.waitForTransactionReceipt({
+          hash: createBucketHash,
+        });
+
+        console.log('tx', tx);
+
+        await sleep(30000);
+
+        debugger;
         const backend = new GnfdBackend(bucketName, seed, spInfo.endpoint, offchainData.address);
+
         const fs = new LightningFS('fs', {
           // @ts-ignore
           backend,
@@ -264,7 +290,7 @@ export const CreateRepoForm = () => {
           >
             {!offchainData || !offchainData.seed
               ? 'Signature'
-              : isGnfdChain
+              : isBSCChain
               ? 'Creat repository'
               : 'Switch Network'}
           </StyledButton>
