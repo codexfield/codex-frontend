@@ -3,7 +3,7 @@ import { Side } from '@/shared/components/Side';
 // @ts-ignore
 import { newRepoAtom } from '@/modules/dashboard/atoms/newRepoAtom';
 import { NewRepo } from '@/modules/dashboard/components/NewRepo';
-import { CreateRepoForm } from '@/modules/dashboard/components/createRepo';
+import { CreateRepoForm } from '@/modules/dashboard/components/createRepoForm';
 import { RegisterModal } from '@/modules/dashboard/components/modals/users/register';
 import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
@@ -98,9 +98,7 @@ export const Dashboard: React.FC = () => {
 
         <Box w="960px">
           {userIsRegister && (
-            <>
-              {showCreateRepo.clickedButton ? <CreateRepoForm /> : <RepoList address={address} />}
-            </>
+            <>{showCreateRepo.start ? <CreateRepoForm /> : <RepoList address={address} />}</>
           )}
         </Box>
       </Stack>

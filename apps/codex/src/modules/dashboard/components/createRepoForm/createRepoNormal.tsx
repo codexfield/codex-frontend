@@ -25,13 +25,14 @@ import git from '@codexfield/isomorphic-git';
 import styled from '@emotion/styled';
 import { FormikErrors, useFormik } from 'formik';
 import { useAtom, useSetAtom } from 'jotai';
-import { StyledButton, StyledInput } from './modals/forms';
+import { StyledButton, StyledInput } from '../modals/forms';
 import { useGetFee } from '@/shared/hooks/contract/useGetFee';
 // @ts-ignore
 import LightningFS from '@codexfield/lightning-fs';
 import { useState } from 'react';
 import { Address } from 'viem';
 import { useAccount, usePublicClient, useSwitchChain, useWalletClient } from 'wagmi';
+import { StyledFormLabel, SubTitle, Title } from './ui';
 
 interface FormValues {
   repoName: string;
@@ -39,7 +40,7 @@ interface FormValues {
   description?: string;
 }
 
-export const CreateRepoForm = () => {
+export const CreateRepoNormal: React.FC = () => {
   const [creating, setCreating] = useState(false);
   const [offchainData, setOffchainData] = useAtom(offchainDataAtom);
   const { address, connector, chain } = useAccount();
@@ -54,6 +55,15 @@ export const CreateRepoForm = () => {
   const { data: walletClient } = useWalletClient();
 
   const { data: fees } = useGetFee();
+
+  const [showCreateRepo, setShowCreateRepo] = useAtom(newRepoAtom);
+
+  const handleCancel = () => {
+    setShowCreateRepo((draft) => {
+      draft.start = false;
+      draft.importGithub = false;
+    });
+  };
 
   const createRepoFormik = useFormik({
     initialValues: {
@@ -124,9 +134,9 @@ export const CreateRepoForm = () => {
 
         console.log('tx', tx);
 
-        await sleep(30000);
+        await sleep(10000);
 
-        debugger;
+        // debugger;
         const backend = new GnfdBackend(bucketName, seed, spInfo.endpoint, offchainData.address);
 
         const fs = new LightningFS('fs', {
@@ -142,8 +152,9 @@ export const CreateRepoForm = () => {
         });
         // console.log(res);
 
-        setShowCreateRepo({
-          clickedButton: false,
+        setShowCreateRepo((draft) => {
+          draft.start = false;
+          draft.importGithub = false;
         });
 
         await refetchRepoList();
@@ -159,34 +170,34 @@ export const CreateRepoForm = () => {
     },
   });
 
-  const setShowCreateRepo = useSetAtom(newRepoAtom);
-
-  const handleCancel = () => {
-    setShowCreateRepo({
-      clickedButton: false,
-    });
-  };
-
   return (
     <>
       <Title as="h2">Create A New Repository</Title>
       <SubTitle as="h3">
         A repository contains all project files, including the revision history. Already have a
         project repository elsewhere?
-        <Link
-          aria-disabled
-          href="#"
-          color="#0094FF"
-          fontSize="20px"
-          _hover={{
-            textDecoration: 'none',
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-          }}
-        >
-          Import a repository (Coming Soon)
-        </Link>
+        <Box my="20px">
+          <Link
+            aria-disabled
+            href="#"
+            color="#0094FF"
+            fontSize="20px"
+            fontWeight="700"
+            _hover={{
+              textDecoration: 'none',
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+
+              setShowCreateRepo((draft) => {
+                draft.importGithub = true;
+                draft.normal = false;
+              });
+            }}
+          >
+            Import a repository
+          </Link>
+        </Box>
       </SubTitle>
 
       <Box as="form" onSubmit={createRepoFormik.handleSubmit}>
@@ -246,18 +257,18 @@ export const CreateRepoForm = () => {
         </FormControl>
 
         {/* <FormControl mt="16px">
-          <SubTitle as="h3">
-            Great repository names are short and memorable.Need inspiration? How about potential
-            -dollop ?
-          </SubTitle>
-          <StyledFormLabel>Description (optional)</StyledFormLabel>
-          <StyledInput
-            name="description"
-            type="text"
-            placeholder=""
-            onChange={createRepoFormik.handleChange}
-          />
-        </FormControl> */}
+    <SubTitle as="h3">
+      Great repository names are short and memorable.Need inspiration? How about potential
+      -dollop ?
+    </SubTitle>
+    <StyledFormLabel>Description (optional)</StyledFormLabel>
+    <StyledInput
+      name="description"
+      type="text"
+      placeholder=""
+      onChange={createRepoFormik.handleChange}
+    />
+  </FormControl> */}
 
         <Flex mt="32px" gap="12px" justifyContent="end">
           <StyledButton
@@ -299,21 +310,3 @@ export const CreateRepoForm = () => {
     </>
   );
 };
-
-const StyledFormLabel = styled(FormLabel)`
-  font-size: 14px;
-  font-weight: 700;
-  color: #d9d9d9;
-`;
-
-const Title = styled(Box)`
-  font-size: 24px;
-  font-weight: 500;
-`;
-
-const SubTitle = styled(Box)`
-  font-size: 20px;
-  color: #5f5f5f;
-  margin-top: 20px;
-  margin-bottom: 20px;
-`;

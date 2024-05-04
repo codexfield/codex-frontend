@@ -1,9 +1,7 @@
-import { GreenfieldClient } from '@/config/GnfsClient';
-import { Long } from '@bnb-chain/greenfield-js-sdk';
-import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
-import { Address, PublicClient, WalletClient } from 'viem';
 import { BUCKET_HUB_ADDRESS } from '@/env';
 import { BUCKET_HUB_ABI } from '@/shared/constants/abi/bucketHubAbi';
+import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
+import { Address, PublicClient, WalletClient } from 'viem';
 
 export enum BucketVisibilityType {
   Unspecified = 0,

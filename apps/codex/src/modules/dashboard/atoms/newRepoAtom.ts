@@ -1,5 +1,7 @@
-import { atom } from 'jotai';
+import { atomWithImmer } from 'jotai-immer';
 
-export const newRepoAtom = atom({
-  clickedButton: false,
+export const newRepoAtom = atomWithImmer({
+  start: false,
+  normal: false,
+  importGithub: false,
 });

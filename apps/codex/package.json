@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@bnb-chain/greenfield-cosmos-types": "0.4.0-alpha.30",
+    "@bnb-chain/greenfield-cosmos-types": "0.4.0-alpha.32",
     "@bnb-chain/greenfield-js-sdk": "2.0.0-alpha.10",
     "@bnb-chain/reed-solomon": "^1.1.2",
     "@bradgarropy/use-countdown": "^2.0.1",
@@ -30,10 +30,12 @@
     "formik": "^2.4.5",
     "framer-motion": "^10.16.4",
     "jotai": "^2.6.0",
+    "jotai-immer": "^0.3.0",
     "localforage": "^1.10.0",
     "lodash.delay": "^4.1.1",
     "lodash.orderby": "^4.6.0",
     "next": "13.4.19",
+    "next-auth": "^4.24.7",
     "pnpm": "^8.12.0",
     "react": "latest",
     "react-dom": "latest",
