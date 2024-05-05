@@ -13,7 +13,7 @@ const HeaderContent = () => {
   return (
     <>
       <Flex gap="45px" ml="45px">
-        {/* <NavLink
+        <NavLink
           as={NextLink}
           href="/explore"
           sx={{
@@ -21,7 +21,7 @@ const HeaderContent = () => {
           }}
         >
           Explore
-        </NavLink> */}
+        </NavLink>
 
         <NavLink
           as={NextLink}
