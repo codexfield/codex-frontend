@@ -69,33 +69,4 @@ export const createBucket = async ({
   console.log('request', request);
 
   return await walletClient.writeContract(request);
-
-  // const tx = await GreenfieldClient.bucket.createBucket({
-  //   bucketName,
-  //   creator: address,
-  //   visibility,
-  //   chargedReadQuota: Long.fromString('0'),
-  //   primarySpAddress,
-  //   paymentAddress: address,
-  // });
-
-  // const simulateInfo = await tx.simulate({
-  //   denom: 'BNB',
-  // });
-
-  // // console.log('simulateInfo', simulateInfo);
-
-  // const res = await tx.broadcast({
-  //   denom: 'BNB',
-  //   gasLimit: Number(simulateInfo?.gasLimit),
-  //   gasPrice: simulateInfo?.gasPrice || '5000000000',
-  //   payer: address,
-  //   granter: '',
-  // });
-
-  // return res;
-
-  // if (res.code === 0) {
-  //   alert('success');
-  // }
 };

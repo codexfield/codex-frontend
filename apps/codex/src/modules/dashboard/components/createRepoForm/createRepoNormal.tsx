@@ -134,7 +134,7 @@ export const CreateRepoNormal: React.FC = () => {
 
         console.log('tx', tx);
 
-        await sleep(10000);
+        await sleep(15000);
 
         // debugger;
         const backend = new GnfdBackend(bucketName, seed, spInfo.endpoint, offchainData.address);

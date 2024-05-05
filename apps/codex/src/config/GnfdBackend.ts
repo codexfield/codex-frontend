@@ -181,6 +181,14 @@ export default class GnfdBackend {
   async unlink(filepath: string): Promise<void> {}
 
   async stat(filepath: string): Promise<Stat> {
+    if (filepath === '/') {
+      return {
+        // @ts-ignore
+        type: 'file',
+        size: 0,
+      };
+    }
+
     try {
       let res: Awaited<ReturnType<typeof GreenfieldClient.object.headObject>>;
 
@@ -202,8 +210,17 @@ export default class GnfdBackend {
         };
       }
     } catch (err) {
-      // ...
+      console.error('err', err);
+      // // ...
+      // return {
+      //   // @ts-ignore
+      //   type: 'file',
+      //   size: 0,
+      // };
+
+      // throw new FileNotFoundError('File not found');
     }
+
     throw new FileNotFoundError('File not found');
   }
 }

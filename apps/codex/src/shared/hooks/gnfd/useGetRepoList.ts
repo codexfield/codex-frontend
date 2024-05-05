@@ -20,6 +20,9 @@ export const useGetRepoList = (address?: `0x${string}`) => {
         endpoint: spInfo.endpoint,
       });
 
+      // console.log('spInfo.endpoint', spInfo.endpoint);
+      // console.log('bucketList', bucketList);
+
       return bucketList?.filter((bucket) => {
         return bucket.BucketInfo.BucketName.startsWith(`${REPO_PREFIX}-`);
       });
