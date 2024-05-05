@@ -68,7 +68,7 @@ export const ExplorePage: React.FC = () => {
                   // repo.BucketInfo.Visibility === VisibilityType.VISIBILITY_TYPE_PUBLIC_READ;
 
                   return (
-                    <Box key={repo.repo_name} mb="20px">
+                    <Box key={repo.codex_bucket_id} mb="20px">
                       <RepoDate>
                         <Box as="span" color="#FFF" mr="6px">
                           {createdAt.m} {createdAt.d}
