@@ -125,28 +125,20 @@ export const ImportGithub: React.FC = () => {
       try {
         const spInfo = await selectSp();
 
-        const createBucketHash = await createBucket({
+        const createBucketTxHash = await createBucket({
           fees,
           publicClient,
           walletClient,
           bucketName,
           address,
           seed,
-          primarySpAddress: spInfo.primarySpAddress as Address,
+          sp: spInfo,
           visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
         });
 
-        console.log('createBucketHash', createBucketHash);
+        console.log('createBucketTxHash', createBucketTxHash);
 
-        if (!createBucketHash) return;
-
-        const tx = await publicClient?.waitForTransactionReceipt({
-          hash: createBucketHash,
-        });
-
-        console.log('tx', tx);
-
-        await sleep(10000);
+        await sleep(15000);
 
         const bytes = MsgPutPolicy.encode({
           operator: address,

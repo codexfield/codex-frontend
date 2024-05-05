@@ -113,26 +113,18 @@ export const CreateRepoNormal: React.FC = () => {
 
         const bucketName = getBucketName(repoName, userInfo.id);
 
-        const createBucketHash = await createBucket({
+        const createBucketTxHash = await createBucket({
           fees,
           publicClient,
           walletClient,
           bucketName,
           address,
           seed,
-          primarySpAddress: spInfo.primarySpAddress as Address,
+          sp: spInfo,
           visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
         });
 
-        console.log('createBucketHash', createBucketHash);
-
-        if (!createBucketHash) return;
-
-        const tx = await publicClient?.waitForTransactionReceipt({
-          hash: createBucketHash,
-        });
-
-        console.log('tx', tx);
+        console.log('createBucketTxHash', createBucketTxHash);
 
         await sleep(15000);
 

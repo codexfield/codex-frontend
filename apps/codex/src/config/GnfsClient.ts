@@ -1,5 +1,6 @@
 import { GNFD_CHAINID, GNFD_RPC } from '@/env';
 import { Client } from '@bnb-chain/greenfield-js-sdk';
+import { Address } from 'viem';
 
 const GREEN_CHAIN_ID = GNFD_CHAINID;
 const GRPC_URL = GNFD_RPC;
@@ -29,7 +30,15 @@ export const getAllSps = async () => {
   });
 };
 
-export const selectSp = async () => {
+export interface SpInfo {
+  id: number;
+  endpoint: string;
+  primarySpAddress: Address;
+  sealAddress: string;
+  secondarySpAddresses: string[];
+}
+
+export const selectSp = async (): Promise<SpInfo> => {
   const finalSps = await getSps();
 
   const selectIndex = Math.floor(Math.random() * finalSps.length);
@@ -41,7 +50,7 @@ export const selectSp = async () => {
   const selectSpInfo = {
     id: finalSps[selectIndex].id,
     endpoint: finalSps[selectIndex].endpoint,
-    primarySpAddress: finalSps[selectIndex]?.operatorAddress,
+    primarySpAddress: finalSps[selectIndex]?.operatorAddress as Address,
     sealAddress: finalSps[selectIndex].sealAddress,
     secondarySpAddresses,
   };

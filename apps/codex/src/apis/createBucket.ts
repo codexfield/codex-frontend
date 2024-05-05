@@ -1,6 +1,8 @@
+import { GreenfieldClient, SpInfo } from '@/config/GnfsClient';
 import { BUCKET_HUB_ADDRESS } from '@/env';
 import { BUCKET_HUB_ABI } from '@/shared/constants/abi/bucketHubAbi';
 import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
+import { PickVGFStrategy } from '@bnb-chain/greenfield-cosmos-types/greenfield/virtualgroup/common';
 import { Address, PublicClient, WalletClient } from 'viem';
 
 export enum BucketVisibilityType {
@@ -26,23 +28,29 @@ export type CreateBucketSynPackage = {
 export const createBucket = async ({
   bucketName,
   address,
-  primarySpAddress,
   seed,
   visibility,
   publicClient,
   walletClient,
   fees,
+  sp,
 }: {
   publicClient?: PublicClient;
   walletClient?: WalletClient;
   bucketName: string;
   address: Address;
   seed: string;
-  primarySpAddress: Address;
+  sp: SpInfo;
   visibility: VisibilityType;
   fees?: bigint;
 }) => {
   if (!publicClient || !walletClient || !fees) return;
+
+  const { globalVirtualGroupFamilyId } =
+    await GreenfieldClient.virtualGroup.getSpOptimalGlobalVirtualGroupFamily({
+      spId: sp.id,
+      pickVgfStrategy: PickVGFStrategy.Strategy_Oldest_Create_Time,
+    });
 
   const createBucketSyncPkg: CreateBucketSynPackage = {
     name: bucketName,
@@ -50,9 +58,9 @@ export const createBucket = async ({
     chargedReadQuota: BigInt(0),
     visibility,
     paymentAddress: address,
-    primarySpAddress,
+    primarySpAddress: sp.primarySpAddress,
     primarySpApprovalExpiredHeight: BigInt(0),
-    globalVirtualGroupFamilyId: 1,
+    globalVirtualGroupFamilyId: globalVirtualGroupFamilyId,
     primarySpSignature: '0x',
     extraData: '0x',
   };
@@ -68,5 +76,15 @@ export const createBucket = async ({
 
   console.log('request', request);
 
-  return await walletClient.writeContract(request);
+  const createBucketHash = await walletClient.writeContract(request);
+
+  console.log('createBucketHash', createBucketHash);
+
+  if (!createBucketHash) return;
+
+  const tx = await publicClient?.waitForTransactionReceipt({
+    hash: createBucketHash,
+  });
+
+  return tx;
 };
