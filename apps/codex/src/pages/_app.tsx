@@ -1,3 +1,4 @@
+import { SessionProvider } from 'next-auth/react';
 import { queryClient } from '@/config/ReactQuery';
 import { wagmiConfig } from '@/config/wallet';
 import { CustomAvatar } from '@/shared/components/avatars';
@@ -15,32 +16,34 @@ import { HomepageLayout } from '../shared/components/layout/homepage-layout';
 import { theme } from '../theme';
 import './globals.css';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const Layout = Component.displayName === 'Home' ? HomepageLayout : AppLayout;
 
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          modalSize="compact"
-          avatar={CustomAvatar}
-          theme={darkTheme({
-            accentColor: '#1E1E1E',
-            borderRadius: 'large',
-          })}
-        >
-          <ChakraProvider theme={theme}>
-            <JotaiProvider>
-              <NiceModal.Provider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </NiceModal.Provider>
-            </JotaiProvider>
-          </ChakraProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <SessionProvider session={session}>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider
+            modalSize="compact"
+            avatar={CustomAvatar}
+            theme={darkTheme({
+              accentColor: '#1E1E1E',
+              borderRadius: 'large',
+            })}
+          >
+            <ChakraProvider theme={theme}>
+              <JotaiProvider>
+                <NiceModal.Provider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </NiceModal.Provider>
+              </JotaiProvider>
+            </ChakraProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </SessionProvider>
   );
 }

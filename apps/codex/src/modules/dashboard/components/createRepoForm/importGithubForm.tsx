@@ -1,12 +1,27 @@
-import styled from '@emotion/styled';
+import { createBucket } from '@/apis/createBucket';
+import { importRepo } from '@/apis/importRepo';
+import { putPolicy } from '@/apis/policy';
+import { selectSp } from '@/config/GnfsClient';
+import { BSC_CHAIN } from '@/env';
+import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
+import GithubOAuth from '@/shared/components/oauth/github';
+import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
+import { useGetFee } from '@/shared/hooks/contract/useGetFee';
+import { getBucketName, getCloneUrlByRepoName, sleep } from '@/shared/utils';
+import { getOffchainAuthKeys } from '@/shared/utils/offchainAuth';
+import {
+  ActionType,
+  Effect,
+  PrincipalType,
+} from '@bnb-chain/greenfield-cosmos-types/greenfield/permission/common';
+import { MsgPutPolicy } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/tx';
+import { GRNToString, VisibilityType, newBucketGRN } from '@bnb-chain/greenfield-js-sdk';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormErrorMessage,
-  Input,
   Link,
   Stack,
   Step,
@@ -25,34 +40,17 @@ import {
   TabPanels,
   TabProps,
   Tabs,
-  Text,
   useSteps,
 } from '@chakra-ui/react';
-import { useAtom } from 'jotai';
-import { newRepoAtom } from '../../atoms/newRepoAtom';
-import { SubTitle, Title } from './ui';
 import { FormikErrors, useFormik } from 'formik';
-import { StyledButton, StyledInput } from '../modals/forms';
+import { useAtom } from 'jotai';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
-import { MsgPutPolicy } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/tx';
-import { useAccount, usePublicClient, useSwitchChain, useWalletClient } from 'wagmi';
-import { getOffchainAuthKeys } from '@/shared/utils/offchainAuth';
-import { BSC_CHAIN } from '@/env';
-import { getBucketName, getCloneUrlByRepoName, sleep } from '@/shared/utils';
-import { createBucket } from '@/apis/createBucket';
-import { selectSp } from '@/config/GnfsClient';
-import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
-import { useGetFee } from '@/shared/hooks/contract/useGetFee';
 import { Address } from 'viem';
-import { VisibilityType, GRNToString, newBucketGRN } from '@bnb-chain/greenfield-js-sdk';
-import { putPolicy } from '@/apis/policy';
-import {
-  ActionType,
-  Effect,
-  PrincipalType,
-} from '@bnb-chain/greenfield-cosmos-types/greenfield/permission/common';
-import { importRepo } from '@/apis/importRepo';
+import { useAccount, usePublicClient, useSwitchChain, useWalletClient } from 'wagmi';
+import { newRepoAtom } from '../../atoms/newRepoAtom';
+import { StyledButton, StyledInput } from '../modals/forms';
+import { SubTitle, Title } from './ui';
 
 const steps = [
   { title: 'Step 1', description: 'Select Repository' },
@@ -67,6 +65,7 @@ export const ImportGithub: React.FC = () => {
     index: 0,
     count: steps.length,
   });
+  const [tabIndex, setTabIndex] = useState(0);
   const { address, connector, chain } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
   const { data: fees } = useGetFee();
@@ -247,7 +246,13 @@ export const ImportGithub: React.FC = () => {
         </Stepper>
       </Stack>
 
-      <Tabs variant="unstyled" position="relative" my="50px">
+      <Tabs
+        variant="unstyled"
+        position="relative"
+        my="50px"
+        index={tabIndex}
+        onChange={setTabIndex}
+      >
         <TabList>
           <CdTab onClick={() => setActiveStep(1)}>Select Repository</CdTab>
           <CdTab onClick={() => setActiveStep(2)}>Import with URL</CdTab>
@@ -255,16 +260,24 @@ export const ImportGithub: React.FC = () => {
         <TabIndicator mt="-1.5px" height="2px" bg="#d9d9d9" borderRadius="1px" />
         <TabPanels>
           <TabPanel py="30px">
-            <Link href="https://github.com/login/oauth/authorize?client_id=Ov23lihgDpAdCYl6MoXK&redirect_uri=http://localhost:3000/oauth/redirect">
-              login with Github
-            </Link>
+            <GithubOAuth
+              handleConfirmSelect={() => {
+                setTabIndex(1);
+                setActiveStep(2);
+              }}
+              handleSelect={(e) => {
+                importGithubFormik.setFieldValue('githubUrl', e);
+              }}
+            />
           </TabPanel>
+
           <TabPanel py="30px">
             <Box as="form" onSubmit={importGithubFormik.handleSubmit}>
               <FormControl mt="16px" isRequired isInvalid={!!importGithubFormik.errors.githubUrl}>
                 <StyledInput
                   placeholder="Repository URL"
                   name="githubUrl"
+                  value={importGithubFormik.values.githubUrl}
                   onChange={importGithubFormik.handleChange}
                 />
                 {importGithubFormik.errors.githubUrl && (

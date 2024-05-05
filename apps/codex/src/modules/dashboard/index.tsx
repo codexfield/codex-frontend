@@ -17,6 +17,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Connector, useAccount, useAccountEffect } from 'wagmi';
+import GithubOAuth from '@/shared/components/oauth/github';
 
 export const Dashboard: React.FC = () => {
   const router = useRouter();
