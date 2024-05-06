@@ -85,11 +85,7 @@ export const useCreateRepo = (params?: IParams) => {
 
       try {
         const spInfo = await selectSp();
-        // eslint-disable-next-line no-console
-        // console.log('spInfo', spInfo);
-
         const bucketName = getBucketName(repoName, userInfo.id);
-
         try {
           const bucketInfo = await GreenfieldClient.bucket.headBucket(bucketName);
 
@@ -103,15 +99,17 @@ export const useCreateRepo = (params?: IParams) => {
           // ...
         }
 
+        console.log('spInfo', spInfo);
+        console.log('values', values);
         const createBucketTxHash = await createBucket({
           fees,
           publicClient,
           walletClient,
           bucketName,
           address,
-          seed,
           sp: spInfo,
-          visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
+          // visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
+          visibility: values.visibility,
         });
 
         console.log('createBucketTxHash', createBucketTxHash);

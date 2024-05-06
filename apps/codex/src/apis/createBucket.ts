@@ -15,7 +15,7 @@ export enum BucketVisibilityType {
 export type CreateBucketSynPackage = {
   creator: Address;
   name: string;
-  visibility: VisibilityType;
+  visibility: BucketVisibilityType;
   paymentAddress: Address;
   primarySpAddress: Address;
   primarySpApprovalExpiredHeight: bigint;
@@ -28,7 +28,6 @@ export type CreateBucketSynPackage = {
 export const createBucket = async ({
   bucketName,
   address,
-  seed,
   visibility,
   publicClient,
   walletClient,
@@ -39,9 +38,8 @@ export const createBucket = async ({
   walletClient?: WalletClient;
   bucketName: string;
   address: Address;
-  seed: string;
   sp: SpInfo;
-  visibility: VisibilityType;
+  visibility: keyof typeof VisibilityType;
   fees?: bigint;
 }) => {
   if (!publicClient || !walletClient || !fees) return;
@@ -56,7 +54,10 @@ export const createBucket = async ({
     name: bucketName,
     creator: address,
     chargedReadQuota: BigInt(0),
-    visibility,
+    visibility:
+      visibility === 'VISIBILITY_TYPE_PRIVATE'
+        ? BucketVisibilityType.Private
+        : BucketVisibilityType.PublicRead,
     paymentAddress: address,
     primarySpAddress: sp.primarySpAddress,
     primarySpApprovalExpiredHeight: BigInt(0),
