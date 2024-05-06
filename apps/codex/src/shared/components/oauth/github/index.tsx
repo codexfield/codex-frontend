@@ -1,23 +1,22 @@
-import { AsyncCreatableSelect, AsyncSelect, CreatableSelect, Select } from 'chakra-react-select';
+import { importGithubAtom } from '@/modules/dashboard/atoms/newRepoAtom';
 import { StyledButton } from '@/modules/dashboard/components/modals/forms';
 import { useGetGithubRepoList } from '@/modules/dashboard/hooks/useGetGithubRepoList';
 import { Box, Flex, FormControl, Icon } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import { Select } from 'chakra-react-select';
+import { useAtom } from 'jotai';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { FaGithub } from 'react-icons/fa6';
-import { useState } from 'react';
 
 interface IProps {
   handleConfirmSelect: () => void;
-  handleSelect: (value: string) => void;
 }
 
 export default function GithubOAuth(props: IProps) {
   const { data: session, status } = useSession();
   const { data: repoList } = useGetGithubRepoList(session?.accessToken);
 
-  const [url, setUrl] = useState('');
-  // console.log('repoList', repoList);
+  const [importGithub, setImportGithub] = useAtom(importGithubAtom);
 
   const options = repoList?.map((repo) => {
     return {
@@ -54,7 +53,9 @@ export default function GithubOAuth(props: IProps) {
                   options={options}
                   isRequired
                   onChange={(e) => {
-                    setUrl(e!.value);
+                    setImportGithub((draft) => {
+                      draft.url = e!.value;
+                    });
                   }}
                 />
               </FormControl>
@@ -71,10 +72,9 @@ export default function GithubOAuth(props: IProps) {
                 _active={{
                   bg: 'hsla(259, 100%, 58%, 0.6)',
                 }}
-                isDisabled={!url}
+                isDisabled={!importGithub.url}
                 onClick={() => {
                   props.handleConfirmSelect();
-                  props.handleSelect(url);
                 }}
               >
                 Confirm Select

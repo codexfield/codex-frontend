@@ -31,7 +31,6 @@ interface IImportGithubParams {
 
 export const importRepo = async ({
   address,
-  // codexBucketId,
   repoUrl,
   repoType,
   gnfdUrl,

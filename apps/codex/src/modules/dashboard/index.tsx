@@ -1,48 +1,24 @@
 import { RepoList } from '@/modules/dashboard/components/RepoList';
 import { Side } from '@/shared/components/Side';
-// @ts-ignore
 import { newRepoAtom } from '@/modules/dashboard/atoms/newRepoAtom';
 import { NewRepo } from '@/modules/dashboard/components/NewRepo';
 import { CreateRepoForm } from '@/modules/dashboard/components/createRepoForm';
 import { RegisterModal } from '@/modules/dashboard/components/modals/users/register';
-import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useIsMounted } from '@/shared/hooks/useIsMounted';
-import { getOffchainAuthKeys } from '@/shared/utils/offchainAuth';
 import { Box, Button, Flex, Stack } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { useRouter } from 'next/router';
+import { useAtomValue } from 'jotai';
 import { useEffect } from 'react';
-import { Connector, useAccount, useAccountEffect } from 'wagmi';
-import GithubOAuth from '@/shared/components/oauth/github';
+import { useAccount } from 'wagmi';
 
 export const Dashboard: React.FC = () => {
-  const router = useRouter();
-  const setOffchainData = useSetAtom(offchainDataAtom);
   const { address, chain } = useAccount();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
   const { openConnectModal } = useConnectModal();
   const userIsRegister = userInfo !== undefined && userInfo.id !== BigInt(0);
-
-  const onAuthCb = async (address: string, connector: Connector) => {
-    const provider = await connector?.getProvider();
-    const offChainData = await getOffchainAuthKeys(address, provider);
-    setOffchainData({
-      address: address,
-      seed: offChainData?.seedString,
-    });
-  };
-
-  useAccountEffect({
-    onConnect: (data) => {
-      if (router.pathname !== '/dashboard') return;
-
-      onAuthCb(data.address, data.connector);
-    },
-  });
 
   useEffect(() => {
     // if don't connect wallet, show rainbow wallets modal

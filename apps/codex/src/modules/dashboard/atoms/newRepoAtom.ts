@@ -5,3 +5,8 @@ export const newRepoAtom = atomWithImmer({
   normal: false,
   importGithub: false,
 });
+
+export const importGithubAtom = atomWithImmer({
+  name: '',
+  url: '',
+});

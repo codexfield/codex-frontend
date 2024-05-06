@@ -9,13 +9,13 @@ export const GreenfieldClient = Client.create(GRPC_URL, String(GREEN_CHAIN_ID));
 
 export const getSps = async () => {
   const sps = await GreenfieldClient.sp.getStorageProviders();
-  console.log('sps', sps);
+  // console.log('sps', sps);
   // return sps;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const finalSps = (sps ?? []).filter((v: any) => v.endpoint.includes('bnbchain'));
+  const finalSps = (sps ?? []).filter((v: any) => v.endpoint.includes('bnbchain'));
 
-  return sps;
-  // return finalSps;
+  // return sps;
+  return finalSps;
 };
 
 export const getAllSps = async () => {
