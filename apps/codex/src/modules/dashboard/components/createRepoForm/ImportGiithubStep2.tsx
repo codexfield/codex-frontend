@@ -10,9 +10,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useState } from 'react';
-import { importGithubAtom } from '../../atoms/newRepoAtom';
+import { importGithubAtom, newRepoAtom } from '../../atoms/newRepoAtom';
 import { useCreateRepo } from '../../hooks/useCreateRepo';
 import { usePutPolicy } from '../../hooks/usePutPolicy';
 import { StyledButton, StyledInput } from '../modals/forms';
@@ -31,7 +31,8 @@ type STEP = 'CREATE_REPO' | 'PUT_POLICY' | 'IMPORT_GITHUB_API';
 export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
   const { address } = useAccount();
   const [step, setStep] = useState<STEP>('CREATE_REPO');
-  const router = useRouter();
+  // const router = useRouter();
+  const setShowCreateRepo = useSetAtom(newRepoAtom);
 
   const {
     formik: createRepoFormik,
@@ -59,7 +60,10 @@ export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
     githubUrl: importGithub.url,
     visibility: createRepoFormik.values.visibility,
     onSuccess: async () => {
-      router.push('/dashboard');
+      // router.push('/dashboard');
+      setShowCreateRepo((draft) => {
+        draft.start = false;
+      });
 
       await refetchRepoList();
     },
@@ -67,8 +71,6 @@ export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
 
   return (
     <Box>
-      {importGithub.url}
-      -- --
       <Box as="form" onSubmit={createRepoFormik.handleSubmit}>
         <FormControl mt="16px" isRequired isInvalid={!!createRepoFormik.errors.repoName}>
           <StyledFormLabel fontSize="20px" my="10px">
@@ -170,7 +172,7 @@ export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
                 await doPutPolicy();
               }}
             >
-              put policy
+              Put Policy
             </StyledButton>
           )}
 

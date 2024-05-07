@@ -114,7 +114,7 @@ export const useCreateRepo = (params?: IParams) => {
 
         console.log('createBucketTxHash', createBucketTxHash);
 
-        await sleep(15000);
+        await sleep(30_000);
 
         const backend = new GnfdBackend(bucketName, seed, spInfo.endpoint, offchainData.address);
 

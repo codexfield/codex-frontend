@@ -25,7 +25,7 @@ export default class GnfdBackend {
   private seed: string;
   private address: string;
   private forageInstance: LocalForage;
-  private cache = false;
+  private cache = true;
 
   constructor(repoName: string, seed: string, endpoint: string, address: string) {
     this.repoName = repoName;
@@ -52,7 +52,7 @@ export default class GnfdBackend {
     if (cacheObjectRes && this.cache) {
       res = cacheObjectRes;
     } else {
-      console.log('xxx', this.seed, this.address, this.repoName, objectName, this.endpoint);
+      // console.log('xxx', this.seed, this.address, this.repoName, objectName, this.endpoint);
       res = await GreenfieldClient.object.getObject(
         {
           bucketName: this.repoName,
@@ -66,7 +66,7 @@ export default class GnfdBackend {
           address: this.address,
         },
       );
-      console.log('repo', this.repoName, objectName, res);
+      // console.log('repo', this.repoName, objectName, res);
 
       if (this.cache) {
         await this.forageInstance.setItem(objectName, res);
@@ -93,7 +93,7 @@ export default class GnfdBackend {
       objectName = filepath.slice(1);
     }
 
-    console.log('get object', filepath, objectName);
+    // console.log('get object', filepath, objectName);
 
     const res = await this.readGnfdObject(objectName);
 
