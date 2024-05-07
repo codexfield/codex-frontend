@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --experimental-https",
+    "dev": "cross-env NODE_ENV=development next dev --experimental-https",
+    "dev:mainnet": "cross-env NODE_ENV=test next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -60,6 +61,8 @@
     "@types/react-dom": "latest",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
     "eslint": "latest",
     "eslint-config-next": "13.4.19",
     "eslint-config-react-app": "^7.0.1",
