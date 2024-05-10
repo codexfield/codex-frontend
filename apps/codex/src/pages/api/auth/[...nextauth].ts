@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 
@@ -13,10 +12,8 @@ const options: NextAuthOptions = {
   },
   providers: [
     GitHubProvider({
-      // clientId: process.env.GITHUB_ID,
-      // clientSecret: process.env.GITHUB_SECRET,
-      clientId: 'Ov23lihgDpAdCYl6MoXK',
-      clientSecret: 'f0193853d77f8af1138dffb973de8343691c2789',
+      clientId: process.env.GITHUB_ID as string,
+      clientSecret: process.env.GITHUB_SECRET as string,
     }),
   ],
   callbacks: {
