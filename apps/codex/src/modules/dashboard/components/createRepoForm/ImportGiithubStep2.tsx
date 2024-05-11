@@ -31,7 +31,7 @@ type STEP = 'CREATE_REPO' | 'PUT_POLICY' | 'IMPORT_GITHUB_API';
 export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
   const { address } = useAccount();
   const [step, setStep] = useState<STEP>('CREATE_REPO');
-  // const router = useRouter();
+  const router = useRouter();
   const setShowCreateRepo = useSetAtom(newRepoAtom);
 
   const {
@@ -42,6 +42,17 @@ export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
     onSuccess: async () => {
       // ...
       setStep('PUT_POLICY');
+
+      await doPutPolicy();
+
+      setStep('IMPORT_GITHUB_API');
+
+      router.push('/dashboard');
+      setShowCreateRepo((draft) => {
+        draft.start = false;
+      });
+
+      await refetchRepoList();
     },
   });
 
