@@ -44,11 +44,15 @@ export const createBucket = async ({
 }) => {
   if (!publicClient || !walletClient || !fees) return;
 
+  console.log('sp.id', sp);
+
   const { globalVirtualGroupFamilyId } =
     await GreenfieldClient.virtualGroup.getSpOptimalGlobalVirtualGroupFamily({
       spId: sp.id,
       pickVgfStrategy: PickVGFStrategy.Strategy_Oldest_Create_Time,
     });
+
+  console.log('globalVirtualGroupFamilyId', globalVirtualGroupFamilyId);
 
   const createBucketSyncPkg: CreateBucketSynPackage = {
     name: bucketName,
@@ -61,7 +65,8 @@ export const createBucket = async ({
     paymentAddress: address,
     primarySpAddress: sp.primarySpAddress,
     primarySpApprovalExpiredHeight: BigInt(0),
-    globalVirtualGroupFamilyId: globalVirtualGroupFamilyId,
+    // globalVirtualGroupFamilyId: globalVirtualGroupFamilyId,
+    globalVirtualGroupFamilyId: 1,
     primarySpSignature: '0x',
     extraData: '0x',
   };

@@ -23,10 +23,11 @@ interface FormValues {
 }
 
 interface IParams {
+  isInitGit?: boolean;
   onSuccess?: () => Promise<void>;
 }
 
-export const useCreateRepo = (params?: IParams) => {
+export const useCreateRepo = ({ isInitGit = true, onSuccess }: IParams) => {
   const { address, connector, chain } = useAccount();
   const publicClient = usePublicClient({
     chainId: BSC_CHAIN.id,
@@ -116,21 +117,22 @@ export const useCreateRepo = (params?: IParams) => {
 
         await sleep(30_000);
 
-        const backend = new GnfdBackend(bucketName, seed, spInfo.endpoint, offchainData.address);
+        if (isInitGit) {
+          const backend = new GnfdBackend(bucketName, seed, spInfo.endpoint, offchainData.address);
+          const fs = new LightningFS('fs', {
+            // @ts-ignore
+            backend,
+          });
+          if (!fs) return;
+          const res = await git.init({
+            fs: fs,
+            dir: '',
+            gitdir: '',
+            defaultBranch: 'main',
+          });
+        }
 
-        const fs = new LightningFS('fs', {
-          // @ts-ignore
-          backend,
-        });
-        if (!fs) return;
-        const res = await git.init({
-          fs: fs,
-          dir: '',
-          gitdir: '',
-          defaultBranch: 'main',
-        });
-
-        await params?.onSuccess?.();
+        await onSuccess?.();
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
