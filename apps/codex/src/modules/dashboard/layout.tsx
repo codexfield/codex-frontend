@@ -11,6 +11,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useAccount } from 'wagmi';
+import { NewPost } from './blogs/components/NewPost';
 
 interface IPorps {
   children: React.ReactNode;
@@ -76,6 +77,8 @@ export const DashboardLayout: React.FC<IPorps> = ({ children }) => {
               )}
             </React.Fragment>
           )}
+
+          {router.pathname === '/dashboard/blogs' && <NewPost />}
         </Flex>
 
         <Box w="960px">{children}</Box>

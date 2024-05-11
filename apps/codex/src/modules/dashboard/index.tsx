@@ -1,21 +1,14 @@
-import { RepoList } from '@/modules/dashboard/components/RepoList';
-import { Side } from '@/shared/components/Side';
 import { newRepoAtom } from '@/modules/dashboard/atoms/newRepoAtom';
-import { NewRepo } from '@/modules/dashboard/components/NewRepo';
+import { RepoList } from '@/modules/dashboard/components/RepoList';
 import { CreateRepoForm } from '@/modules/dashboard/components/createRepoForm';
 import { RegisterModal } from '@/modules/dashboard/components/modals/users/register';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useIsMounted } from '@/shared/hooks/useIsMounted';
-import { Box, Button, Flex, HStack, Stack } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
-import styled from '@emotion/styled';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAtomValue } from 'jotai';
 import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import { BlogsPage } from './blogs';
 import { DashboardLayout } from './layout';
 
 export const Dashboard: React.FC = () => {
