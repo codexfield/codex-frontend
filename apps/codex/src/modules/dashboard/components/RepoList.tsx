@@ -129,6 +129,7 @@ export const RepoList = (props: IProps) => {
                         // href={isOwner ? `/repo/${repo?.BucketInfo?.BucketName}?type=tree` : '#'}
                         href="#"
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
                           if (isOwner || isRepoPublic) {
                             router.push(`/repo/${repo?.BucketInfo?.BucketName}?type=tree`);
