@@ -1,5 +1,5 @@
 import { useGetRepoList } from '@/shared/hooks/gnfd/useGetRepoList';
-import { Box, Center } from '@chakra-ui/react';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useGetBlogList } from '../../hooks/useGetBlogList';
 import { getBlogSpaceName } from '@/shared/utils';
@@ -22,6 +22,14 @@ export const BlogList: React.FC = () => {
   });
 
   console.log('blogList', blogList);
+
+  if (isLoading) {
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
+  }
 
   return <Box>{blogList?.length === 0 ? <EmptyBlog /> : <Box>11</Box>}</Box>;
 };

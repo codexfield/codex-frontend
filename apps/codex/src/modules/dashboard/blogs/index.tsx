@@ -1,5 +1,5 @@
 import { DashboardLayout } from '../layout';
-import { Box } from '@chakra-ui/react';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CreateBlogSpace } from './components/CreateBlogSpace';
 import { useGetBucketInfo } from '@/shared/hooks/gnfd/useGetBucketInfo';
 import { getBlogSpaceName } from '@/shared/utils';
@@ -11,7 +11,15 @@ export const BlogsPage = () => {
   const { address } = useAccount();
   const { data: userInfo } = useGetAccountDetails(address);
   const bucketName = getBlogSpaceName(userInfo?.id || BigInt(0));
-  const { data: bucketInfo } = useGetBucketInfo(bucketName);
+  const { data: bucketInfo, isLoading } = useGetBucketInfo(bucketName);
+
+  if (isLoading) {
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
+  }
 
   return (
     <DashboardLayout>
