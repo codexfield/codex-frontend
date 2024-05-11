@@ -47,6 +47,8 @@ export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
 
       setStep('IMPORT_GITHUB_API');
 
+      await doImport();
+
       router.push('/dashboard');
       setShowCreateRepo((draft) => {
         draft.start = false;

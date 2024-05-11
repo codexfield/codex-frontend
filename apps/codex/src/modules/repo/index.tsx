@@ -64,6 +64,7 @@ export default function Repo() {
 
   const { data: checkRepoRes, refetch } = useCheckRepo(bucketInfo?.id);
 
+  console.log('bucketInfo', bucketInfo);
   console.log('checkRepoRes', checkRepoRes, checkRepoRes?.result.status);
 
   // if (checkRepoRes?.result.status === 11) {
