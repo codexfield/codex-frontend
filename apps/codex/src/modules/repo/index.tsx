@@ -62,10 +62,10 @@ export default function Repo() {
   const isLoading = getSpUrlLoading || initRepoLoading || readRepoLoading;
   const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
 
-  const { data: checkRepoRes, refetch } = useCheckRepo(bucketInfo?.id);
+  const { data: checkRepoRes, refetch } = useCheckRepo(bucketInfo?.id || '');
 
   console.log('bucketInfo', bucketInfo);
-  console.log('checkRepoRes', checkRepoRes, checkRepoRes?.result.status);
+  console.log('checkRepoRes', checkRepoRes, checkRepoRes?.result?.status);
 
   // if (checkRepoRes?.result.status === 11) {
   //   // failure
@@ -102,7 +102,7 @@ export default function Repo() {
           </Flex>
         </RepoTitleContainer>
 
-        {checkRepoRes?.result.status === 11 && (
+        {checkRepoRes?.result?.status === 11 && (
           <Center minH="200px" w="960px" bg="#1c1c1e">
             <VStack>
               {/* failure */}
@@ -121,7 +121,7 @@ export default function Repo() {
           </Center>
         )}
 
-        {checkRepoRes?.result.status === 1 && (
+        {checkRepoRes?.result?.status === 1 && (
           <Center minH="200px" w="960px" bg="#1c1c1e">
             {/* init */}
             <Box
@@ -134,7 +134,7 @@ export default function Repo() {
           </Center>
         )}
 
-        {checkRepoRes?.result.status === 10 && (
+        {(checkRepoRes?.result?.status === 10 || checkRepoRes?.code != 0) && (
           <>
             <RepoConentList>
               {isLoading && (
@@ -179,8 +179,6 @@ export default function Repo() {
           </>
         )}
       </RepoContainer>
-
-      {/* {checkRepoRes?.result.status === 10 && <></>} */}
 
       {bucketInfo?.owner && <Side address={bucketInfo.owner as `0x${string}`} />}
     </Flex>

@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi';
 interface IResponse {
   code: number;
   message: string;
-  result: {
+  result?: {
     err_msg: string;
     /**
      * ImportTaskStatusInit    int = 1
@@ -21,9 +21,11 @@ export const useCheckRepo = (bucketId?: string) => {
   const { address } = useAccount();
 
   return useQuery({
-    // enabled: !!address && !!bucketId,
+    enabled: !!address && !!bucketId,
     queryKey: ['CHECK', bucketId],
     queryFn: async () => {
+      if (!bucketId) return;
+
       const res = await axios.get<IResponse>(`${AIRDROP_DOMAIN}/repo/check`, {
         params: {
           address,
@@ -31,10 +33,16 @@ export const useCheckRepo = (bucketId?: string) => {
         },
       });
 
+      console.log('res', res);
+
       return res.data;
     },
     staleTime: 0,
-    refetchInterval: 10_000,
+    refetchInterval: (query) => {
+      if (query.state.data?.result?.status === 10) return false;
+
+      return 10_000;
+    },
     refetchIntervalInBackground: true,
     refetchOnMount: false,
   });

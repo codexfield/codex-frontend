@@ -6,9 +6,6 @@ export const useGetGithubRepoList = (token?: string) => {
     enabled: !!token,
     queryKey: ['GET_GITHUB_REPO_LIST'],
     queryFn: async () => {
-      // const data = await axios.get('https://api.github.com/user/repos');
-      // return data.data;
-
       if (!token) return;
 
       const octokit = new Octokit({
@@ -16,7 +13,7 @@ export const useGetGithubRepoList = (token?: string) => {
       });
 
       const res = await octokit.request('GET /user/repos');
-      // console.log('res', res);
+      console.log('res', res);
       return res.data;
     },
     staleTime: 60_000,
