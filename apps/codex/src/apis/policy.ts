@@ -1,4 +1,5 @@
 import { PERMISSION_HUB_ADDRESS } from '@/env';
+import { POLICY_ACCOUNT } from '@/modules/dashboard/hooks/usePutPolicy';
 import { PermissionHubAbi } from '@/shared/constants/abi/permissonHubAbi';
 import { Address, PublicClient, WalletClient, toHex } from 'viem';
 
@@ -29,6 +30,7 @@ export const putPolicy = async ({
   // console.log('request', request);
 
   const hash = await walletClient.writeContract(request);
+  console.log('hash', hash);
 
   const tx = await publicClient.waitForTransactionReceipt({
     hash: hash,

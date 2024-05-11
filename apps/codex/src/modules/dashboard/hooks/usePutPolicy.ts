@@ -14,14 +14,14 @@ import { useState } from 'react';
 import { useAccount, usePublicClient, useSwitchChain, useWalletClient } from 'wagmi';
 
 interface Params {
-  githubUrl: string;
+  repoName: string;
   onSuccess?: () => Promise<void>;
   onFailure?: () => Promise<void>;
 }
 
-const POLICY_ACCOUNT = '0x498a2E6d6dCdD63482191E138beeFf5410724909';
+export const POLICY_ACCOUNT = '0x498a2E6d6dCdD63482191E138beeFf5410724909';
 
-export const usePutPolicy = ({ githubUrl, onSuccess, onFailure }: Params) => {
+export const usePutPolicy = ({ repoName, onSuccess, onFailure }: Params) => {
   const { address, connector, chain } = useAccount();
   const publicClient = usePublicClient({
     chainId: BSC_CHAIN.id,
@@ -44,10 +44,15 @@ export const usePutPolicy = ({ githubUrl, onSuccess, onFailure }: Params) => {
 
     setStart(true);
 
-    const reg = /(?<=\/)[^\/]+(?=\.git$)/;
-    const repoName = reg.exec(githubUrl);
-    if (!repoName) return;
-    const bucketName = getBucketName(repoName[0], userInfo.id);
+    // const reg = /(?<=\/)[^\/]+(?=\.git$)/;
+    // const repoName = reg.exec(githubUrl);
+    // if (!repoName) return;
+    // const bucketName = getBucketName(repoName[0], userInfo.id);
+
+    const bucketName = getBucketName(repoName, userInfo.id);
+
+    console.log('bucketName', bucketName);
+    console.log('GRNToString(newBucketGRN(bucketName))', GRNToString(newBucketGRN(bucketName)));
 
     try {
       const bytes = MsgPutPolicy.encode({
@@ -61,7 +66,8 @@ export const usePutPolicy = ({ githubUrl, onSuccess, onFailure }: Params) => {
           {
             effect: Effect.EFFECT_ALLOW,
             actions: [ActionType.ACTION_CREATE_OBJECT],
-            resources: [GRNToString(newBucketGRN(bucketName))],
+            resources: [],
+            // resources: [GRNToString(newBucketGRN(bucketName))],
           },
         ],
       }).finish();

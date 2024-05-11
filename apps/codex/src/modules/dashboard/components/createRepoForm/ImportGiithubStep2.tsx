@@ -62,7 +62,8 @@ export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
   const importGithub = useAtomValue(importGithubAtom);
 
   const { doPutPolicy, start: putPolicyStart } = usePutPolicy({
-    githubUrl: importGithub.url,
+    // githubUrl: importGithub.url,
+    repoName: createRepoFormik.values.repoName,
     onSuccess: async () => {
       setStep('IMPORT_GITHUB_API');
     },
