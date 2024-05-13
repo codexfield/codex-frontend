@@ -1,8 +1,9 @@
 import { Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 
 export const NewPost = () => {
-  // const [showCreateRepo, setShowCreateRepo] = useAtom(newRepoAtom);
+  const router = useRouter();
 
   return (
     <NewPostButton
@@ -15,13 +16,9 @@ export const NewPost = () => {
         color: '#5F5F5F',
         boxShadow: 'none',
       }}
-      // isDisabled={showCreateRepo.start}
-      // onClick={() => {
-      //   setShowCreateRepo((draft) => {
-      //     draft.start = true;
-      //     draft.normal = true;
-      //   });
-      // }}
+      onClick={() => {
+        router.push('/dashboard/blogs/new');
+      }}
     >
       New Post
     </NewPostButton>

@@ -1,0 +1,10 @@
+.wrapper {
+  /* padding: 2rem 3rem; */
+  padding: 10px;
+}
+
+.editor {
+  /* margin-top: 1rem; */
+  height: 500px;
+  font-size: 20px !important;
+}
