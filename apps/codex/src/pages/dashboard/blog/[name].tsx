@@ -10,12 +10,14 @@ export default function Blog() {
   const router = useRouter();
   const { address } = useAccount();
 
-  const objectName = router.query.name as string[];
+  const { name } = router.query;
 
   const { data: userInfo } = useGetAccountDetails(address as `0x${string}`);
-  const bucketName = getBlogSpaceName(userInfo?.id || BigInt(0));
 
-  const { data: content, isLoading } = useGetBlogContent(bucketName, objectName[0]);
+  const { data: content, isLoading } = useGetBlogContent({
+    userInfo,
+    objectName: name as string,
+  });
 
   if (isLoading) {
     return (

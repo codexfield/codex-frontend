@@ -2,6 +2,19 @@ import { BSC_CHAIN, CONTRACT_ADDRESS } from '@/env';
 import { ACCOUNT_MANAGE_ABI } from '@/shared/constants/abi/accountManageAbi';
 import { useReadContract } from 'wagmi';
 
+export interface UserInfo {
+  id: bigint;
+  name: string;
+  avatar: string;
+  bio: string;
+  company: string;
+  location: string;
+  website: string;
+  socialAccounts: string[];
+  followingNumber: bigint;
+  followerNumber: bigint;
+}
+
 export const useGetAccountDetails = (addr?: `0x${string}`) => {
   return useReadContract({
     address: CONTRACT_ADDRESS,
@@ -39,7 +52,7 @@ export const useGetAccountDetails = (addr?: `0x${string}`) => {
           // },
           followingNumber,
           followerNumber,
-        };
+        } as UserInfo;
       },
     },
   });
