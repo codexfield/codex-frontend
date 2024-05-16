@@ -3,7 +3,8 @@ import 'react-quill/dist/quill.snow.css';
 import styles from './style.module.css';
 import { useMemo, useState } from 'react';
 import { Box } from '@chakra-ui/react';
-import css from 'styled-jsx/css';
+import { FormikErrors } from 'formik';
+import { FormsValue } from '../../new';
 
 const DynamicQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -27,10 +28,18 @@ const formats = [
   'clean',
 ];
 
-export const Editor = () => {
+interface Props {
+  onChange: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined,
+  ) => Promise<FormikErrors<FormsValue>> | Promise<void>;
+}
+
+export const Editor: React.FC<Props> = ({ onChange }) => {
   const [value, setValue] = useState('');
 
-  console.log('value', value);
+  // console.log('value', value);
 
   const modules = useMemo(
     () => ({
@@ -62,7 +71,12 @@ export const Editor = () => {
         formats={formats}
         modules={modules}
         value={value}
-        onChange={(value) => setValue(value)}
+        onChange={(value) => {
+          setValue(value);
+
+          // console.log('onChange', onChange);
+          onChange('content', value);
+        }}
       />
     </Box>
   );

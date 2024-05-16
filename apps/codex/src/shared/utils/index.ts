@@ -41,6 +41,11 @@ export const DYMTimeAsObject = (timestamp: number) => {
   };
 };
 
+export const getExtensionName = (filename: string) => {
+  const extension = filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2);
+  return '.' + extension;
+};
+
 export const shortAddress = (address: string) => {
   return address.slice(0, 6) + '...' + address.slice(-6);
 };

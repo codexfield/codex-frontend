@@ -10,7 +10,7 @@ export const useGetSpUrlByBucket = (repoName?: string) => {
     queryKey: ['GET_SP_URL_BY_BUCKET_NAME', repoName],
     queryFn: async () => {
       if (!repoName) {
-        return;
+        return '';
       }
       const endpoint = await GreenfieldClient.sp.getSPUrlByBucket(repoName);
 
