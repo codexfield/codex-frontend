@@ -1,5 +1,5 @@
 import DEFAULT_COVER from '@/images/default_cover.jpeg';
-import { Box, Center, Image, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex, Image, Spinner } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useGetBlogList } from '../../hooks/useGetBlogList';
 import { DYMTimeAsObject, getBlogSpaceName } from '@/shared/utils';
@@ -7,6 +7,7 @@ import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetai
 import { EmptyBlog } from './EmptyBlog';
 import { useGetSpUrlByBucket } from '@/shared/hooks/gnfd/useGetSpUrlByBucket';
 import { useRouter } from 'next/router';
+import { VisibilityBadge } from '@/shared/components/VisibilityBadge';
 
 // interface IProps {
 //   address: `0x${string}`;
@@ -74,9 +75,12 @@ export const BlogList: React.FC = () => {
                       fallbackSrc={DEFAULT_COVER.src}
                     />
                   </Box>
-                  <Box fontWeight="500" fontSize="28px" p="30px">
-                    {blog.ObjectInfo.ObjectName}
-                  </Box>
+                  <Flex alignItems="center">
+                    <Box fontWeight="500" fontSize="28px" p="30px">
+                      {blog.ObjectInfo.ObjectName}
+                    </Box>
+                    <VisibilityBadge visibility={blog.ObjectInfo.Visibility} />
+                  </Flex>
                 </Box>
               </Box>
             );
