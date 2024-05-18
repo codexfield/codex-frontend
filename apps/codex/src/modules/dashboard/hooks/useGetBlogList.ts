@@ -13,6 +13,12 @@ export const useGetBlogList = ({ bucketName }: IParams) => {
       const data = await GreenfieldClient.object.listObjects({
         bucketName,
         endpoint,
+        query: new URLSearchParams({
+          delimiter: '/',
+          // 'start-after': String(page),
+          prefix: '/',
+          'max-keys': '1000',
+        }),
       });
       return data.body?.GfSpListObjectsByBucketNameResponse.Objects;
     },

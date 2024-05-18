@@ -1,4 +1,9 @@
-import { Client, VisibilityType } from '@bnb-chain/greenfield-js-sdk';
+import { GreenfieldClient } from '@/config/GnfsClient';
+import { PurpleButton } from '@/modules/airdrop/components/Buttons';
+import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
+import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
+import { getBlogSpaceName } from '@/shared/utils';
+import { VisibilityType } from '@bnb-chain/greenfield-js-sdk';
 import {
   Box,
   Button,
@@ -7,25 +12,20 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Hide,
+  Image,
   Input,
   Radio,
   RadioGroup,
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { DashboardLayout } from '../../layout';
 import { FormikErrors, useFormik } from 'formik';
-import { PurpleButton } from '@/modules/airdrop/components/Buttons';
-import { Editor } from '../components/editor';
-import { useRouter } from 'next/router';
-import { GreenfieldClient } from '@/config/GnfsClient';
 import { useAtomValue } from 'jotai';
-import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
-import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
-import { useAccount } from 'wagmi';
-import { getBlogSpaceName, getExtensionName } from '@/shared/utils';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import { DashboardLayout } from '../../layout';
+import { Editor } from '../components/editor';
 
 export interface FormsValue {
   title: string;
@@ -38,7 +38,10 @@ export const NewPostPage = () => {
   const { address } = useAccount();
   const offchainData = useAtomValue(offchainDataAtom);
   const { data: userInfo } = useGetAccountDetails(address as `0x${string}`);
+  const [start, setStart] = useState(false);
   const [cover, setCover] = useState<File | null>(null);
+  const [coverUrl, setCoverUrl] = useState<string | null>(null);
+  const blogSpaceName = getBlogSpaceName(userInfo?.id || BigInt(0));
 
   const postFormik = useFormik<FormsValue>({
     initialValues: {
@@ -49,10 +52,22 @@ export const NewPostPage = () => {
     },
     validateOnBlur: false,
     validateOnChange: false,
-    validate: (values: FormsValue) => {
+    validate: async (values: FormsValue) => {
       const errors: FormikErrors<FormsValue> = {};
       if (!values.title) {
         errors.title = 'title is required';
+      }
+
+      try {
+        const { objectInfo } = await GreenfieldClient.object.headObject(
+          blogSpaceName,
+          values.title,
+        );
+        if (objectInfo) {
+          errors.title = 'title already exists';
+        }
+      } catch (e) {
+        // ...
       }
 
       if (!values.content) {
@@ -63,23 +78,48 @@ export const NewPostPage = () => {
     },
     onSubmit: async (values) => {
       console.log('values', values);
+      setStart(true);
 
       const blob = new Blob([values.content], { type: 'text/plain' });
       const file = new File([blob], 'foo', { type: 'text/html' });
 
       if (!offchainData || !offchainData.seed) return;
 
-      if (cover) {
-        console.log('values.cover', cover);
-        // const extensionName = getExtensionName(values.cover.name);
-        // console.log('extensionName', extensionName);
-        const coverRes = await GreenfieldClient.object.delegateUploadObject(
+      try {
+        if (cover) {
+          console.log('values.cover', cover);
+          // const extensionName = getExtensionName(values.cover.name);
+          // console.log('extensionName', extensionName);
+          const coverRes = await GreenfieldClient.object.delegateUploadObject(
+            {
+              bucketName: getBlogSpaceName(userInfo?.id || BigInt(0)),
+              objectName: 'cover/' + values.title,
+              body: cover,
+              delegatedOpts: {
+                visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
+              },
+            },
+            {
+              type: 'EDDSA',
+              domain: window.location.origin,
+              seed: offchainData.seed,
+              address: offchainData.address,
+            },
+          );
+
+          console.log('coverRes', coverRes);
+        }
+
+        const res = await GreenfieldClient.object.delegateUploadObject(
           {
-            bucketName: getBlogSpaceName(userInfo?.id || BigInt(0)),
-            objectName: 'cover/' + values.title,
-            body: cover,
+            bucketName: blogSpaceName,
+            objectName: values.title,
+            body: file,
             delegatedOpts: {
-              visibility: VisibilityType.VISIBILITY_TYPE_PUBLIC_READ,
+              visibility:
+                values.visibility === 'VISIBILITY_TYPE_PUBLIC_READ'
+                  ? VisibilityType.VISIBILITY_TYPE_PUBLIC_READ
+                  : VisibilityType.VISIBILITY_TYPE_PRIVATE,
             },
           },
           {
@@ -90,31 +130,13 @@ export const NewPostPage = () => {
           },
         );
 
-        console.log('coverRes', coverRes);
-      }
-
-      const res = await GreenfieldClient.object.delegateUploadObject(
-        {
-          bucketName: getBlogSpaceName(userInfo?.id || BigInt(0)),
-          objectName: values.title,
-          body: file,
-          delegatedOpts: {
-            visibility:
-              values.visibility === 'VISIBILITY_TYPE_PUBLIC_READ'
-                ? VisibilityType.VISIBILITY_TYPE_PUBLIC_READ
-                : VisibilityType.VISIBILITY_TYPE_PRIVATE,
-          },
-        },
-        {
-          type: 'EDDSA',
-          domain: window.location.origin,
-          seed: offchainData.seed,
-          address: offchainData.address,
-        },
-      );
-
-      if (res.code === 0) {
-        router.push(`/dashboard/blogs`);
+        if (res.code === 0) {
+          router.push(`/dashboard/blogs`);
+        }
+      } catch (e) {
+        console.log('error', e);
+      } finally {
+        setStart(false);
       }
     },
   });
@@ -125,25 +147,38 @@ export const NewPostPage = () => {
     <DashboardLayout>
       <Box as="form" onSubmit={postFormik.handleSubmit}>
         <FormControl py="5px" pos="relative">
-          <FormLabel htmlFor="file_input">
-            <Center mx="auto" w="200px">
+          <FormLabel htmlFor="file_input" pos="relative">
+            {coverUrl && <Image w="100%" h="400px" src={coverUrl} objectFit={'cover'} />}
+            <Center
+              mx="auto"
+              w="200px"
+              pos="absolute"
+              top="50%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+            >
               <Button bg="#1E1E1E" w="200px" h="40px" fontWeight="500" cursor="pointer">
                 Upload Cover Image
               </Button>
+              <Box pos="absolute" top="0" left="0" right="0" opacity="0" cursor="pointer">
+                <Input
+                  type="file"
+                  id="file_input"
+                  accept="image/*"
+                  onChange={(e) => {
+                    // console.log('e', e.target.files[0]);
+                    // @ts-ignore
+                    const file = e!.target!.files[0];
+
+                    if (file) {
+                      setCover(file);
+                      setCoverUrl(URL.createObjectURL(file));
+                    }
+                  }}
+                />
+              </Box>
             </Center>
           </FormLabel>
-          <Box pos="absolute" top="0" left="0" right="0" opacity="0" cursor="pointer">
-            <Input
-              type="file"
-              id="file_input"
-              // name="cover"
-              onChange={(e) => {
-                // console.log('e', e.target.files[0]);
-                // @ts-ignore
-                setCover(e!.target!.files[0]);
-              }}
-            />
-          </Box>
         </FormControl>
 
         <FormControl py="5px" isRequired isInvalid={!!postFormik.errors.title}>
@@ -152,7 +187,10 @@ export const NewPostPage = () => {
             onChange={postFormik.handleChange}
             placeholder="Give it a title"
             fontSize="44px"
-            color="#5F5F5F"
+            color="#FFF"
+            _placeholder={{
+              color: '#5F5F5F',
+            }}
             sx={{
               border: 'none',
               paddingLeft: '10px',
@@ -224,7 +262,7 @@ export const NewPostPage = () => {
           >
             Discard
           </Button>
-          <PurpleButton w="220px" minH="48px" type="submit">
+          <PurpleButton w="220px" minH="48px" type="submit" isDisabled={start} isLoading={start}>
             Post
           </PurpleButton>
         </Flex>

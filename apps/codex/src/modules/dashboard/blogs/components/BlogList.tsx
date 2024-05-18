@@ -1,4 +1,4 @@
-import { useGetRepoList } from '@/shared/hooks/gnfd/useGetRepoList';
+import DEFAULT_COVER from '@/images/default_cover.jpeg';
 import { Box, Center, Image, Spinner } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 import { useGetBlogList } from '../../hooks/useGetBlogList';
@@ -71,9 +71,8 @@ export const BlogList: React.FC = () => {
                       h="100%"
                       objectFit={'cover'}
                       src={`${endpoint}/view/${bucketName}/cover/${blog.ObjectInfo.ObjectName}`}
-                      fallbackSrc={`https://picsum.photos/seed/${blog.ObjectInfo.ObjectName}/900/400`}
+                      fallbackSrc={DEFAULT_COVER.src}
                     />
-                    <Box></Box>
                   </Box>
                   <Box fontWeight="500" fontSize="28px" p="30px">
                     {blog.ObjectInfo.ObjectName}
