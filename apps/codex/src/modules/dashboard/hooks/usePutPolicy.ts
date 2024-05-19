@@ -3,6 +3,7 @@ import { BSC_CHAIN } from '@/env';
 import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useGetFee } from '@/shared/hooks/contract/useGetFee';
 import { getBucketName, sleep } from '@/shared/utils';
+import { Policy } from '@bnb-chain/greenfield-cosmos-types/greenfield/permission/types';
 import {
   ActionType,
   Effect,
@@ -12,6 +13,8 @@ import { MsgPutPolicy } from '@bnb-chain/greenfield-cosmos-types/greenfield/stor
 import { GRNToString, newBucketGRN } from '@bnb-chain/greenfield-js-sdk';
 import { useState } from 'react';
 import { useAccount, usePublicClient, useSwitchChain, useWalletClient } from 'wagmi';
+import { GreenfieldClient } from '@/config/GnfsClient';
+import { ResourceType } from '@bnb-chain/greenfield-cosmos-types/greenfield/resource/types';
 
 interface Params {
   repoName: string;
@@ -54,10 +57,17 @@ export const usePutPolicy = ({ repoName, onSuccess, onFailure }: Params) => {
     console.log('bucketName', bucketName);
     console.log('GRNToString(newBucketGRN(bucketName))', GRNToString(newBucketGRN(bucketName)));
 
+    const bucketInfo = await GreenfieldClient.bucket.headBucket(bucketName);
+
+    if (!bucketInfo) return;
+
     try {
-      const bytes = MsgPutPolicy.encode({
-        operator: address,
-        resource: GRNToString(newBucketGRN(bucketName)),
+      const bytes = Policy.encode({
+        // operator: address,
+        id: '0',
+        resourceId: bucketInfo.bucketInfo?.id || '0',
+        // resource: GRNToString(newBucketGRN(bucketName)),
+        resourceType: ResourceType.RESOURCE_TYPE_BUCKET,
         principal: {
           type: PrincipalType.PRINCIPAL_TYPE_GNFD_ACCOUNT,
           value: POLICY_ACCOUNT,
