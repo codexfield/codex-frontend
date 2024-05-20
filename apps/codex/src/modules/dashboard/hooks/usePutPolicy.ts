@@ -8,6 +8,7 @@ import {
   ActionType,
   Effect,
   PrincipalType,
+  actionTypeToJSON,
 } from '@bnb-chain/greenfield-cosmos-types/greenfield/permission/common';
 import { MsgPutPolicy } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/tx';
 import { GRNToString, newBucketGRN } from '@bnb-chain/greenfield-js-sdk';
@@ -92,7 +93,33 @@ export const usePutPolicy = ({ repoName, onSuccess, onFailure }: Params) => {
 
       console.log('createPolicy', createPolicyHash);
 
-      await sleep(5000);
+      //
+
+      while (true) {
+        const storageClient = await GreenfieldClient.queryClient.getStorageQueryClient();
+
+        console.log('params: ', {
+          bucketName,
+          operator: POLICY_ACCOUNT,
+          actionType: ActionType.ACTION_CREATE_OBJECT,
+          objectName: '',
+        });
+
+        const { effect } = await storageClient.VerifyPermission({
+          bucketName,
+          operator: POLICY_ACCOUNT,
+          actionType: ActionType.ACTION_CREATE_OBJECT,
+          objectName: '',
+        });
+
+        console.log('effect', effect);
+
+        if (effect === Effect.EFFECT_ALLOW) {
+          break;
+        }
+
+        await sleep(5000);
+      }
 
       onSuccess?.();
 

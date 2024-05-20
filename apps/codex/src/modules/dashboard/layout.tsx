@@ -12,6 +12,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { NewPost } from './blogs/components/NewPost';
+import { useGetBlogList } from './hooks/useGetBlogList';
+import { getBlogSpaceName } from '@/shared/utils';
 
 interface IPorps {
   children: React.ReactNode;
@@ -22,6 +24,10 @@ export const DashboardLayout: React.FC<IPorps> = ({ children }) => {
   const { address } = useAccount();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
   const userIsRegister = userInfo !== undefined && userInfo.id !== BigInt(0);
+
+  const { data: blogList, isLoading: isLoadingBlogList } = useGetBlogList({
+    bucketName: getBlogSpaceName(userInfo?.id || BigInt(0)),
+  });
 
   const isActiveUrl = (url: string) => router.pathname === url;
 
@@ -78,7 +84,7 @@ export const DashboardLayout: React.FC<IPorps> = ({ children }) => {
             </React.Fragment>
           )}
 
-          {router.pathname === '/dashboard/blogs' && <NewPost />}
+          {router.pathname === '/dashboard/blogs' && blogList?.length !== 0 && <NewPost />}
         </Flex>
 
         <Box w="960px">{children}</Box>

@@ -9,7 +9,11 @@ import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { useAccount, usePublicClient, useSwitchChain, useWalletClient } from 'wagmi';
 
-export const useCreateBlogSpace = () => {
+interface Params {
+  onSuccess?: () => Promise<void>;
+}
+
+export const useCreateBlogSpace = ({ onSuccess }: Params) => {
   const { address, connector, chain } = useAccount();
   const publicClient = usePublicClient({
     chainId: BSC_CHAIN.id,
@@ -66,9 +70,24 @@ export const useCreateBlogSpace = () => {
 
       console.log('createBucketTxHash', createBucketTxHash);
 
-      await sleep(30_000);
+      while (true) {
+        let bucketInfo;
 
-      // await onSuccess?.();
+        try {
+          bucketInfo = await GreenfieldClient.bucket.headBucket(bucketName);
+        } catch (e) {
+          console.log('e', e);
+          // ...
+        }
+
+        console.log('bucket res', bucketInfo);
+        if (bucketInfo) {
+          break;
+        }
+        await sleep(5_000);
+      }
+
+      await onSuccess?.();
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

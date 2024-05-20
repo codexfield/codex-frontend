@@ -13,13 +13,15 @@ export const BlogsPage = () => {
   const bucketName = getBlogSpaceName(userInfo?.id || BigInt(0));
   const { data: bucketInfo, isLoading } = useGetBucketInfo(bucketName);
 
-  if (isLoading) {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
-  }
+  console.log('bucketInfo', bucketName, bucketInfo);
+
+  // if (isLoading) {
+  //   return (
+  //     <Center>
+  //       <Spinner />
+  //     </Center>
+  //   );
+  // }
 
   return (
     <DashboardLayout>

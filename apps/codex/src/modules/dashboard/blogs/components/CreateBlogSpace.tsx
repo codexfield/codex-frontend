@@ -3,9 +3,22 @@ import { BaseButton } from '@/shared/components/button';
 import { Center, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useCreateBlogSpace } from '../../hooks/useCreateBlogSpace';
+import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
+import { useAccount } from 'wagmi';
+import { useGetBlogList } from '../../hooks/useGetBlogList';
+import { getBlogSpaceName } from '@/shared/utils';
+import { useGetBucketInfo } from '@/shared/hooks/gnfd/useGetBucketInfo';
 
 export const CreateBlogSpace: React.FC = () => {
-  const { doCreateBlogSpace, start, text } = useCreateBlogSpace();
+  const { address } = useAccount();
+  const { data: userInfo } = useGetAccountDetails(address as `0x${string}`);
+  const { refetch } = useGetBucketInfo(getBlogSpaceName(userInfo?.id || BigInt(0)));
+
+  const { doCreateBlogSpace, start, text } = useCreateBlogSpace({
+    onSuccess: async () => {
+      await refetch();
+    },
+  });
 
   return (
     <Center flexDirection="column" gap="20px" minH="500px">

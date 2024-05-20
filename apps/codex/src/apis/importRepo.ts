@@ -27,6 +27,8 @@ interface IImportGithubParams {
    * repo dst url gnfd://xxxxx/
    */
   gnfdUrl: string;
+
+  accessToken?: string;
 }
 
 export const importRepo = async ({
@@ -35,17 +37,24 @@ export const importRepo = async ({
   repoType,
   gnfdUrl,
   bucketName,
+  accessToken,
 }: IImportGithubParams) => {
   const bucketDetail = await GreenfieldClient.bucket.headBucket(bucketName);
 
+  const params: Record<string, string | undefined> = {
+    address,
+    codex_bucket_id: bucketDetail.bucketInfo?.id,
+    repo_url: repoUrl,
+    repo_type: repoType,
+    gnfd_url: gnfdUrl,
+  };
+
+  if (accessToken) {
+    params.access_token = accessToken;
+  }
+
   const res = await axios.get<Promise<IImportGithubResult>>(`${AIRDROP_DOMAIN}/repo/import`, {
-    params: {
-      address,
-      codex_bucket_id: bucketDetail.bucketInfo?.id,
-      repo_url: repoUrl,
-      repo_type: repoType,
-      gnfd_url: gnfdUrl,
-    },
+    params,
   });
 
   console.log('importRepo', res);
