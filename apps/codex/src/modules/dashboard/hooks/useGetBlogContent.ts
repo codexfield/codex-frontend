@@ -3,42 +3,69 @@ import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
 import { UserInfo } from '@/shared/hooks/contract/useGetAccountDetails';
 import { getBlogSpaceName } from '@/shared/utils';
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { useAtomValue } from 'jotai';
 
 export const useGetBlogContent = ({
-  userInfo,
+  bucketName,
   objectName,
+  endpoint,
+  visibility,
 }: {
-  userInfo?: UserInfo;
+  bucketName: string;
   objectName: string;
+  endpoint?: string;
+  visibility?: string;
 }) => {
-  const bucketName = getBlogSpaceName(userInfo?.id || BigInt(0));
   const offchainData = useAtomValue(offchainDataAtom);
 
-  console.log(userInfo && userInfo.id && userInfo.id !== BigInt(0));
-
   return useQuery({
-    enabled: !!objectName,
+    enabled: !!objectName && !!endpoint,
     queryKey: ['BLOG_CONTENT', bucketName, objectName],
     queryFn: async () => {
       if (!objectName) return '';
-      if (!offchainData || !offchainData.seed) return '';
-      if (userInfo?.id === BigInt(0)) return '';
 
-      const res = await GreenfieldClient.object.getObject(
-        {
-          bucketName,
-          objectName,
-        },
-        {
-          type: 'EDDSA',
-          domain: window.location.origin,
-          seed: offchainData.seed,
-          address: offchainData.address,
-        },
-      );
+      if (visibility === '1') {
+        // public
+        const res = await axios.get(`${endpoint}/view/${bucketName}/${objectName}`);
 
-      return await res.body?.text();
+        return res.data;
+      } else if (visibility === '2') {
+        // private
+
+        if (!offchainData || !offchainData.seed) return '';
+        const res = await GreenfieldClient.object.getObject(
+          {
+            bucketName,
+            objectName,
+          },
+          {
+            type: 'EDDSA',
+            domain: window.location.origin,
+            seed: offchainData.seed,
+            address: offchainData.address,
+          },
+        );
+
+        return await res.body?.text();
+      }
+
+      // console.log(`${endpoint}/view/${bucketName}/${objectName}`);
+
+      // const res = await GreenfieldClient.object.getObject(
+      //   {
+      //     bucketName,
+      //     objectName,
+      //   },
+      //   {
+      //     type: 'EDDSA',
+      //     domain: window.location.origin,
+      //     seed: offchainData.seed,
+      //     address: offchainData.address,
+      //   },
+      // );
+
+      // return await res.body?.text();
     },
   });
 };

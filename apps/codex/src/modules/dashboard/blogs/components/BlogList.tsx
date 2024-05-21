@@ -8,6 +8,7 @@ import { EmptyBlog } from './EmptyBlog';
 import { useGetSpUrlByBucket } from '@/shared/hooks/gnfd/useGetSpUrlByBucket';
 import { useRouter } from 'next/router';
 import { VisibilityBadge } from '@/shared/components/VisibilityBadge';
+import { ShareButton } from './ShareButton';
 
 // interface IProps {
 //   address: `0x${string}`;
@@ -48,15 +49,10 @@ export const BlogList: React.FC = () => {
           {blogList?.map((blog) => {
             const createdAt = DYMTimeAsObject(blog.ObjectInfo.CreateAt);
 
+            const blogUrl = `/dashboard/blog/${blog.ObjectInfo.ObjectName}?b=${bucketName}&v=${blog.ObjectInfo.Visibility}`;
+
             return (
-              <Box
-                key={blog.ObjectInfo.Id}
-                py="40px"
-                cursor="pointer"
-                onClick={() => {
-                  router.push(`/dashboard/blog/${blog.ObjectInfo.ObjectName}`);
-                }}
-              >
+              <Box key={blog.ObjectInfo.Id} py="40px">
                 <Box fontSize="24px" mb="8px" fontWeight="700">
                   <Box as="span" color="#FFF" mr="6px">
                     {createdAt.m} {createdAt.d}
@@ -66,7 +62,14 @@ export const BlogList: React.FC = () => {
                   </Box>
                 </Box>
                 <Box bg="#1C1C1E" borderRadius="8px" overflow="hidden">
-                  <Box w="960px" h="400px">
+                  <Box
+                    w="960px"
+                    h="400px"
+                    cursor="pointer"
+                    onClick={() => {
+                      router.push(blogUrl);
+                    }}
+                  >
                     <Image
                       w="100%"
                       h="100%"
@@ -75,11 +78,19 @@ export const BlogList: React.FC = () => {
                       fallbackSrc={DEFAULT_COVER.src}
                     />
                   </Box>
-                  <Flex alignItems="center">
-                    <Box fontWeight="500" fontSize="28px" p="30px">
-                      {blog.ObjectInfo.ObjectName}
-                    </Box>
-                    <VisibilityBadge visibility={blog.ObjectInfo.Visibility} />
+                  <Flex alignItems="center" justifyContent="space-between" p="30px">
+                    <Flex alignItems="center" gap="15px">
+                      <Box fontWeight="500" fontSize="28px">
+                        {blog.ObjectInfo.ObjectName}
+                      </Box>
+                      <VisibilityBadge visibility={blog.ObjectInfo.Visibility} />
+                    </Flex>
+
+                    <Flex>
+                      {blog.ObjectInfo?.Visibility === 1 && (
+                        <ShareButton url={`${window.location.origin}${blogUrl}`} />
+                      )}
+                    </Flex>
                   </Flex>
                 </Box>
               </Box>

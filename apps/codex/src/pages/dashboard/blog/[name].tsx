@@ -1,28 +1,23 @@
 import DEFAULT_COVER from '@/images/default_cover.jpeg';
 import { useGetBlogContent } from '@/modules/dashboard/hooks/useGetBlogContent';
 import { DashboardLayout } from '@/modules/dashboard/layout';
-import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 import { useGetSpUrlByBucket } from '@/shared/hooks/gnfd/useGetSpUrlByBucket';
-import { getBlogSpaceName } from '@/shared/utils';
 import { Box, Center, Image, Spinner, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { useAccount } from 'wagmi';
 
 export default function Blog() {
   const router = useRouter();
-  const { address } = useAccount();
 
-  const { name } = router.query;
+  // b: bucketName, v: visibility
+  const { name, b, v } = router.query;
 
-  const { data: userInfo } = useGetAccountDetails(address as `0x${string}`);
-
+  const { data: endpoint } = useGetSpUrlByBucket(b as string);
   const { data: content, isLoading } = useGetBlogContent({
-    userInfo,
+    bucketName: b as string,
     objectName: name as string,
+    endpoint,
+    visibility: v as string,
   });
-
-  const bucketName = getBlogSpaceName(userInfo?.id || BigInt(0));
-  const { data: endpoint } = useGetSpUrlByBucket(bucketName);
 
   if (isLoading) {
     return (
@@ -39,7 +34,7 @@ export default function Blog() {
           w="100%"
           h="100%"
           objectFit={'cover'}
-          src={`${endpoint}/view/${bucketName}/cover/${name}`}
+          src={`${endpoint}/view/${b}/cover/${name}`}
           fallbackSrc={DEFAULT_COVER.src}
         />
       </Box>

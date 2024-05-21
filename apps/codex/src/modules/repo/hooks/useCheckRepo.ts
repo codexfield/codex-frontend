@@ -29,7 +29,7 @@ export const useCheckRepo = (bucketId?: string) => {
       const res = await axios.get<IResponse>(`${AIRDROP_DOMAIN}/repo/check`, {
         params: {
           address,
-          code_bucket_id: bucketId,
+          codex_bucket_id: bucketId,
         },
       });
 
