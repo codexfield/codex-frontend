@@ -1,3 +1,4 @@
+import Loading from '@/images/loading.svg';
 import { ClonePopver } from '@/modules/repo/components/ClonePopover';
 import { EmptyRepo } from '@/modules/repo/components/EmptyRepo';
 import { Side } from '@/shared/components/Side';
@@ -8,12 +9,14 @@ import { useGetSpUrlByBucket } from '@/shared/hooks/gnfd/useGetSpUrlByBucket';
 import { useFs } from '@/shared/hooks/useFs';
 import { useInitRepo } from '@/shared/hooks/useInitRepo';
 import { OidType, useReadRepoByOid } from '@/shared/hooks/useReadRepoByOid';
+import { ErrorIcon } from '@/shared/icons/ErrorIcon';
 import { FileIcon } from '@/shared/icons/FileIcon';
 import { FolderIcon } from '@/shared/icons/FolderIcon';
 import { RepoIcon } from '@/shared/icons/RepoIcon';
 import { getRepoName } from '@/shared/utils';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { Box, Button, Center, Flex, Link, Spinner } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Link, Spinner, VStack } from '@chakra-ui/react';
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -22,17 +25,27 @@ import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import { useAccount } from 'wagmi';
 import { SharePopver } from './components/ShareRepo';
+import { useCheckRepo } from './hooks/useCheckRepo';
+
+const spin = keyframes`
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+`;
 
 export default function Repo() {
   const router = useRouter();
   const pathName = usePathname();
+  const { address } = useAccount();
+
   const { name } = router.query;
   const type = router.query.type as OidType;
   const { data: endpoint, isLoading: getSpUrlLoading } = useGetSpUrlByBucket(
     name as string | undefined,
   );
-  const { address } = useAccount();
-  const { data: bucketInfo } = useGetBucketInfo(name as string);
   const { data: userInfo } = useGetAccountDetails(address);
   const fs = useFs({
     endpoint,
@@ -42,16 +55,31 @@ export default function Repo() {
     fs,
     name as string,
   );
+  const { data: bucketInfo } = useGetBucketInfo(name as string);
+
   const { tree, blob, isLoading: readRepoLoading } = useReadRepoByOid(fs, latestCommitOid);
 
   const isLoading = getSpUrlLoading || initRepoLoading || readRepoLoading;
   const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
 
+  const { data: checkRepoRes, refetch } = useCheckRepo(bucketInfo?.id || '');
+
+  console.log('bucketInfo', bucketInfo);
+  console.log('checkRepoRes', checkRepoRes, checkRepoRes?.result?.status);
+
+  // if (checkRepoRes?.result.status === 11) {
+  //   // failure
+  //   return (
+  //     <Center minH="200px">
+  //       <Spinner />
+  //     </Center>
+  //   );
+  // } else if (checkRepoRes?.result.status === 1) {
+  //   // init
+  // }
+
   return (
     <Flex gap="20px" w="1360px" ml="auto" mr="auto">
-      {/* name is {name}
-      latestCommit is {latestCommitOid} */}
-
       <RepoContainer w="960px">
         <Button variant="unstyled" fontSize="20px" onClick={router.back}>
           <ChevronLeftIcon boxSize="22px" verticalAlign="-6px" /> Back
@@ -63,7 +91,6 @@ export default function Repo() {
               <Box color="#a276ff">{repoName}</Box>
               <VisibilityBadge visibility={bucketInfo?.visibility || -1} />
             </RepoName>
-
             <Flex alignItems="center">
               {bucketInfo?.visibility === 1 && (
                 <SharePopver
@@ -74,45 +101,82 @@ export default function Repo() {
             </Flex>
           </Flex>
         </RepoTitleContainer>
-        <RepoConentList>
-          {isLoading && (
-            <Center minH="200px">
-              <Spinner />
-            </Center>
-          )}
-          {type === 'tree' && !tree && !isLoading && <EmptyRepo name={name as string} />}
-          {type === 'tree' &&
-            tree &&
-            tree?.tree.map((item) => {
-              return (
-                <RepeContentItem key={item.path + item.oid}>
-                  <Link
-                    as={NextLink}
-                    href={`${pathName}?type=${item.type}&oid=${item.oid}`}
-                    sx={{
-                      display: 'block',
-                      padding: '13px',
-                      '&:hover': {
-                        textDecoration: 'none',
-                      },
-                    }}
-                  >
-                    <Box as="span" mr="8px" mb="2px" verticalAlign="text-top">
-                      {item.type === 'tree' && <FolderIcon />}
-                      {item.type === 'blob' && <FileIcon />}
-                    </Box>
-                    {item.path}
-                  </Link>
-                </RepeContentItem>
-              );
-            })}
-        </RepoConentList>
 
-        {type === 'blob' && (
-          <BlobContainer>
-            <Markdown rehypePlugins={[rehypeHighlight]}>{blob}</Markdown>
-            {/* {blob} */}
-          </BlobContainer>
+        {checkRepoRes?.result?.status === 11 && (
+          <Center minH="200px" w="960px" bg="#1c1c1e">
+            <VStack>
+              {/* failure */}
+              <ErrorIcon />
+              <Box color="#F44336">Failed</Box>
+              <Button
+                bg="#048118"
+                fontSize="16px"
+                onClick={() => {
+                  refetch();
+                }}
+              >
+                Retry
+              </Button>
+            </VStack>
+          </Center>
+        )}
+
+        {checkRepoRes?.result?.status === 1 && (
+          <Center minH="200px" w="960px" bg="#1c1c1e">
+            {/* init */}
+            <Box
+              css={css`
+                animation: ${spin} 2s ease infinite;
+              `}
+            >
+              <img src={Loading.src} title="loading" />
+            </Box>
+          </Center>
+        )}
+
+        {(checkRepoRes?.result?.status === 10 || checkRepoRes?.code != 0) && (
+          <>
+            <RepoConentList>
+              {isLoading && (
+                <Center minH="200px">
+                  <Spinner />
+                </Center>
+              )}
+              {type === 'tree' && !tree && !isLoading && <EmptyRepo name={name as string} />}
+              {type === 'tree' &&
+                tree &&
+                tree?.tree.map((item) => {
+                  return (
+                    <RepeContentItem key={item.path + item.oid}>
+                      <Link
+                        as={NextLink}
+                        href={`${pathName}?type=${item.type}&oid=${item.oid}`}
+                        sx={{
+                          display: 'block',
+                          padding: '13px',
+                          '&:hover': {
+                            textDecoration: 'none',
+                          },
+                        }}
+                      >
+                        <Box as="span" mr="8px" mb="2px" verticalAlign="text-top">
+                          {item.type === 'tree' && <FolderIcon />}
+                          {item.type === 'blob' && <FileIcon />}
+                        </Box>
+                        {item.path}
+                      </Link>
+                    </RepeContentItem>
+                  );
+                })}
+            </RepoConentList>
+
+            {type === 'blob' && (
+              <BlobContainer>
+                <Markdown rehypePlugins={[rehypeHighlight]}>{blob}</Markdown>
+                {/* {blob} */}
+              </BlobContainer>
+            )}
+          </>
         )}
       </RepoContainer>
 

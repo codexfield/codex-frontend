@@ -2,10 +2,10 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useAccount } from 'wagmi';
-import { AIRDROP_DOMAIN } from '../api';
 import { useQueryUser } from './useQueryUser';
 import { useToast } from '@chakra-ui/react';
 import { useQueryRank } from './useQueryRank';
+import { AIRDROP_DOMAIN } from '@/env';
 
 interface IVerifyParams {
   taskName: string;

@@ -5,6 +5,9 @@ import dayjs from 'dayjs';
 export const getBucketName = (repoName: string, userId: bigint) => {
   return `${REPO_PREFIX}-${userId}-${repoName}`;
 };
+
+export const getBlogSpaceName = (userId: bigint) => `${REPO_PREFIX}-${userId}-blogs`;
+
 export const getRepoName = (bucketName: string, userId: bigint) => {
   return bucketName.replace(`${REPO_PREFIX}-${userId}-`, '');
 };
@@ -38,6 +41,11 @@ export const DYMTimeAsObject = (timestamp: number) => {
   };
 };
 
+export const getExtensionName = (filename: string) => {
+  const extension = filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2);
+  return '.' + extension;
+};
+
 export const shortAddress = (address: string) => {
   return address.slice(0, 6) + '...' + address.slice(-6);
 };
@@ -48,3 +56,7 @@ export const shortName = (name: string) => {
   }
   return name;
 };
+
+export function sleep(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}

@@ -1,6 +1,6 @@
+import { AIRDROP_DOMAIN } from '@/env';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { AIRDROP_DOMAIN } from '../api';
 
 export const useCheckCode = (code: string) => {
   return useQuery({

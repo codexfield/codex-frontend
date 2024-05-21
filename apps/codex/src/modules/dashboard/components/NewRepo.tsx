@@ -17,10 +17,11 @@ export const NewRepo = () => {
         color: '#5F5F5F',
         boxShadow: 'none',
       }}
-      isDisabled={showCreateRepo.clickedButton}
+      isDisabled={showCreateRepo.start}
       onClick={() => {
-        setShowCreateRepo({
-          clickedButton: true,
+        setShowCreateRepo((draft) => {
+          draft.start = true;
+          draft.normal = true;
         });
       }}
     >

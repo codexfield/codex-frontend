@@ -20,9 +20,16 @@ export const useGetRepoList = (address?: `0x${string}`) => {
         endpoint: spInfo.endpoint,
       });
 
-      return bucketList?.filter((bucket) => {
-        return bucket.BucketInfo.BucketName.startsWith(`${REPO_PREFIX}-`);
-      });
+      // console.log('spInfo.endpoint', spInfo.endpoint);
+      // console.log('bucketList', bucketList);
+
+      return bucketList
+        ?.filter((bucket) => {
+          return bucket.BucketInfo.BucketName.startsWith(`${REPO_PREFIX}-`);
+        })
+        .filter((bucket) => {
+          return !bucket.BucketInfo.BucketName.includes(`blogs`);
+        });
     },
     staleTime: Infinity,
   });

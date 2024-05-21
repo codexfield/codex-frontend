@@ -8,7 +8,7 @@ import { BSC_CHAIN_ID, BSC_RPC_URL, GREEN_CHAIN_ID, GREENFIELD_RPC_URL } from '.
 
 const greenFieldChain: Chain = {
   id: parseInt(GREEN_CHAIN_ID),
-  network: 'greenfield',
+  // network: 'greenfield',
   rpcUrls: {
     default: {
       http: [GREENFIELD_RPC_URL],
@@ -28,7 +28,7 @@ const greenFieldChain: Chain = {
 const bscChain: Chain = {
   id: parseInt(BSC_CHAIN_ID),
   name: 'BSC',
-  network: 'QA - bsc smart chain',
+  // network: 'QA - bsc smart chain',
   rpcUrls: {
     default: {
       http: [BSC_RPC_URL],
