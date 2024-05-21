@@ -25,7 +25,7 @@ export const BlogsPage = () => {
 
   return (
     <DashboardLayout>
-      <Box>{bucketInfo ? <BlogList /> : <CreateBlogSpace />}</Box>
+      <Box>{bucketInfo ? <BlogList address={address} /> : <CreateBlogSpace />}</Box>
     </DashboardLayout>
   );
 };
