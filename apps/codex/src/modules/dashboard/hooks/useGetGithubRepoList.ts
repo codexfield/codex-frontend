@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 export const useGetGithubRepoList = (token?: string) => {
   return useQuery({
     enabled: !!token,
-    queryKey: ['GET_GITHUB_REPO_LIST'],
+    queryKey: ['GET_GITHUB_REPO_LIST', token],
     queryFn: async () => {
       if (!token) return;
 
@@ -13,7 +13,6 @@ export const useGetGithubRepoList = (token?: string) => {
       });
 
       const res = await octokit.request('GET /user/repos');
-      console.log('res', res);
       return res.data;
     },
     staleTime: 60_000,
