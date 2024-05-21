@@ -7,6 +7,9 @@ export const GNFD_RPC =
   process.env.NEXT_PUBLIC_GNFD_RPC || 'https://gnfd-testnet-fullnode-tendermint-ap.bnbchain.org';
 export const GNFD_SCAN_URL = process.env.NEXT_PUBLIC_GNFD_SCAN_URL || '';
 
+export const AIRDROP_DOMAIN =
+  process.env.NEXT_PUBLIC_AIRDROP_DOMAIN || 'https://airdrop.codexfield.com/testnet/';
+
 export const BSC_CHAIN = ENV === 'TESTNET' ? bscTestnet : bsc;
 
 export const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ||

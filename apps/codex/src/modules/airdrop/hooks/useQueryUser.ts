@@ -1,5 +1,5 @@
+import { AIRDROP_DOMAIN } from '@/env';
 import { useQuery } from '@tanstack/react-query';
-import { AIRDROP_DOMAIN } from '../api';
 import axios from 'axios';
 
 interface IUserResult {

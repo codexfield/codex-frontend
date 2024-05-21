@@ -1,5 +1,5 @@
-import { AIRDROP_DOMAIN } from '@/modules/airdrop/api';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { AIRDROP_DOMAIN } from '@/env';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Address } from 'viem';
 

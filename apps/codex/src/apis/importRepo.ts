@@ -1,5 +1,5 @@
 import { GreenfieldClient } from '@/config/GnfsClient';
-import { AIRDROP_DOMAIN } from '@/modules/airdrop/api';
+import { AIRDROP_DOMAIN } from '@/env';
 import axios from 'axios';
 
 interface IImportGithubResult {
