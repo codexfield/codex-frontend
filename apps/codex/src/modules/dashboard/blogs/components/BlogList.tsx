@@ -92,7 +92,9 @@ export const BlogList: React.FC<IProps> = ({ address }) => {
                     h="400px"
                     cursor="pointer"
                     onClick={() => {
-                      router.push(blogUrl);
+                      if (isOwner || blog.ObjectInfo.Visibility === 1) {
+                        router.push(blogUrl);
+                      }
                     }}
                   >
                     <Image

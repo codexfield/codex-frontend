@@ -15,7 +15,7 @@ export const Dashboard: React.FC = () => {
   const { address, chain } = useAccount();
   const { data: userInfo, isError, isLoading } = useGetAccountDetails(address);
   const { openConnectModal } = useConnectModal();
-  const userIsRegister = userInfo !== undefined && userInfo.id !== BigInt(0);
+  // const userIsRegister = userInfo !== undefined && userInfo.id !== BigInt(0);
 
   useEffect(() => {
     // if don't connect wallet, show rainbow wallets modal
