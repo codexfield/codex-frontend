@@ -76,7 +76,11 @@ export const usePutPolicy = ({ repoName, onSuccess, onFailure }: Params) => {
         statements: [
           {
             effect: Effect.EFFECT_ALLOW,
-            actions: [ActionType.ACTION_CREATE_OBJECT],
+            actions: [
+              ActionType.ACTION_CREATE_OBJECT,
+              ActionType.ACTION_GET_OBJECT,
+              ActionType.ACTION_UPDATE_OBJECT_CONTENT,
+            ],
             resources: [],
             // resources: [GRNToString(newBucketGRN(bucketName))],
           },
