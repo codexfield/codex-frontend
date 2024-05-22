@@ -7,6 +7,8 @@ interface IResponse {
   code: number;
   message: string;
   result?: {
+    access_token: string;
+    codex_bucket_id: string;
     err_msg: string;
     /**
      * ImportTaskStatusInit    int = 1
@@ -14,6 +16,9 @@ interface IResponse {
      * ImportTaskStatusFailed  int = 11
      */
     status: 1 | 10 | 11;
+    repo_type: number;
+    repo_url: string;
+    gnfd_url: string;
   };
 }
 
