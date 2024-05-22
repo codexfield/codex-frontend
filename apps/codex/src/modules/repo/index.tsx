@@ -27,6 +27,7 @@ import { useAccount } from 'wagmi';
 import { SharePopver } from './components/ShareRepo';
 import { useCheckRepo } from './hooks/useCheckRepo';
 import { useImportGithub } from '../dashboard/hooks/useImportGithub';
+import { retry } from '@/apis/retry';
 
 const spin = keyframes`
   from {
@@ -126,6 +127,10 @@ export default function Repo() {
                 bg="#048118"
                 fontSize="16px"
                 onClick={async () => {
+                  // await retry({
+                  //   codexBucketId: bucketInfo?.id,
+                  //   accessToken:
+                  // })
                   await doImport();
                 }}
               >
