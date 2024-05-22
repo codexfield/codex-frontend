@@ -28,6 +28,7 @@ import rehypeHighlight from 'rehype-highlight';
 import { useAccount } from 'wagmi';
 import { SharePopver } from './components/ShareRepo';
 import { useCheckRepo } from './hooks/useCheckRepo';
+import { useImportGithub } from '../dashboard/hooks/useImportGithub';
 
 const spin = keyframes`
   from {
