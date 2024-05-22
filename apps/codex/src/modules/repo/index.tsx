@@ -26,6 +26,7 @@ import rehypeHighlight from 'rehype-highlight';
 import { useAccount } from 'wagmi';
 import { SharePopver } from './components/ShareRepo';
 import { useCheckRepo } from './hooks/useCheckRepo';
+import { useImportGithub } from '../dashboard/hooks/useImportGithub';
 
 const spin = keyframes`
   from {
@@ -59,10 +60,23 @@ export default function Repo() {
 
   const { tree, blob, isLoading: readRepoLoading } = useReadRepoByOid(fs, latestCommitOid);
 
+  console.log('name', name);
+  console.log('latestCommitOid', latestCommitOid);
+  console.log('tree', tree);
+
   const isLoading = getSpUrlLoading || initRepoLoading || readRepoLoading;
   const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
 
-  const { data: checkRepoRes, refetch } = useCheckRepo(bucketInfo?.id || '');
+  const { data: checkRepoRes } = useCheckRepo(bucketInfo?.id || '');
+
+  const { doImport } = useImportGithub({
+    repoName: repoName!,
+    githubUrl: checkRepoRes?.result?.repo_url || '',
+    visibility:
+      checkRepoRes?.result?.repo_type === 1
+        ? 'VISIBILITY_TYPE_PUBLIC_READ'
+        : 'VISIBILITY_TYPE_PRIVATE',
+  });
 
   console.log('bucketInfo', bucketInfo);
   console.log('checkRepoRes', checkRepoRes, checkRepoRes?.result?.status);
@@ -111,8 +125,8 @@ export default function Repo() {
               <Button
                 bg="#048118"
                 fontSize="16px"
-                onClick={() => {
-                  refetch();
+                onClick={async () => {
+                  await doImport();
                 }}
               >
                 Retry
