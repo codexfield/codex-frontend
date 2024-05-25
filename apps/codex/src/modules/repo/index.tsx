@@ -1,4 +1,5 @@
 import Loading from '@/images/loading.svg';
+import { useSession } from 'next-auth/react';
 import { ClonePopver } from '@/modules/repo/components/ClonePopover';
 import { EmptyRepo } from '@/modules/repo/components/EmptyRepo';
 import { Side } from '@/shared/components/Side';
@@ -61,9 +62,11 @@ export default function Repo() {
 
   const { tree, blob, isLoading: readRepoLoading } = useReadRepoByOid(fs, latestCommitOid);
 
-  console.log('name', name);
-  console.log('latestCommitOid', latestCommitOid);
-  console.log('tree', tree);
+  const { data: session } = useSession();
+
+  // console.log('name', name);
+  // console.log('latestCommitOid', latestCommitOid);
+  // console.log('tree', tree);
 
   const isLoading = getSpUrlLoading || initRepoLoading || readRepoLoading;
   const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
@@ -117,7 +120,7 @@ export default function Repo() {
           </Flex>
         </RepoTitleContainer>
 
-        {checkRepoRes?.result?.status === 11 && (
+        {(checkRepoRes?.result?.status === 11 || checkRepoRes?.code === 1001) && (
           <Center minH="200px" w="960px" bg="#1c1c1e">
             <VStack>
               {/* failure */}
@@ -127,11 +130,15 @@ export default function Repo() {
                 bg="#048118"
                 fontSize="16px"
                 onClick={async () => {
-                  // await retry({
-                  //   codexBucketId: bucketInfo?.id,
-                  //   accessToken:
-                  // })
-                  await doImport();
+                  if (!bucketInfo) return;
+
+                  console.log('retry...', bucketInfo, session);
+
+                  await retry({
+                    codexBucketId: bucketInfo?.id,
+                    accessToken: session?.accessToken,
+                  });
+                  // await doImport();
                 }}
               >
                 Retry
@@ -153,7 +160,7 @@ export default function Repo() {
           </Center>
         )}
 
-        {(checkRepoRes?.result?.status === 10 || checkRepoRes?.code != 0) && (
+        {checkRepoRes?.result?.status === 10 && (
           <>
             <RepoConentList>
               {isLoading && (
