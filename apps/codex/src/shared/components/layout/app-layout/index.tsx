@@ -25,7 +25,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
 
   useAccountEffect({
     onConnect: (data) => {
-      if (router.pathname.includes('dashboard')) {
+      if (router.pathname.includes('dashboard') || router.pathname.includes('repo')) {
         onAuthCb(data.address, data.connector);
       }
     },

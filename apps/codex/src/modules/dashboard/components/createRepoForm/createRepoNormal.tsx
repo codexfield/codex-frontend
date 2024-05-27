@@ -35,6 +35,7 @@ export const CreateRepoNormal: React.FC = () => {
     text: buttonText,
     start,
   } = useCreateRepo({
+    isInitGit: true,
     onSuccess: async () => {
       setShowCreateRepo((draft) => {
         draft.start = false;

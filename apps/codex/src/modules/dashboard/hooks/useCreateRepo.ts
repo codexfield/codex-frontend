@@ -50,7 +50,7 @@ export const useCreateRepo = ({ isInitGit = true, onSuccess }: IParams) => {
     },
     validateOnBlur: false,
     validateOnChange: false,
-    validate: (values: FormValues) => {
+    validate: async (values: FormValues) => {
       const errors: FormikErrors<FormValues> = {};
       if (!values.repoName) {
         errors.repoName = 'repo name is required';
@@ -115,7 +115,19 @@ export const useCreateRepo = ({ isInitGit = true, onSuccess }: IParams) => {
 
         console.log('createBucketTxHash', createBucketTxHash);
 
-        await sleep(30_000);
+        while (true) {
+          let bucketInfo;
+          try {
+            bucketInfo = await GreenfieldClient.bucket.headBucket(bucketName);
+          } catch (e) {}
+
+          console.log('bucket res', bucketInfo);
+          if (bucketInfo) {
+            break;
+          }
+
+          await sleep(5000);
+        }
 
         if (isInitGit) {
           const backend = new GnfdBackend(bucketName, seed, spInfo.endpoint, offchainData.address);

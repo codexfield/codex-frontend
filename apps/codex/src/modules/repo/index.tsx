@@ -1,5 +1,5 @@
+import { retry } from '@/apis/retry';
 import Loading from '@/images/loading.svg';
-import { useSession } from 'next-auth/react';
 import { ClonePopver } from '@/modules/repo/components/ClonePopover';
 import { EmptyRepo } from '@/modules/repo/components/EmptyRepo';
 import { Side } from '@/shared/components/Side';
@@ -19,6 +19,7 @@ import { ChevronLeftIcon } from '@chakra-ui/icons';
 import { Box, Button, Center, Flex, Link, Spinner, VStack } from '@chakra-ui/react';
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useSession } from 'next-auth/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
@@ -27,8 +28,6 @@ import rehypeHighlight from 'rehype-highlight';
 import { useAccount } from 'wagmi';
 import { SharePopver } from './components/ShareRepo';
 import { useCheckRepo } from './hooks/useCheckRepo';
-import { useImportGithub } from '../dashboard/hooks/useImportGithub';
-import { retry } from '@/apis/retry';
 
 const spin = keyframes`
   from {
@@ -54,6 +53,7 @@ export default function Repo() {
     endpoint,
     repoName: name as string,
   });
+
   const { data: latestCommitOid = '', isLoading: initRepoLoading } = useInitRepo(
     fs,
     name as string,
@@ -73,14 +73,14 @@ export default function Repo() {
 
   const { data: checkRepoRes } = useCheckRepo(bucketInfo?.id || '');
 
-  const { doImport } = useImportGithub({
-    repoName: repoName!,
-    githubUrl: checkRepoRes?.result?.repo_url || '',
-    visibility:
-      checkRepoRes?.result?.repo_type === 1
-        ? 'VISIBILITY_TYPE_PUBLIC_READ'
-        : 'VISIBILITY_TYPE_PRIVATE',
-  });
+  // const { doImport } = useImportGithub({
+  //   repoName: repoName!,
+  //   githubUrl: checkRepoRes?.result?.repo_url || '',
+  //   visibility:
+  //     checkRepoRes?.result?.repo_type === 1
+  //       ? 'VISIBILITY_TYPE_PUBLIC_READ'
+  //       : 'VISIBILITY_TYPE_PRIVATE',
+  // });
 
   console.log('bucketInfo', bucketInfo);
   console.log('checkRepoRes', checkRepoRes, checkRepoRes?.result?.status);
@@ -120,7 +120,7 @@ export default function Repo() {
           </Flex>
         </RepoTitleContainer>
 
-        {(checkRepoRes?.result?.status === 11 || checkRepoRes?.code === 1001) && (
+        {checkRepoRes?.result?.status === 11 && (
           <Center minH="200px" w="960px" bg="#1c1c1e">
             <VStack>
               {/* failure */}
@@ -147,7 +147,7 @@ export default function Repo() {
           </Center>
         )}
 
-        {checkRepoRes?.result?.status === 1 && (
+        {(checkRepoRes?.result?.status === 1 || checkRepoRes?.code === 1001) && (
           <Center minH="200px" w="960px" bg="#1c1c1e">
             {/* init */}
             <Box

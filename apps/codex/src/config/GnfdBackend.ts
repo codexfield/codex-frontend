@@ -1,7 +1,6 @@
 import { GreenfieldClient } from '@/config/GnfsClient';
 import { SpResponse, VisibilityType } from '@bnb-chain/greenfield-js-sdk';
 import { Stat } from '@codexfield/isomorphic-git';
-import { ReedSolomon } from '@bnb-chain/reed-solomon';
 import localforage from 'localforage';
 
 class FileNotFoundError extends Error {
@@ -25,7 +24,7 @@ export default class GnfdBackend {
   private seed: string;
   private address: string;
   private forageInstance: LocalForage;
-  private cache = true;
+  private cache = false;
 
   constructor(repoName: string, seed: string, endpoint: string, address: string) {
     this.repoName = repoName;
