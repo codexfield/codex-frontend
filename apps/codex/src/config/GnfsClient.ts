@@ -12,12 +12,12 @@ export const getSps = async () => {
   // console.log('sps', sps);
   // return sps;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const finalSps = (sps ?? []).filter((v: any) => {
-    return v.endpoint.includes('bnbchain') || v.endpoint.includes('nodereal');
-  });
+  // const finalSps = (sps ?? []).filter((v: any) => {
+  //   return v.endpoint.includes('bnbchain') || v.endpoint.includes('nodereal');
+  // });
 
-  // return sps;
-  return finalSps;
+  return sps;
+  // return finalSps;
 };
 
 export const getAllSps = async () => {
