@@ -38,13 +38,14 @@ export const useCheckRepo = (bucketId?: string) => {
         },
       });
 
-      console.log('res', res);
-
       return res.data;
     },
     staleTime: 0,
     refetchInterval: (query) => {
-      if (query.state.data?.result?.status === 10) return false;
+      console.log('query.state.data?.result?.status', query.state.data?.result?.status);
+      if (query.state.data?.result?.status === 10 || query.state.data?.code === 1001) {
+        return false;
+      }
 
       return 10_000;
     },

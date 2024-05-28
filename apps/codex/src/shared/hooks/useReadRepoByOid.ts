@@ -11,8 +11,6 @@ export const useReadRepoByOid = (fs: FS | null, latestCommitOid: string, enabled
   const type = (router.query.type as OidType) || 'tree';
   const oid = (router.query.oid as string) || latestCommitOid;
 
-  console.log('enabled', enabled);
-
   const { data: tree, isLoading: isReadTreeLoading } = useReadTree(
     fs,
     oid,

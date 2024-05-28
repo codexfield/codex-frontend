@@ -37,10 +37,10 @@ export const CreateRepoNormal: React.FC = () => {
   } = useCreateRepo({
     isInitGit: true,
     onSuccess: async () => {
+      await refetchRepoList();
       setShowCreateRepo((draft) => {
         draft.start = false;
       });
-      await refetchRepoList();
     },
   });
 

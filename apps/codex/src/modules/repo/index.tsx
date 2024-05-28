@@ -57,7 +57,7 @@ export default function Repo() {
   const { data: bucketInfo } = useGetBucketInfo(name as string);
   const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
   const { data: checkRepoRes } = useCheckRepo(bucketInfo?.id || '');
-  const isEnableRead = checkRepoRes?.result?.status === 10;
+  const isEnableRead = checkRepoRes?.result?.status === 10 || checkRepoRes?.code === 1001;
   const { data: latestCommitOid = '', isLoading: initRepoLoading } = useInitRepo(
     fs,
     name as string,
@@ -152,7 +152,7 @@ export default function Repo() {
           </Center>
         )}
 
-        {(checkRepoRes?.result?.status === 1 || checkRepoRes?.code === 1001) && (
+        {checkRepoRes?.result?.status === 1 && (
           <Center minH="200px" w="960px" bg="#1c1c1e">
             {/* init */}
             <Box
@@ -164,7 +164,8 @@ export default function Repo() {
             </Box>
           </Center>
         )}
-        {checkRepoRes?.result?.status === 10 && (
+
+        {isEnableRead && (
           <>
             <RepoConentList>
               {isLoading && (
