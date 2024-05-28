@@ -28,7 +28,6 @@ import rehypeHighlight from 'rehype-highlight';
 import { useAccount } from 'wagmi';
 import { SharePopver } from './components/ShareRepo';
 import { useCheckRepo } from './hooks/useCheckRepo';
-import { useImportGithub } from '../dashboard/hooks/useImportGithub';
 
 const spin = keyframes`
   from {
@@ -55,13 +54,21 @@ export default function Repo() {
     repoName: name as string,
   });
 
+  const { data: bucketInfo } = useGetBucketInfo(name as string);
+  const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
+  const { data: checkRepoRes } = useCheckRepo(bucketInfo?.id || '');
+  const isEnableRead = checkRepoRes?.result?.status === 10;
   const { data: latestCommitOid = '', isLoading: initRepoLoading } = useInitRepo(
     fs,
     name as string,
+    isEnableRead,
   );
-  const { data: bucketInfo } = useGetBucketInfo(name as string);
 
-  const { tree, blob, isLoading: readRepoLoading } = useReadRepoByOid(fs, latestCommitOid);
+  const {
+    tree,
+    blob,
+    isLoading: readRepoLoading,
+  } = useReadRepoByOid(fs, latestCommitOid, isEnableRead);
 
   const { data: session } = useSession();
 
@@ -70,9 +77,6 @@ export default function Repo() {
   // console.log('tree', tree);
 
   const isLoading = getSpUrlLoading || initRepoLoading || readRepoLoading;
-  const repoName = userInfo && name && getRepoName(name as string, userInfo.id);
-
-  const { data: checkRepoRes } = useCheckRepo(bucketInfo?.id || '');
 
   // const { doImport } = useImportGithub({
   //   repoName: repoName!,
@@ -83,7 +87,7 @@ export default function Repo() {
   //       : 'VISIBILITY_TYPE_PRIVATE',
   // });
 
-  console.log('bucketInfo', bucketInfo);
+  // console.log('bucketInfo', bucketInfo);
   console.log('checkRepoRes', checkRepoRes, checkRepoRes?.result?.status);
 
   // if (checkRepoRes?.result.status === 11) {
@@ -160,7 +164,6 @@ export default function Repo() {
             </Box>
           </Center>
         )}
-
         {checkRepoRes?.result?.status === 10 && (
           <>
             <RepoConentList>

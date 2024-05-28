@@ -6,13 +6,23 @@ import { useReadTree } from './useReadTree';
 
 export type OidType = 'blob' | 'tree';
 
-export const useReadRepoByOid = (fs: FS | null, latestCommitOid: string) => {
+export const useReadRepoByOid = (fs: FS | null, latestCommitOid: string, enabled: boolean) => {
   const router = useRouter();
   const type = (router.query.type as OidType) || 'tree';
   const oid = (router.query.oid as string) || latestCommitOid;
 
-  const { data: tree, isLoading: isReadTreeLoading } = useReadTree(fs, oid, type);
-  const { data: blob, isLoading: isReadBlobLoading } = useReadBlob(fs, oid, type);
+  console.log('enabled', enabled);
+
+  const { data: tree, isLoading: isReadTreeLoading } = useReadTree(
+    fs,
+    oid,
+    type === 'tree' && enabled,
+  );
+  const { data: blob, isLoading: isReadBlobLoading } = useReadBlob(
+    fs,
+    oid,
+    type === 'blob' && enabled,
+  );
 
   return {
     tree,

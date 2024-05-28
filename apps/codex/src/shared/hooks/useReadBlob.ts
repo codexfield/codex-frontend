@@ -1,12 +1,11 @@
+import git from '@codexfield/isomorphic-git';
 // @ts-ignore
 import FS from '@codexfield/lightning-fs';
 import { useQuery } from '@tanstack/react-query';
-import git from '@codexfield/isomorphic-git';
-import { OidType } from './useReadRepoByOid';
 
-export const useReadBlob = (fs: FS | null, oid: string, type: OidType) => {
+export const useReadBlob = (fs: FS | null, oid: string, enabled: boolean) => {
   return useQuery({
-    enabled: type === 'blob',
+    enabled,
     queryKey: ['GET_REPO_BLOB', oid],
     queryFn: async () => {
       if (!fs || !oid) return null;

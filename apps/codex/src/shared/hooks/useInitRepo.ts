@@ -3,9 +3,9 @@ import FS from '@codexfield/lightning-fs';
 import { useQuery } from '@tanstack/react-query';
 import git from '@codexfield/isomorphic-git';
 
-export const useInitRepo = (fs: FS | null, repoName: string) => {
+export const useInitRepo = (fs: FS | null, repoName: string, enabled: boolean) => {
   return useQuery({
-    enabled: !!fs && !!repoName,
+    enabled: enabled && !!fs && !!repoName,
     queryKey: ['INIT_REPO', repoName],
     queryFn: async () => {
       if (!fs) return;

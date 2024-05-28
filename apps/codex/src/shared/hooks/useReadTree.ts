@@ -1,15 +1,15 @@
+import git from '@codexfield/isomorphic-git';
 // @ts-ignore
 import FS from '@codexfield/lightning-fs';
 import { useQuery } from '@tanstack/react-query';
-import git from '@codexfield/isomorphic-git';
-import { OidType } from './useReadRepoByOid';
 import orderBy from 'lodash.orderby';
 
-export const useReadTree = (fs: FS | null, oid: string, type: OidType) => {
+export const useReadTree = (fs: FS | null, oid: string, enabled: boolean) => {
   return useQuery({
-    enabled: type === 'tree',
+    enabled,
     queryKey: ['GET_REPO_TREE', oid],
     queryFn: async () => {
+      if (!enabled) return null;
       if (!fs || !oid) return null;
       const tree = await git.readTree({
         fs: fs,
