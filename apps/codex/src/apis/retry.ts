@@ -12,7 +12,7 @@ interface IResult {
 }
 
 export const retry = async ({ codexBucketId, accessToken }: Params) => {
-  return await axios.get<Promise<IResult>>(`${AIRDROP_DOMAIN}/repo/import`, {
+  return await axios.get<Promise<IResult>>(`${AIRDROP_DOMAIN}/repo/retry`, {
     params: {
       codex_bucket_id: codexBucketId,
       access_token: accessToken,
