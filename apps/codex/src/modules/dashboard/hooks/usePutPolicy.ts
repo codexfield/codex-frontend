@@ -23,7 +23,7 @@ interface Params {
   onFailure?: () => Promise<void>;
 }
 
-export const POLICY_ACCOUNT = '0x498a2E6d6dCdD63482191E138beeFf5410724909';
+export const POLICY_ACCOUNT = '0xCf86ED4Cd6e1282D4f871550fF90352263987011';
 
 export const usePutPolicy = ({ repoName, onSuccess, onFailure }: Params) => {
   const { address, connector, chain } = useAccount();
