@@ -277,7 +277,7 @@ export const Airdrop = () => {
                 />
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
-                    <Text>Retweet, like and comment on the latest tweet</Text>
+                    <Text>Retweet, like and comment on the latest tweet(Daily)</Text>
                     <Text>10 Points</Text>
                   </Flex>
                   <Buttons>
