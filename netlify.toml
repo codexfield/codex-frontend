@@ -7,12 +7,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-  [plugins.inputs]
-    cache = true
-    nextConfigPath = "next.config.js"
-    installCommand = "pnpm install"
-    buildCommand = "pnpm run build"
-    target = "server"
-    generateEtags = true
-    includeDirs = ["public", "static"]
-    excludeDirs = ["node_modules", "tests"]
