@@ -1,0 +1,9 @@
+[build]
+  command = "pnpm install && pnpm run -F './apps/**' -r build"
+  publish = "apps/codex/.next"
+
+[build.environment]
+  NODE_VERSION = "18.14.0"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
