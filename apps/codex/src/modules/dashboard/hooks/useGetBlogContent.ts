@@ -1,7 +1,5 @@
 import { GreenfieldClient } from '@/config/GnfsClient';
 import { offchainDataAtom } from '@/shared/atoms/offchainDataAtom';
-import { UserInfo } from '@/shared/hooks/contract/useGetAccountDetails';
-import { getBlogSpaceName } from '@/shared/utils';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useAtomValue } from 'jotai';

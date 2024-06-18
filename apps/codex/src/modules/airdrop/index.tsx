@@ -36,6 +36,8 @@ import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
+import { getBlogSpaceName } from '@/shared/utils';
+import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 
 export const Airdrop = () => {
   const { address } = useAccount();
@@ -55,6 +57,8 @@ export const Airdrop = () => {
 
   const { isLoading, data: userInfo } = useQueryUser(address);
   console.log('userInfo', userInfo);
+
+  const { data: registerUserInfo } = useGetAccountDetails(address as `0x${string}`);
 
   const { mutateAsync: connect } = useConnectTwitter({
     address: address,
@@ -417,6 +421,49 @@ export const Airdrop = () => {
                           onClick={async () => {
                             await verify({
                               taskName: 'CreateRepoCodexField',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+
+              <Task>
+                <Status done={taskList?.find((x) => x.name === 'PostArticle')?.status === 1} />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Create a post on CodexField(Daily)</Text>
+                    <Text>50 Points</Text>
+                  </Flex>
+
+                  <Buttons justifyContent="flex-end">
+                    {taskList?.find((x) => x.name === 'PostArticle')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            handleTriggerAction(6);
+                            router.push('/dashboard/blogs/');
+                          }}
+                        >
+                          Create
+                        </PurpleButton>
+                        <GreenButton
+                          isDisabled={actionStates[6] === 0}
+                          onClick={async () => {
+                            // if (registerUserInfo?.id === BigInt(0) {
+                            // toast ...
+                            //   return;
+                            // }
+
+                            await verify({
+                              taskName: 'PostArticle',
+                              bucketName: getBlogSpaceName(registerUserInfo?.id || BigInt(0)),
                             });
                           }}
                         >
