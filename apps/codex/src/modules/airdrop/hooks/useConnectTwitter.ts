@@ -35,7 +35,7 @@ export const useConnectTwitter = (params: IConnectTwitterParams) => {
       const timer = setInterval(() => {
         refetch();
         if (userInfo?.code !== 0) {
-          popup?.close();
+          // popup?.close();
           clearInterval(timer);
         }
       }, 10000);
