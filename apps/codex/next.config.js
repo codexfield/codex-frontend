@@ -47,6 +47,7 @@ const nextConfig = {
   },
   experimental: {
     swcPlugins: [['@swc-jotai/react-refresh', {}]],
+    cpus: 1,
   },
   // env: {
   //   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
