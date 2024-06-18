@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm install && pnpm run build"
+  command = "pnpm install && CI=false pnpm run -F './apps/**' -r build"
   publish = "apps/codex/.next"
 
 [build.environment]
