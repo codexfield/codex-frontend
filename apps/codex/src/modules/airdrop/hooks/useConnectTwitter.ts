@@ -1,7 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
-import * as axios from 'axios';
-import { useQueryUser } from './useQueryUser';
 import { AIRDROP_DOMAIN } from '@/env';
+import { useMutation } from '@tanstack/react-query';
+import { useQueryUser } from './useQueryUser';
 
 interface IConnectTwitterParams {
   address?: string;

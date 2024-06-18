@@ -1,9 +1,7 @@
 import InviteImage from '@/images/invite.png';
-
 import { CheckIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Center,
   Flex,
   Heading,
@@ -23,9 +21,11 @@ import {
 } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
+import { actionsStateAtom } from './atoms/actionsStateAtom';
 import { GreenButton, PurpleButton } from './components/Buttons';
 import { CopyButton } from './components/Buttons/CopyButton';
 import { Countdown } from './components/Countdown';
@@ -36,8 +36,6 @@ import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
-import { useAtom } from 'jotai';
-import { actionsStateAtom } from './atoms/actionsStateAtom';
 
 export const Airdrop = () => {
   const { address } = useAccount();
@@ -92,7 +90,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Connect Twitter account</Text>
-                    <Text>50 Points</Text>
+                    <Text>10 Points</Text>
                   </Flex>
                   <Buttons>
                     {userInfo?.code == 0 ? (
@@ -115,7 +113,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Follow @CodexField on Twitter</Text>
-                    <Text>50 Points</Text>
+                    <Text>10 Points</Text>
                   </Flex>
                   <Buttons>
                     {taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1 ? (
@@ -125,7 +123,7 @@ export const Airdrop = () => {
                         <PurpleButton
                           onClick={() => {
                             handleTriggerAction(0);
-                            window.open('https://twitter.com/codexfield');
+                            window.open('https://x.com/intent/follow?screen_name=CodexField');
                           }}
                         >
                           Follow
@@ -360,7 +358,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Register CodexField ID</Text>
-                    <Text>10 Points</Text>
+                    <Text>50 Points</Text>
                   </Flex>
                   <Buttons>
                     {taskList?.find((x) => x.name === 'RegisterCodexFiled')?.status === 1 ? (
@@ -397,8 +395,8 @@ export const Airdrop = () => {
                 />
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
-                    <Text>Create a repo on CodexField</Text>
-                    <Text>10 Points</Text>
+                    <Text>Create a repo on CodexField(Daily)</Text>
+                    <Text>50 Points</Text>
                   </Flex>
 
                   <Buttons justifyContent="flex-end">
