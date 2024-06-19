@@ -13,6 +13,7 @@ const _getPublicEnv = (prefix) => {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  distDir: '.next',
   reactStrictMode: false,
   trailingSlash: true,
   publicRuntimeConfig: {

@@ -24,8 +24,6 @@ COPY ./apps/codex/next.config.js ./next.config.js
 COPY ./apps/codex/package.json ./package.json
 COPY ./apps/codex/.next ./.next
 
-# WORKDIR /opt/deploy/apps/codex
-
 EXPOSE 3000
 
 ENV NODE_ENV production

@@ -1,0 +1,37 @@
+# Use a Node.js base image
+FROM node:18-alpine AS base
+
+# Set working directory
+WORKDIR /app
+
+# Copy pnpm and pnpm-workspace.yaml to the container
+COPY pnpm-workspace.yaml ./
+COPY package.json ./
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install dependencies
+COPY . ./
+RUN pnpm install --frozen-lockfile
+
+# Build the Next.js app
+RUN pnpm --filter codex run build
+
+# Production stage
+FROM node:18-alpine AS production
+
+WORKDIR /app
+
+# Copy the built files from the previous stage
+COPY --from=base /app/apps/codex/.next ./.next
+COPY --from=base /app/apps/codex/package.json ./package.json
+COPY --from=base /app/apps/codex/public ./public
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/apps/codex/.next/standalone ./standalone
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start the Next.js app
+CMD ["node", "./next/standalone/server.js"]
