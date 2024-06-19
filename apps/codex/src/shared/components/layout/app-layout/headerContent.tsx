@@ -1,11 +1,10 @@
 import { CustomConnectButton } from '@/shared/components/connectButton';
-import { Box, Flex, Link } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import { Flex, Link } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { TwitterButton } from '../../TwitterButton';
 import { Search } from '../../Search';
-import { ENV } from '@/env';
+import { TwitterButton } from '../../TwitterButton';
 
 const HeaderContent = () => {
   const router = useRouter();
@@ -13,7 +12,7 @@ const HeaderContent = () => {
   return (
     <>
       <Flex gap="45px" ml="45px">
-        <NavLink
+        {/* <NavLink
           as={NextLink}
           href="/explore"
           sx={{
@@ -21,7 +20,7 @@ const HeaderContent = () => {
           }}
         >
           Explore
-        </NavLink>
+        </NavLink> */}
 
         <NavLink
           as={NextLink}
@@ -33,17 +32,15 @@ const HeaderContent = () => {
           Dashboard
         </NavLink>
 
-        {ENV === 'TESTNET' && (
-          <NavLink
-            as={NextLink}
-            href="/airdrop"
-            sx={{
-              color: router.pathname == '/airdrop' ? '#A276FF' : '',
-            }}
-          >
-            Airdrop
-          </NavLink>
-        )}
+        <NavLink
+          as={NextLink}
+          href="/airdrop"
+          sx={{
+            color: router.pathname == '/airdrop' ? '#A276FF' : '',
+          }}
+        >
+          Airdrop
+        </NavLink>
       </Flex>
 
       <Flex gap="20px">

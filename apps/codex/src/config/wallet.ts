@@ -8,44 +8,17 @@ import {
 } from '@/env';
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import { createConfig, http } from 'wagmi';
-import { rainbowWallet, walletConnectWallet, trustWallet } from '@rainbow-me/rainbowkit/wallets';
+import {
+  rainbowWallet,
+  walletConnectWallet,
+  trustWallet,
+  okxWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { Chain } from 'wagmi/chains';
 
 export const bscChain: Chain = {
   ...BSC_CHAIN,
   name: 'BNB Chain',
-};
-
-const gnfdChain: Chain = {
-  id: GNFD_CHAINID,
-  name: 'BNB Greenfield',
-  // network: 'Greenfield',
-  // iconBackground: '#ebac0e',
-  // iconUrl: async () => (await import('./icons/bsc.svg')).default.src,
-  nativeCurrency: {
-    name: 'BNB',
-    symbol: 'BNB',
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: {
-      http: [GNFD_RPC],
-    },
-    public: {
-      http: [GNFD_RPC],
-    },
-  },
-  blockExplorers: {
-    etherscan: {
-      name: `Greenfield Scan`,
-      url: GNFD_SCAN_URL,
-    },
-    default: {
-      name: `Greenfield Scan`,
-      url: GNFD_SCAN_URL,
-    },
-  },
-  testnet: ENV === 'TESTNET',
 };
 
 // const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -60,7 +33,7 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: 'Recommended',
-      wallets: [rainbowWallet, trustWallet],
+      wallets: [rainbowWallet, okxWallet, trustWallet],
     },
   ],
   {

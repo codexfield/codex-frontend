@@ -1,9 +1,7 @@
 import InviteImage from '@/images/invite.png';
-
 import { CheckIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Button,
   Center,
   Flex,
   Heading,
@@ -23,9 +21,11 @@ import {
 } from '@chakra-ui/react';
 import NiceModal from '@ebay/nice-modal-react';
 import styled from '@emotion/styled';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
+import { actionsStateAtom } from './atoms/actionsStateAtom';
 import { GreenButton, PurpleButton } from './components/Buttons';
 import { CopyButton } from './components/Buttons/CopyButton';
 import { Countdown } from './components/Countdown';
@@ -36,8 +36,8 @@ import { useConnectTwitter } from './hooks/useConnectTwitter';
 import { useQueryUser } from './hooks/useQueryUser';
 import { useVerify } from './hooks/useVerify';
 import { postTweet } from './utils';
-import { useAtom } from 'jotai';
-import { actionsStateAtom } from './atoms/actionsStateAtom';
+import { getBlogSpaceName } from '@/shared/utils';
+import { useGetAccountDetails } from '@/shared/hooks/contract/useGetAccountDetails';
 
 export const Airdrop = () => {
   const { address } = useAccount();
@@ -57,6 +57,8 @@ export const Airdrop = () => {
 
   const { isLoading, data: userInfo } = useQueryUser(address);
   console.log('userInfo', userInfo);
+
+  const { data: registerUserInfo } = useGetAccountDetails(address as `0x${string}`);
 
   const { mutateAsync: connect } = useConnectTwitter({
     address: address,
@@ -92,7 +94,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Connect Twitter account</Text>
-                    <Text>50 Points</Text>
+                    <Text>10 Points</Text>
                   </Flex>
                   <Buttons>
                     {userInfo?.code == 0 ? (
@@ -115,7 +117,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Follow @CodexField on Twitter</Text>
-                    <Text>50 Points</Text>
+                    <Text>10 Points</Text>
                   </Flex>
                   <Buttons>
                     {taskList?.find((x) => x.name === 'FollowTwitter')?.status === 1 ? (
@@ -125,7 +127,7 @@ export const Airdrop = () => {
                         <PurpleButton
                           onClick={() => {
                             handleTriggerAction(0);
-                            window.open('https://twitter.com/codexfield');
+                            window.open('https://x.com/intent/follow?screen_name=CodexField');
                           }}
                         >
                           Follow
@@ -279,7 +281,7 @@ export const Airdrop = () => {
                 />
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
-                    <Text>Retweet, like and comment on the latest tweet</Text>
+                    <Text>Retweet, like and comment on the latest tweet(Daily)</Text>
                     <Text>10 Points</Text>
                   </Flex>
                   <Buttons>
@@ -360,7 +362,7 @@ export const Airdrop = () => {
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
                     <Text>Register CodexField ID</Text>
-                    <Text>10 Points</Text>
+                    <Text>50 Points</Text>
                   </Flex>
                   <Buttons>
                     {taskList?.find((x) => x.name === 'RegisterCodexFiled')?.status === 1 ? (
@@ -397,8 +399,8 @@ export const Airdrop = () => {
                 />
                 <TaskContent>
                   <Flex justifyContent="space-between" flex="1">
-                    <Text>Create a repo on CodexField</Text>
-                    <Text>10 Points</Text>
+                    <Text>Create a repo on CodexField(Daily)</Text>
+                    <Text>50 Points</Text>
                   </Flex>
 
                   <Buttons justifyContent="flex-end">
@@ -419,6 +421,49 @@ export const Airdrop = () => {
                           onClick={async () => {
                             await verify({
                               taskName: 'CreateRepoCodexField',
+                            });
+                          }}
+                        >
+                          Verify
+                        </GreenButton>
+                      </>
+                    )}
+                  </Buttons>
+                </TaskContent>
+              </Task>
+
+              <Task>
+                <Status done={taskList?.find((x) => x.name === 'PostArticle')?.status === 1} />
+                <TaskContent>
+                  <Flex justifyContent="space-between" flex="1">
+                    <Text>Create a post on CodexField(Daily)</Text>
+                    <Text>50 Points</Text>
+                  </Flex>
+
+                  <Buttons justifyContent="flex-end">
+                    {taskList?.find((x) => x.name === 'PostArticle')?.status === 1 ? (
+                      <Complete />
+                    ) : (
+                      <>
+                        <PurpleButton
+                          onClick={() => {
+                            handleTriggerAction(6);
+                            router.push('/dashboard/blogs/');
+                          }}
+                        >
+                          Create
+                        </PurpleButton>
+                        <GreenButton
+                          isDisabled={actionStates[6] === 0}
+                          onClick={async () => {
+                            // if (registerUserInfo?.id === BigInt(0) {
+                            // toast ...
+                            //   return;
+                            // }
+
+                            await verify({
+                              taskName: 'PostArticle',
+                              bucketName: getBlogSpaceName(registerUserInfo?.id || BigInt(0)),
                             });
                           }}
                         >
