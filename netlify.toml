@@ -1,5 +1,5 @@
 [build]
-  command = "PARCEL_WORKERS=0 pnpm install && pnpm run -F \"./apps/**\" -r build"
+  command = "pnpm run -F \"./apps/**\" -r build"
   publish = "apps/codex/.next/"
 
 [build.environment]
