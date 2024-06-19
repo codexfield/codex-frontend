@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm install && pnpm run -F \"./apps/**\" -r build"
+  command = "/usr/bin/time -l pnpm install && pnpm run -F \"./apps/**\" -r build"
   publish = "apps/codex/.next"
 
 [build.environment]
