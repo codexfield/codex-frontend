@@ -11,8 +11,6 @@ const _getPublicEnv = (prefix) => {
   return res;
 };
 
-// if (!process.env.assetPrefix) throw new Error('assetPrefix is not set');
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -25,8 +23,7 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-  // assetPrefix: process.env.assetPrefix,
-  assetPrefix: 'https://testnet.codexfield.com',
+  assetPrefix: process.env.assetPrefix,
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
