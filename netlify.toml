@@ -1,9 +1,9 @@
-[build]
-  command = "pnpm run -F \"./apps/**\" -r build"
-  publish = "apps/codex/.next/"
+# [build]
+#   command = "pnpm run -F \"./apps/**\" -r build"
+#   publish = "apps/codex/.next/"
 
-[build.environment]
-  NODE_VERSION = "20.12.2"
+# [build.environment]
+#   NODE_VERSION = "20.12.2"
 
-# [[plugins]]
-#   package = "@netlify/plugin-nextjs"
+# # [[plugins]]
+# #   package = "@netlify/plugin-nextjs"
