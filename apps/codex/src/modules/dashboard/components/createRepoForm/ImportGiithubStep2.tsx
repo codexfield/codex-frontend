@@ -120,7 +120,7 @@ export const ImportGiithubStep2: React.FC<IProps> = ({ handleLastStep }) => {
                     Public
                   </Text>
                   <Text color="#5F5F5F" fontSize="14px">
-                    Anyone on the Internet can see this repository . you choose who can contakt.
+                    Anyone on the Internet can see this repository . you choose who can contack.
                   </Text>
                 </Stack>
               </Radio>

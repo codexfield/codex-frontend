@@ -1,7 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
-import * as axios from 'axios';
-import { useQueryUser } from './useQueryUser';
 import { AIRDROP_DOMAIN } from '@/env';
+import { useMutation } from '@tanstack/react-query';
+import { useQueryUser } from './useQueryUser';
 
 interface IConnectTwitterParams {
   address?: string;
@@ -36,7 +35,7 @@ export const useConnectTwitter = (params: IConnectTwitterParams) => {
       const timer = setInterval(() => {
         refetch();
         if (userInfo?.code !== 0) {
-          popup?.close();
+          // popup?.close();
           clearInterval(timer);
         }
       }, 10000);

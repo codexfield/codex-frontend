@@ -9,6 +9,7 @@ import { AIRDROP_DOMAIN } from '@/env';
 
 interface IVerifyParams {
   taskName: string;
+  bucketName?: string;
 }
 
 export const useVerify = () => {
@@ -20,18 +21,23 @@ export const useVerify = () => {
 
   return useMutation({
     mutationFn: async (params: IVerifyParams) => {
-      const { taskName } = params;
+      const { taskName, bucketName } = params;
 
       if (!address) {
         openConnectModal?.();
         return;
       }
 
+      const veriflyParams: Record<string, string> = {
+        address,
+        task_name: taskName,
+      };
+      if (bucketName) {
+        veriflyParams.bucket_name = bucketName;
+      }
+
       const res = await axios.get(`${AIRDROP_DOMAIN}/verify`, {
-        params: {
-          address,
-          task_name: taskName,
-        },
+        params: veriflyParams,
       });
 
       // console.log('res', res);

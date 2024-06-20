@@ -162,6 +162,6 @@ export const useCreateRepo = ({ isInitGit = true, onSuccess }: IParams) => {
   return {
     formik,
     start: start,
-    text: !offchainData?.seed ? 'Signature' : isBSCChain ? 'Creat repository' : 'Switch Network',
+    text: !offchainData?.seed ? 'Signature' : isBSCChain ? 'Create repository' : 'Switch Network',
   };
 };
