@@ -11,6 +11,8 @@ const _getPublicEnv = (prefix) => {
   return res;
 };
 
+console.log('process.env.assetPrefix', process.env.assetPrefix, process.env.GITHUB_ID)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -23,7 +25,7 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-  assetPrefix: process.env.assetPrefix,
+  // assetPrefix: process.env.assetPrefix,
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push('pino-pretty', 'lokijs', 'encoding');

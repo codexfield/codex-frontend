@@ -1,8 +1,0 @@
-[submodule "packages/isomorphic-git"]
-	path = packages/isomorphic-git
-	url = https://github.com/codexfield/isomorphic-git.git
-	branch = develop
-[submodule "packages/packages/lightning-fs"]
-	path = packages/lightning-fs
-	url = https://github.com/codexfield/lightning-fs.git
-	branch = develop

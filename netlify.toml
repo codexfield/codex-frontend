@@ -1,9 +1,15 @@
-# [build]
-#   command = "pnpm run -F \"./apps/**\" -r build"
-#   publish = "apps/codex/.next/"
+[build]
+  command = "pnpm install && pnpm run -F './apps/**' -r build"
+  publish = "apps/codex/.next"
+
+[functions]
+  directory = "netlify/functions"
 
 # [build.environment]
 #   NODE_VERSION = "20.12.2"
 
-# # [[plugins]]
-# #   package = "@netlify/plugin-nextjs"
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[cache]
+  paths = ["node_modules", "apps/**/node_modules", "packages/**/node_modules"]
