@@ -2,8 +2,8 @@
   command = "pnpm run build"
   publish = ".next"
 
-[functions]
-  directory = "netlify/functions"
+# [functions]
+#   directory = "netlify/functions"
 
 # [build.environment]
 #   NODE_VERSION = "20.12.2"
