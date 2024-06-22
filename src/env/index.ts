@@ -13,7 +13,7 @@ export const AIRDROP_DOMAIN =
 export const BSC_CHAIN = ENV === 'TESTNET' ? bscTestnet : bsc;
 
 export const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ||
-  '0xae5c57a7285602830aEA302f56e8Cf647a82F022') as `0x{string}`;
+  '0x125e75107678A8AB7Af4087e8628969A8d3ff1b7') as `0x{string}`;
 
 export const CROSS_CHAIN_ADDRESS = (process.env.NEXT_PUBLIC_CROSS_CHAIN_ADDRESS ||
   '0xa5B2c9194131A4E0BFaCbF9E5D6722c873159cb7') as `0x{string}`;

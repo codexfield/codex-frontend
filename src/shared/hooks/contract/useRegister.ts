@@ -1,17 +1,18 @@
-import { ACCOUNT_MANAGE_ABI } from '@/shared/constants/abi/accountManageAbi';
 import { BSC_CHAIN, CONTRACT_ADDRESS } from '@/env';
+import { ACCOUNT_MANAGE_ABI } from '@/shared/constants/abi/accountManageAbi';
+import { BSC_GAS_PRICE } from '@/shared/constants/app';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
+import { parseEther, parseUnits } from 'viem';
 import {
   useAccount,
-  useWriteContract,
   useSimulateContract,
   useWaitForTransactionReceipt,
+  useWriteContract,
 } from 'wagmi';
 import { useGetFee } from './useGetFee';
-import { parseEther } from 'viem';
 
-const ExtraFee = parseEther('0.005');
+const ExtraFee = parseEther('0.0005');
 
 export const useRegister = (
   address: `0x{string}`,
@@ -41,7 +42,11 @@ export const useRegister = (
       enabled: name !== '' && address !== undefined && isRightChain && !isLoadingFee,
     },
     value: fees,
+    gasPrice: BSC_GAS_PRICE,
   });
+
+  // console.log('parse', fees);
+  // console.log('simulateData', simulateData);
 
   const { data, writeContract, isError, error } = useWriteContract();
 

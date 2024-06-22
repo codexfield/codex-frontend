@@ -55,8 +55,8 @@ export const usePutPolicy = ({ repoName, onSuccess, onFailure }: Params) => {
 
     const bucketName = getBucketName(repoName, userInfo.id);
 
-    console.log('bucketName', bucketName);
-    console.log('GRNToString(newBucketGRN(bucketName))', GRNToString(newBucketGRN(bucketName)));
+    // console.log('bucketName', bucketName);
+    // console.log('GRNToString(newBucketGRN(bucketName))', GRNToString(newBucketGRN(bucketName)));
 
     const bucketInfo = await GreenfieldClient.bucket.headBucket(bucketName);
 

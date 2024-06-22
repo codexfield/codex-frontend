@@ -1,4 +1,4 @@
-import img from '@/images/share_vision.png';
+import SHARE from '@/images/share_vision.png';
 import { BaseButton } from '@/shared/components/button';
 import { Center, Text } from '@chakra-ui/react';
 import Image from 'next/image';
@@ -8,7 +8,7 @@ export const EmptyBlog = () => {
   const router = useRouter();
   return (
     <Center flexDirection="column" gap="20px" minH="500px">
-      <Image src={img.src} alt={'create channel'} width={64} height={64} />
+      <img src={SHARE.src} alt={'create channel'} width={64} height={64} />
       <Text fontSize="20px">Share Your Vision</Text>
       <BaseButton
         height="46px"

@@ -22,7 +22,7 @@ export const CreateBlogSpace: React.FC = () => {
 
   return (
     <Center flexDirection="column" gap="20px" minH="500px">
-      <Image src={img.src} alt={'create channel'} width={64} height={64} />
+      <img src={img.src} alt={'create channel'} width={64} height={64} />
       <Text fontSize="20px">Create Your Channel</Text>
       <BaseButton
         height="46px"

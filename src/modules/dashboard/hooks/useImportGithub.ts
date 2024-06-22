@@ -31,8 +31,8 @@ export const useImportGithub = ({
 
       const bucketName = getBucketName(repoName, userInfo.id);
 
-      console.log('visibility', visibility);
-      console.log('visi', VisibilityType.VISIBILITY_TYPE_PRIVATE.toString());
+      // console.log('visibility', visibility);
+      // console.log('visi', VisibilityType.VISIBILITY_TYPE_PRIVATE.toString());
 
       await importRepo({
         bucketName,

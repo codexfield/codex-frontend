@@ -1,12 +1,13 @@
-import { ACCOUNT_MANAGE_ABI } from '@/shared/constants/abi/accountManageAbi';
 import { BSC_CHAIN, CONTRACT_ADDRESS } from '@/env';
+import { ACCOUNT_MANAGE_ABI } from '@/shared/constants/abi/accountManageAbi';
+import { BSC_GAS_PRICE } from '@/shared/constants/app';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
 import {
   useAccount,
-  useWriteContract,
   useSimulateContract,
   useWaitForTransactionReceipt,
+  useWriteContract,
 } from 'wagmi';
 
 export const useEditAccount = (
@@ -31,6 +32,7 @@ export const useEditAccount = (
     functionName: 'editAccount',
     args: [name, avatar, bio, company, location, website, socialAccounts],
     chainId: BSC_CHAIN.id,
+    gasPrice: BSC_GAS_PRICE,
     query: {
       enabled: name !== '' && address !== undefined && isRightChain,
     },
