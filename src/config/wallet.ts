@@ -13,6 +13,7 @@ import {
   walletConnectWallet,
   trustWallet,
   okxWallet,
+  binanceWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { Chain } from 'wagmi/chains';
 
@@ -33,7 +34,7 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: 'Recommended',
-      wallets: [rainbowWallet, okxWallet, trustWallet],
+      wallets: [rainbowWallet, okxWallet, trustWallet, binanceWallet],
     },
   ],
   {
