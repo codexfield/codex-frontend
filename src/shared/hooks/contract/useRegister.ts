@@ -1,9 +1,8 @@
 import { BSC_CHAIN, CONTRACT_ADDRESS } from '@/env';
 import { ACCOUNT_MANAGE_ABI } from '@/shared/constants/abi/accountManageAbi';
-import { BSC_GAS_PRICE } from '@/shared/constants/app';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
-import { parseEther, parseUnits } from 'viem';
+import { parseEther } from 'viem';
 import {
   useAccount,
   useSimulateContract,
@@ -42,7 +41,7 @@ export const useRegister = (
       enabled: name !== '' && address !== undefined && isRightChain && !isLoadingFee,
     },
     value: fees,
-    gasPrice: BSC_GAS_PRICE,
+    // gasPrice: BSC_GAS_PRICE,
   });
 
   // console.log('parse', fees);

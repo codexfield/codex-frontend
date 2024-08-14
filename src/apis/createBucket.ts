@@ -1,7 +1,6 @@
 import { GreenfieldClient, SpInfo } from '@/config/GnfsClient';
 import { BUCKET_HUB_ADDRESS } from '@/env';
 import { BUCKET_HUB_ABI } from '@/shared/constants/abi/bucketHubAbi';
-import { BSC_GAS_PRICE } from '@/shared/constants/app';
 import { VisibilityType } from '@bnb-chain/greenfield-cosmos-types/greenfield/storage/common';
 import { PickVGFStrategy } from '@bnb-chain/greenfield-cosmos-types/greenfield/virtualgroup/common';
 import { Address, PublicClient, WalletClient } from 'viem';
@@ -79,7 +78,7 @@ export const createBucket = async ({
     functionName: 'createBucket',
     args: [createBucketSyncPkg],
     value: fees,
-    gasPrice: BSC_GAS_PRICE,
+    // gasPrice: BSC_GAS_PRICE,
   });
 
   console.log('request', request);

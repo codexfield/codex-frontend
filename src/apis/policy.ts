@@ -1,6 +1,5 @@
 import { PERMISSION_HUB_ADDRESS } from '@/env';
 import { PermissionHubAbi } from '@/shared/constants/abi/permissonHubAbi';
-import { BSC_GAS_PRICE } from '@/shared/constants/app';
 import { Address, PublicClient, WalletClient, toHex } from 'viem';
 
 export const putPolicy = async ({
@@ -25,7 +24,7 @@ export const putPolicy = async ({
     functionName: 'createPolicy',
     args: [toHex(bytes)],
     value: fees,
-    gasPrice: BSC_GAS_PRICE,
+    // gasPrice: BSC_GAS_PRICE,
   });
 
   // console.log('request', request);
